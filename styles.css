@@ -1,0 +1,278 @@
+/*cambia color de fondo y texto de los botones*/
+body {
+    font-family: Arial;
+    margin: 0;
+    background-color: #f4f4ef;
+    color: rgb(5, 1, 1);
+}
+/*color de bienvenid y titulo*/
+header {
+    background-color: #4085f4;
+    padding: 15px;
+    text-align: center;
+    color: white;
+}
+
+nav {
+    background-color: #5f83b6;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/*BOTON DE SALIR*/
+nav button {
+    background: none;
+    border: none;
+    color: rgb(224, 14, 14);
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button:hover {
+    background-color: #e40e23;
+}
+
+section {
+    display: none;
+    padding: 20px;
+}
+
+.active {
+    display: block;
+}
+
+h2 {
+    color: #38bdf8;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: center;
+}
+
+.rojo { color: red; }
+.verde { color: lightgreen; }
+
+/* LOGIN */
+#login-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(15,23,42,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*color de login*/
+.login-box {
+    background-color: #5682c9;
+    
+    padding: 30px;
+    border-radius: 10px;
+    width: 350px;
+    color: rgb(255, 255, 255);
+    
+}
+
+.login-box input, .login-box select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+/* 👇 PEGALO ACÁ */
+nav button.activo {
+    background-color: #87abf0;
+    color: #000;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+/* cambio fonde de bienvenida*/
+    .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: linear-gradient(to right, #7c9cd0, #1146d8);
+    color: white;
+    flex-wrap: wrap;
+}
+
+.hero-texto {
+    max-width: 500px;
+}
+
+.hero-texto h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.hero-texto p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.hero-texto button {
+    background: orange;
+    border: none;
+    padding: 12px 20px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.hero-img img {
+    width: 300px;
+}
+
+.menu-principal button:hover {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+.menu-principal {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e293b;
+    color: white;
+    padding: 15px 25px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.acciones button {
+    background: #ef4444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: rgb(234, 232, 232);
+    cursor: pointer;
+}
+
+.acciones button:hover {
+    background: #dc2626;
+}
+.menu-principal {
+    display: flex;
+    flex-direction: row;        /* ← CAMBIO: fila horizontal */
+    flex-wrap: wrap;            /* Se envuelve si no caben */
+    gap: 20px;                  /* Espacio entre botones */
+    justify-content: center;    /* Centrados */
+    max-width: 1200px;          /* Ancho máximo */
+    margin: 30px auto;
+    padding: 30px;
+}
+
+.btn-menu {
+    flex: 1 1 200px;            /* ← Se adaptan pero mínimo 200px */
+    max-width: 280px;           /* Ancho máximo por botón */
+    padding: 25px 30px;
+    font-size: 22px;            /* Texto grande */
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;    /* Centrado horizontal */
+    gap: 15px;
+    height: 90px;               /* Altura grande */
+    min-height: 90px;
+}
+
+.btn-menu:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.btn-menu:active {
+    transform: translateY(-2px);
+}
+
+.btn-menu:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive - En móvil vuelven a columna */
+@media (max-width: 768px) {
+    .menu-principal {
+        flex-direction: column;  /* ← En móvil: vertical */
+        gap: 18px;
+        max-width: 100%;
+    }
+    
+    .btn-menu {
+        max-width: 50%;
+        height: 85px;
+        font-size: 10px;
+    }
+}
+.menu-principal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;          /* ← NO se envuelve, 1 sola fila */
+    gap: 12px;                  /* ← Espacio mínimo */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;            /* ← Usa todo el ancho disponible */
+    margin: 20px auto 0;        /* ← Pegado debajo de bienvenida */
+    padding: 0 20px;            /* ← Padding lateral */
+}
+
+.btn-menu {
+    flex: 1;                    /* ← Se adaptan al espacio disponible */
+    max-width: 180px;           /* ← Límite máximo */
+    min-width: 140px;           /* ← Mínimo para no ser muy pequeños */
+    padding: 14px 18px;         /* ← Tamaño equilibrado */
+    font-size: 16px;            /* ← Texto legible */
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;                   /* ← Emoji cerca del texto */
+    height: 55px;               /* ← Altura perfecta */
+}
+
+.btn-menu:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.footer {
+    background-color: #1e293b;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Instituto 57</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="topbar">
+
+    <div class="logo" onclick="mostrar('inicio')">
+        Instituto 57
+    </div>
+
+    <div class="acciones">
+        <button onclick="cerrarSesion()">Salir</button>
+    </div>
+
+</div>
+
+
+
+<!-- 🎯 BIENVENIDA -->
+<section id="inicio" class="hero">
+
+    <div class="hero-texto">
+        <h2>Bienvenido al Centro de Estudiantes</h2>
+        <p>Conectando alumnos, profesores y administración</p>
+        <button onclick="mostrar('ingreso')">Ayuda</button>
+    </div>
+
+    <div class="hero-img">
+        <img src="img/cuatro-estudiantes-felices-dos-mujeres-dos-hombres-caminan-frente-edificio-escolar-mochilas_150234-178481.avif" alt="Estudiantes felices">
+    </div>
+
+</section>
+
+<!-- 🎴 BOTONES DE ACCESO -->
+<section class="menu-principal">
+    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
+    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
+    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
+   
+    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
+</section>
+
+
+<section id="novedades">
+<h2>Novedades</h2>
+<p>El profesor Santiago López no puede venir a dar clase porque se fue a ver el mundial.</p>
+</section>
+
+<section id="reglamentos">
+<h2>Reglamentos</h2>
+<ul>
+<li>Asistencia mínima del 80%</li>
+<li>Respeto a docentes y compañeros</li>
+<li>No plagio en trabajos prácticos</li>
+<li>Entrega de trabajos en fecha</li>
+<li>Uso responsable de equipos informáticos</li>
+<li>Prohibido el uso del celular en clase</li>
+<li>Participación obligatoria en proyectos</li>
+<li>Aprobación de exámenes parciales y finales</li>
+<li>Cumplimiento de horarios</li>
+<li>Conducta ética y profesional</li>
+</ul>
+</section>
+
+<section id="estudiantes">
+<h2>Lista de Estudiantes</h2>
+<table>
+<tr><th>Nombre</th><th>Apellido</th><th>Edad</th></tr>
+<tr><td>Juan</td><td>Pérez</td><td>20</td></tr>
+<tr><td>Ana</td><td>Gómez</td><td>21</td></tr>
+</table>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ipsa, repellat eaque tempore perspiciatis iure temporibus deserunt molestiae. Provident at earum illo iure, nesciunt vel quibusdam. Iste voluptatem quam nesciunt.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque dolorem deleniti nam, maiores aliquid quos blanditiis natus in fugit cum vel quidem maxime iusto et perspiciatis. Doloribus, nostrum nam.
+</p>
+</section>
+
+<section id="profesores">
+<h2>Profesores</h2>
+<ul>
+<li>Santiago López</li>
+<li>María Fernández</li>
+</ul>
+</section>
+
+<section id="calendario">
+<h2>Calendario - Abril 2026</h2>
+<table>
+<tr>
+<th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
+</tr>
+<tr>
+<td></td><td></td><td></td><td>1</td><td>2</td><td class="verde">3</td><td class="verde">4</td>
+</tr>
+</table>
+</section>
+
+<section id="horario">
+<h2>Horario</h2>
+<p>Primera entrada: 17:30 a 19:30</p>
+<p>Segunda entrada: 19:40 a 21:30</p>
+</section>
+
+<section id="notas">
+<h2>Notas</h2>
+<p>Las notas estarán disponibles en el sistema.</p>
+</section>
+
+<section id="ingreso">
+<h2>Requisitos</h2>
+<ul>
+<li>Secundario completo</li>
+<li>Computadora</li>
+<li>Internet</li>
+</ul>
+</section>
+
+<!-- LOGIN (NO SE TOCA) -->
+<div id="login-container">
+<div class="login-box">
+<h2>Iniciar Sesión</h2>
+
+<label>Tipo:</label>
+<select id="tipo">
+<option value="estudiante">Estudiante</option>
+<option value="profesor">Profesor</option>
+<option value="administrativo">Administrativo</option>
+</select>
+
+<label>Nombre:</label>
+<input type="text" id="nombreLogin">
+
+<label>Contraseña:</label>
+<input type="password" id="passwordLogin">
+
+<input type="checkbox" id="verPassword"> Mostrar contraseña
+
+<button onclick="login()">Ingresar</button>
+
+<div id="wifi">
+<p id="wifiNombre"></p>
+<p id="wifiPass"></p>
+</div> 
+</div>
+</div>
+
+<script src="script.js"></script>
+
+<footer class="footer">
+    <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
+    <p>Contacto: instituto57@email.com</p>
+
+    <button class="btn-ayuda" onclick="mostrar('ingreso')">
+        ❓ Ayuda
+    </button>
+</footer>
+
+<section id="calendario">
+<h2>Calendario académico</h2>
+<section id="calendario">
+  <h2 style="text-align:center;">Calendario</h2>
+
+  <div style="display:flex; justify-content:center;">
+    <img src="img/calendario-final.jpg" 
+         alt="Calendario Abril 2026"
+         style="width:100%; max-width:900px;">
+  </div>
+
+</section>
+<img src="img/calendario final jpg.jpg" alt="Calendario Abril 2026" style="width:100%; max-width:600px;">
+
+<div style="display:flex; justify-content:center;">
+
+</section>
+</body>
+</html>
