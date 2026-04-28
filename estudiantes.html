@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -10,176 +11,205 @@
 <body>
 
 <div class="topbar">
-
     <div class="logo" onclick="mostrar('inicio')">
         Instituto 57
     </div>
 
-    <div class="acciones">
-        <button onclick="cerrarSesion()">Salir</button>
-    </div>
 
+<div class="acciones">
+    <button onclick="cerrarSesion()">Salir</button>
 </div>
 
 
-
-
+</div>
 
 <!-- 🎯 BIENVENIDA -->
-<section id="inicio" class="hero">
 
+<section id="inicio" class="hero">
     <div class="hero-texto">
         <h2>Bienvenido al Centro de Estudiantes</h2>
         <p>Conectando alumnos, profesores y administración</p>
         <button onclick="mostrar('ingreso')">Ayuda</button>
     </div>
 
-    <div class="hero-img">
-        <img src="img/cuatro-estudiantes-felices-dos-mujeres-dos-hombres-caminan-frente-edificio-escolar-mochilas_150234-178481.avif" alt="Estudiantes felices">
-    </div>
+
+<div class="hero-img">
+    <img src="img.avif" alt="Imagen de bienvenida">
+</div>
+
 
 </section>
 
-<!-- 🎴 BOTONES DE ACCESO -->
+<!-- 🎴 MENÚ -->
+
 <section class="menu-principal">
     <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
+    <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
     <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
     <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
-   
+    <button class="btn-menu" onclick="mostrar('estudiantes')">👨‍🎓 Estudiantes</button>
+    <button class="btn-menu" onclick="mostrar('profesores')">👩‍🏫 Profesores</button>
     <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
+    <button class="btn-menu" onclick="mostrar('perfil')">👤 Perfil</button>
 </section>
 
+<!-- 📢 NOVEDADES -->
 
 <section id="novedades">
-<h2>Novedades</h2>
-<p>El profesor Santiago López no puede venir a dar clase porque se fue a ver el mundial.</p>
+<h2>📢 Novedades</h2>
+<p>Contenido de novedades...</p>
 </section>
+
+<!-- 🎉 EVENTOS -->
+
+<section id="eventos">
+<h2>🎉 Eventos</h2>
+
+<div class="evento">
+    <h3>Fiesta del Instituto</h3>
+    <p>Viernes 25 - 20:00 hs</p>
+    <button id="btnEvento1" onclick="anotarseEvento('evento1')">
+        Anotarse
+    </button>
+</div>
+
+</section>
+<section id="formEvento" style="display:none;">
+<h2>Inscripción al evento</h2>
+
+<input type="text" id="formNombre" placeholder="Nombre">
+<input type="text" id="formApellido" placeholder="Apellido">
+<input type="email" id="formEmail" placeholder="Email">
+<input type="text" id="formTelefono" placeholder="Teléfono">
+
+<button onclick="enviarFormulario()">Enviar</button>
+</section>
+<!-- 📅 CALENDARIO -->
+
+<section id="calendario">
+<h2>Calendario</h2>
+<img src="calendario.jpeg" style="width:100%;max-width:900px;">
+</section>
+
+<!-- 📜 REGLAMENTOS -->
 
 <section id="reglamentos">
 <h2>Reglamentos</h2>
 <ul>
 <li>Asistencia mínima del 80%</li>
-<li>Respeto a docentes y compañeros</li>
-<li>No plagio en trabajos prácticos</li>
-<li>Entrega de trabajos en fecha</li>
-<li>Uso responsable de equipos informáticos</li>
-<li>Prohibido el uso del celular en clase</li>
-<li>Participación obligatoria en proyectos</li>
-<li>Aprobación de exámenes parciales y finales</li>
-<li>Cumplimiento de horarios</li>
-<li>Conducta ética y profesional</li>
+<li>Respeto a docentes</li>
 </ul>
 </section>
 
+<!-- 👨‍🎓 ESTUDIANTES -->
+
 <section id="estudiantes">
-<h2>Lista de Estudiantes</h2>
-<table>
-<tr><th>Nombre</th><th>Apellido</th><th>Edad</th></tr>
-<tr><td>Juan</td><td>Pérez</td><td>20</td></tr>
-<tr><td>Ana</td><td>Gómez</td><td>21</td></tr>
-</table>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ipsa, repellat eaque tempore perspiciatis iure temporibus deserunt molestiae. Provident at earum illo iure, nesciunt vel quibusdam. Iste voluptatem quam nesciunt.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque dolorem deleniti nam, maiores aliquid quos blanditiis natus in fugit cum vel quidem maxime iusto et perspiciatis. Doloribus, nostrum nam.
-</p>
+<h2>Estudiantes</h2>
+<p>Listado...</p>
 </section>
+
+<!-- 👩‍🏫 PROFESORES -->
 
 <section id="profesores">
 <h2>Profesores</h2>
-<ul>
-<li>Santiago López</li>
-<li>María Fernández</li>
-</ul>
+<p>Listado...</p>
 </section>
 
-<section id="calendario">
-<h2>Calendario - Abril 2026</h2>
-<table>
-<tr>
-<th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
-</tr>
-<tr>
-<td></td><td></td><td></td><td>1</td><td>2</td><td class="verde">3</td><td class="verde">4</td>
-</tr>
-</table>
-</section>
-
-<section id="horario">
-<h2>Horario</h2>
-<p>Primera entrada: 17:30 a 19:30</p>
-<p>Segunda entrada: 19:40 a 21:30</p>
-</section>
+<!-- 📝 NOTAS -->
 
 <section id="notas">
 <h2>Notas</h2>
-<p>Las notas estarán disponibles en el sistema.</p>
+<p>Disponibles...</p>
 </section>
+
+<!-- 📌 INGRESO -->
 
 <section id="ingreso">
 <h2>Requisitos</h2>
-<ul>
-<li>Secundario completo</li>
-<li>Computadora</li>
-<li>Internet</li>
-</ul>
+<p>Info...</p>
 </section>
 
-<!-- LOGIN (NO SE TOCA) -->
+<!-- 👤 PERFIL MEJORADO -->
+
+<section id="perfil">
+
+<div class="perfil-wrapper">
+
+
+<div class="perfil-card">
+
+    <div class="perfil-header">
+        <h1>Mi Perfil</h1>
+    </div>
+
+    <div class="perfil-foto">
+        <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
+        <input type="file" id="cambiarFoto">
+    </div>
+
+    <div class="perfil-info">
+        <div class="dato">
+            <span>Nombre</span>
+            <p id="nombre"></p>
+        </div>
+
+        <div class="dato">
+            <span>Email</span>
+            <p id="email"></p>
+        </div>
+
+        <div class="dato">
+            <span>Rango</span>
+            <p id="rango"></p>
+        </div>
+    </div>
+
+    <div class="perfil-seguridad">
+        <div class="dato">
+            <span>Contraseña</span>
+            <p id="pass">••••••••</p>
+        </div>
+
+        <button id="btnCambiarPass" class="btn-secundario">
+            Cambiar contraseña
+        </button>
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+<!-- LOGIN -->
+
 <div id="login-container">
 <div class="login-box">
 <h2>Iniciar Sesión</h2>
 
-<label>Tipo:</label>
 <select id="tipo">
 <option value="estudiante">Estudiante</option>
 <option value="profesor">Profesor</option>
 <option value="administrativo">Administrativo</option>
 </select>
 
-<label>Nombre:</label>
-<input type="text" id="nombreLogin">
+<input type="text" id="nombreLogin" placeholder="Nombre">
+<input type="password" id="passwordLogin" placeholder="Contraseña">
 
-<label>Contraseña:</label>
-<input type="password" id="passwordLogin">
+<input type="checkbox" id="verPassword"> Mostrar contraseña <button onclick="login()">Ingresar</button>
 
-<input type="checkbox" id="verPassword"> Mostrar contraseña
-
-<button onclick="login()">Ingresar</button>
-
-<div id="wifi">
 <p id="wifiNombre"></p>
 <p id="wifiPass"></p>
-</div> 
+
 </div>
 </div>
 
 <script src="script.js"></script>
 
 <footer class="footer">
-    <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
-    <p>Contacto: instituto57@email.com</p>
-
-    <button class="btn-ayuda" onclick="mostrar('ingreso')">
-        ❓ Ayuda
-    </button>
+<p>© 2026 Instituto 57</p>
 </footer>
 
-<section id="calendario">
-<h2>Calendario académico</h2>
-<section id="calendario">
-  <h2 style="text-align:center;">Calendario</h2>
-
-  <div style="display:flex; justify-content:center;">
-    <img src="img/calendario-final.jpg" 
-         alt="Calendario Abril 2026"
-         style="width:100%; max-width:900px;">
-  </div>
-
-</section>
-<img src="img/calendario final jpg.jpg" alt="Calendario Abril 2026" style="width:100%; max-width:600px;">
-
-<div style="display:flex; justify-content:center;">
-
-</section>
 </body>
 </html>
-
