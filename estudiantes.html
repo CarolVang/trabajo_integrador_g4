@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -15,12 +14,9 @@
         Instituto 57
     </div>
 
-
-<div class="acciones">
-    <button onclick="cerrarSesion()">Salir</button>
-</div>
-
-
+    <div class="acciones">
+        <button onclick="cerrarSesion()">Salir</button>
+    </div>
 </div>
 
 <!-- 🎯 BIENVENIDA -->
@@ -32,12 +28,9 @@
         <button onclick="mostrar('ingreso')">Ayuda</button>
     </div>
 
-
-<div class="hero-img">
-    <img src="img.avif" alt="Imagen de bienvenida">
-</div>
-
-
+    <div class="hero-img">
+        <img src="img.avif" alt="Imagen de bienvenida">
+    </div>
 </section>
 
 <!-- 🎴 MENÚ -->
@@ -74,8 +67,14 @@
 </div>
 
 </section>
+
+<!-- 📝 FORMULARIO EVENTO -->
+
 <section id="formEvento" style="display:none;">
 <h2>Inscripción al evento</h2>
+
+<!-- 🔽 CAMPO OCULTO -->
+<input type="hidden" id="eventoSeleccionado">
 
 <input type="text" id="formNombre" placeholder="Nombre">
 <input type="text" id="formApellido" placeholder="Apellido">
@@ -84,6 +83,7 @@
 
 <button onclick="enviarFormulario()">Enviar</button>
 </section>
+
 <!-- 📅 CALENDARIO -->
 
 <section id="calendario">
@@ -129,12 +129,11 @@
 <p>Info...</p>
 </section>
 
-<!-- 👤 PERFIL MEJORADO -->
+<!-- 👤 PERFIL -->
 
 <section id="perfil">
 
 <div class="perfil-wrapper">
-
 
 <div class="perfil-card">
 
@@ -177,7 +176,6 @@
 
 </div>
 
-
 </div>
 
 </section>
@@ -197,7 +195,8 @@
 <input type="text" id="nombreLogin" placeholder="Nombre">
 <input type="password" id="passwordLogin" placeholder="Contraseña">
 
-<input type="checkbox" id="verPassword"> Mostrar contraseña <button onclick="login()">Ingresar</button>
+<input type="checkbox" id="verPassword"> Mostrar contraseña
+<button onclick="login()">Ingresar</button>
 
 <p id="wifiNombre"></p>
 <p id="wifiPass"></p>
