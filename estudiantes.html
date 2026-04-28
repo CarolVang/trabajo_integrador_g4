@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -61,8 +62,18 @@
 <div class="evento">
     <h3>Fiesta del Instituto</h3>
     <p>Viernes 25 - 20:00 hs</p>
-    <button id="btnEvento1" onclick="anotarseEvento('evento1')">
+    <p>🟢 Evento opcional</p>
+    <button id="btnEvento1" onclick="abrirFormulario('evento1')">
         Anotarse
+    </button>
+</div>
+
+<div class="evento">
+    <h3>Presentación de trabajos</h3>
+    <p>Lunes 28 - 10:00 hs</p>
+    <p>🔴 Evento obligatorio</p>
+    <button id="btnEvento2" onclick="abrirFormulario('evento2')">
+        Confirmar asistencia
     </button>
 </div>
 
@@ -71,7 +82,7 @@
 <!-- 📝 FORMULARIO EVENTO -->
 
 <section id="formEvento" style="display:none;">
-<h2>Inscripción al evento</h2>
+<h2 id="tituloForm">Inscripción al evento</h2>
 
 <!-- 🔽 CAMPO OCULTO -->
 <input type="hidden" id="eventoSeleccionado">
@@ -129,10 +140,9 @@
 <p>Info...</p>
 </section>
 
-<!-- 👤 PERFIL -->
+<!-- 👤 PERFIL MEJORADO -->
 
 <section id="perfil">
-
 <div class="perfil-wrapper">
 
 <div class="perfil-card">
@@ -177,7 +187,6 @@
 </div>
 
 </div>
-
 </section>
 
 <!-- LOGIN -->
@@ -195,7 +204,7 @@
 <input type="text" id="nombreLogin" placeholder="Nombre">
 <input type="password" id="passwordLogin" placeholder="Contraseña">
 
-<input type="checkbox" id="verPassword"> Mostrar contraseña
+<input type="checkbox" id="verPassword"> Mostrar contraseña 
 <button onclick="login()">Ingresar</button>
 
 <p id="wifiNombre"></p>
