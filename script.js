@@ -48,10 +48,9 @@ function cerrarSesion(){
 
 /* ================= EVENTOS ================= */
 
-// 🔹 Definís tipos de eventos acá
 const tiposEventos = {
-    evento1: "opcional",      // Fiesta
-    evento2: "obligatorio"    // ejemplo futuro
+    evento1: "opcional",
+    evento2: "obligatorio"
 };
 
 let eventoActual = "";
@@ -61,8 +60,7 @@ function anotarseEvento(idEvento){
 
     const tipo = tiposEventos[idEvento] || "opcional";
 
-    // 🔥 Cambia el título del formulario según tipo
-    const titulo = document.querySelector("#formEvento h2");
+    const titulo = document.getElementById("tituloForm");
     if(titulo){
         titulo.innerText = (tipo === "obligatorio")
             ? "Confirmar asistencia"
@@ -82,7 +80,6 @@ function enviarFormulario(){
 
         const tipo = tiposEventos[eventoActual] || "opcional";
 
-        // 🔥 Guardado distinto según tipo
         if(tipo === "obligatorio"){
             localStorage.setItem(eventoActual, "confirmado");
         } else {
@@ -91,15 +88,10 @@ function enviarFormulario(){
 
         mostrar('eventos');
 
-        // 🔥 actualizar botón correspondiente
-        const btn = document.getElementById("btnEvento1");
+        const btn = document.getElementById("btn" + eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1));
 
         if(btn){
-            if(tipo === "obligatorio"){
-                btn.innerText = "Confirmado";
-            } else {
-                btn.innerText = "Anotado";
-            }
+            btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
             btn.disabled = true;
         }
 
@@ -134,17 +126,19 @@ window.onload = function() {
         });
     }
 
-    // 🔥 estado guardado del evento
-    const estado = localStorage.getItem("evento1");
-    const btn = document.getElementById("btnEvento1");
+    // 🔥 restaurar estado de TODOS los eventos
+    Object.keys(tiposEventos).forEach(id => {
+        const estado = localStorage.getItem(id);
+        const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
 
-    if(btn && estado){
-        if(estado === "confirmado"){
-            btn.innerText = "Confirmado";
-        } else {
-            btn.innerText = "Anotado";
+        if(btn && estado){
+            if(estado === "confirmado"){
+                btn.innerText = "Confirmado";
+            } else {
+                btn.innerText = "Anotado";
+            }
+            btn.disabled = true;
         }
-        btn.disabled = true;
-    }
+    });
 
 };

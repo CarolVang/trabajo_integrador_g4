@@ -55,17 +55,42 @@
 
 <!-- 🎉 EVENTOS -->
 
+<!-- 🎉 EVENTOS -->
+
 <section id="eventos">
 <h2>🎉 Eventos</h2>
 
 <div class="evento">
     <h3>Fiesta del Instituto</h3>
     <p>Viernes 25 - 20:00 hs</p>
-    <button id="btnEvento1" onclick="anotarseEvento('evento1')">
+    <p>🟢 Opcional</p>
+    <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
         Anotarse
     </button>
 </div>
 
+<div class="evento">
+    <h3>Presentación de trabajos</h3>
+    <p>Lunes 28 - 10:00 hs</p>
+    <p>🔴 Obligatorio</p>
+    <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
+        Confirmar asistencia
+    </button>
+</div>
+
+</section>
+
+<!-- 📝 FORMULARIO EVENTO -->
+
+<section id="formEvento">
+<h2 id="tituloForm">Inscripción al evento</h2>
+
+<input type="text" id="formNombre" placeholder="Nombre">
+<input type="text" id="formApellido" placeholder="Apellido">
+<input type="email" id="formEmail" placeholder="Email">
+<input type="text" id="formTelefono" placeholder="Teléfono">
+
+<button onclick="enviarFormulario()">Enviar</button>
 </section>
 
 <!-- 📝 FORMULARIO EVENTO -->
