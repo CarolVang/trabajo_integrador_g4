@@ -36,10 +36,13 @@ function login(){
         return;
     }
 
+    // 🔥 guardamos usuario actual
+    localStorage.setItem("usuarioActual", nombre);
+
     document.getElementById("login-container").style.display = "none";
     mostrar("inicio");
 
-    verificarRol(); // 🔥 mostrar botón crear evento
+    verificarRol();
 }
 
 /* ================= LOGOUT ================= */
@@ -81,12 +84,15 @@ function enviarFormulario(){
 
     if(nombre && apellido && email && telefono){
 
+        const usuario = localStorage.getItem("usuarioActual");
         const tipo = tiposEventos[eventoActual] || "opcional";
 
+        const clave = usuario + "_" + eventoActual;
+
         if(tipo === "obligatorio"){
-            localStorage.setItem(eventoActual, "confirmado");
+            localStorage.setItem(clave, "confirmado");
         } else {
-            localStorage.setItem(eventoActual, "anotado");
+            localStorage.setItem(clave, "anotado");
         }
 
         mostrar('eventos');
@@ -112,7 +118,6 @@ function crearEvento(){
     if(titulo && fecha){
 
         const id = "evento" + contadorEventos++;
-
         tiposEventos[id] = tipo;
 
         const contenedor = document.getElementById("listaEventos");
@@ -153,6 +158,44 @@ function verificarRol(){
     }
 }
 
+/* ================= CONTADOR EVENTOS ================= */
+
+const fechasLimite = {
+    evento1: new Date(2026, 3, 25, 20, 0),
+    evento2: new Date(2026, 3, 28, 10, 0)
+};
+
+function actualizarContadores(){
+    const ahora = new Date();
+
+    Object.keys(fechasLimite).forEach(id => {
+
+        const limite = fechasLimite[id];
+        const contador = document.getElementById("contador" + id.charAt(0).toUpperCase() + id.slice(1));
+        const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
+
+        if(!contador) return;
+
+        const diferencia = limite - ahora;
+
+        if(diferencia <= 0){
+            contador.innerText = "⛔ Inscripción cerrada";
+
+            if(btn){
+                btn.disabled = true;
+                btn.innerText = "Cerrado";
+            }
+
+        } else {
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+            contador.innerText = `⏳ Cierra en: ${dias}d ${horas}h ${minutos}m`;
+        }
+    });
+}
+
 /* ================= INICIO ================= */
 window.onload = function() {
 
@@ -167,7 +210,7 @@ window.onload = function() {
             document.getElementById("wifiNombre").innerText = "Nombre: " + wifiData[tipo].nombre;
             document.getElementById("wifiPass").innerText = "Contraseña: " + wifiData[tipo].contraseña;
 
-            verificarRol(); // 🔥 cada vez que cambia el rol
+            verificarRol();
         });
 
         tipoSelect.dispatchEvent(new Event("change"));
@@ -182,9 +225,14 @@ window.onload = function() {
         });
     }
 
-    // 🔥 restaurar estado eventos
+    // 🔥 restaurar estado por usuario
+    const usuario = localStorage.getItem("usuarioActual");
+
     Object.keys(tiposEventos).forEach(id => {
-        const estado = localStorage.getItem(id);
+
+        const clave = usuario + "_" + id;
+        const estado = localStorage.getItem(clave);
+
         const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
 
         if(btn && estado){
@@ -193,4 +241,7 @@ window.onload = function() {
         }
     });
 
+    // 🔥 contador en tiempo real
+    actualizarContadores();
+    setInterval(actualizarContadores, 60000);
 };
