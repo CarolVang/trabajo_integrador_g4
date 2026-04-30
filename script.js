@@ -1,8 +1,8 @@
-function mostrar(seccion){
+function mostrar(seccion) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 
     const seccionActiva = document.getElementById(seccion);
-    if(seccionActiva){
+    if (seccionActiva) {
         seccionActiva.classList.add("active");
         seccionActiva.scrollIntoView({ behavior: "smooth" });
     }
@@ -11,7 +11,6 @@ function mostrar(seccion){
         .forEach(b => b.classList.remove("activo"));
 
     const botones = document.querySelectorAll(".menu-principal button");
-
     botones.forEach(boton => {
         if (boton.getAttribute("onclick").includes(seccion)) {
             boton.classList.add("activo");
@@ -21,32 +20,29 @@ function mostrar(seccion){
 
 /* ================= WIFI ================= */
 const wifiData = {
-    estudiante: {nombre:"Estudiantes", contraseña:"Escuelas_2025"},
-    profesor: {nombre:"Docentes", contraseña:"Docentes_2025"},
-    video: {nombre:"Videollamada", contraseña:"Video_2025"},
-    administrativo: {nombre:"Administracion", contraseña:"Admin_2025"}
+    estudiante:    { nombre: "Estudiantes",  contraseña: "Escuelas_2025" },
+    profesor:      { nombre: "Docentes",     contraseña: "Docentes_2025" },
+    video:         { nombre: "Videollamada", contraseña: "Video_2025"    },
+    administrativo:{ nombre: "Administracion", contraseña: "Admin_2025" }
 };
 
 /* ================= LOGIN ================= */
-function login(){
+function login() {
     const nombre = document.getElementById("nombreLogin").value;
 
-    if(nombre === ""){
+    if (nombre === "") {
         alert("Ingresá un nombre");
         return;
     }
 
-    // 🔥 guardamos usuario actual
     localStorage.setItem("usuarioActual", nombre);
-
     document.getElementById("login-container").style.display = "none";
     mostrar("inicio");
-
     verificarRol();
 }
 
 /* ================= LOGOUT ================= */
-function cerrarSesion(){
+function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 }
@@ -58,15 +54,21 @@ let tiposEventos = {
     evento2: "obligatorio"
 };
 
+// Fechas límite de inscripción — ahora con let para poder agregar desde crearEvento()
+let fechasLimite = {
+    evento1: new Date(2026, 3, 25, 20, 0),
+    evento2: new Date(2026, 3, 28, 10, 0)
+};
+
 let eventoActual = "";
 let contadorEventos = 3;
 
 /* 🔹 ANOTARSE */
-function anotarseEvento(idEvento, tipo){
+function anotarseEvento(idEvento, tipo) {
     eventoActual = idEvento;
 
     const titulo = document.getElementById("tituloForm");
-    if(titulo){
+    if (titulo) {
         titulo.innerText = (tipo === "obligatorio")
             ? "Confirmar asistencia"
             : "Inscripción al evento";
@@ -75,31 +77,27 @@ function anotarseEvento(idEvento, tipo){
     mostrar('formEvento');
 }
 
-/* 🔹 ENVIAR */
-function enviarFormulario(){
-    const nombre = document.getElementById("formNombre").value;
+/* 🔹 ENVIAR FORMULARIO */
+function enviarFormulario() {
+    const nombre   = document.getElementById("formNombre").value;
     const apellido = document.getElementById("formApellido").value;
-    const email = document.getElementById("formEmail").value;
+    const email    = document.getElementById("formEmail").value;
     const telefono = document.getElementById("formTelefono").value;
 
-    if(nombre && apellido && email && telefono){
+    if (nombre && apellido && email && telefono) {
 
         const usuario = localStorage.getItem("usuarioActual");
-        const tipo = tiposEventos[eventoActual] || "opcional";
+        const tipo    = tiposEventos[eventoActual] || "opcional";
+        const clave   = usuario + "_" + eventoActual;
 
-        const clave = usuario + "_" + eventoActual;
-
-        if(tipo === "obligatorio"){
-            localStorage.setItem(clave, "confirmado");
-        } else {
-            localStorage.setItem(clave, "anotado");
-        }
+        localStorage.setItem(clave, tipo === "obligatorio" ? "confirmado" : "anotado");
 
         mostrar('eventos');
 
-        const btn = document.getElementById("btn" + eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1));
+        const idCapit = eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1);
+        const btn = document.getElementById("btn" + idCapit);
 
-        if(btn){
+        if (btn) {
             btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
             btn.disabled = true;
         }
@@ -109,34 +107,40 @@ function enviarFormulario(){
     }
 }
 
-/* 🔹 CREAR EVENTO */
-function crearEvento(){
+/* 🔹 CREAR EVENTO (solo prof/admin) */
+function crearEvento() {
     const titulo = document.getElementById("nuevoTitulo").value;
-    const fecha = document.getElementById("nuevaFecha").value;
-    const tipo = document.getElementById("nuevoTipo").value;
+    const fecha  = document.getElementById("nuevaFecha").value;
+    const tipo   = document.getElementById("nuevoTipo").value;
+    const limite = document.getElementById("nuevoLimite").value;
 
-    if(titulo && fecha){
+    if (titulo && fecha) {
 
         const id = "evento" + contadorEventos++;
         tiposEventos[id] = tipo;
 
-        const contenedor = document.getElementById("listaEventos");
+        // Guardar la fecha límite si se ingresó
+        if (limite) {
+            fechasLimite[id] = new Date(limite);
+        }
 
-        const nuevoEvento = document.createElement("div");
+        const contenedor   = document.getElementById("listaEventos");
+        const nuevoEvento  = document.createElement("div");
         nuevoEvento.classList.add("evento");
+
+        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
 
         nuevoEvento.innerHTML = `
             <h3>${titulo}</h3>
             <p>${fecha}</p>
             <p>${tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</p>
-            <button id="btn${id.charAt(0).toUpperCase() + id.slice(1)}"
-                onclick="anotarseEvento('${id}', '${tipo}')">
+            <span id="contador${idCapit}" class="contador-evento"></span>
+            <button id="btn${idCapit}" onclick="anotarseEvento('${id}', '${tipo}')">
                 ${tipo === "obligatorio" ? "Confirmar asistencia" : "Anotarse"}
             </button>
         `;
 
         contenedor.appendChild(nuevoEvento);
-
         mostrar('eventos');
 
     } else {
@@ -144,72 +148,82 @@ function crearEvento(){
     }
 }
 
-/* 🔹 CONTROL DE ROL */
-function verificarRol(){
+/* ================= CONTROL DE ROL ================= */
+function verificarRol() {
     const tipo = document.getElementById("tipo").value;
-    const btn = document.getElementById("btnCrearEvento");
+    const btn  = document.getElementById("btnCrearEvento");
 
-    if(!btn) return;
+    if (!btn) return;
 
-    if(tipo === "profesor" || tipo === "administrativo"){
-        btn.style.display = "block";
-    } else {
-        btn.style.display = "none";
-    }
+    btn.style.display = (tipo === "profesor" || tipo === "administrativo")
+        ? "block"
+        : "none";
 }
 
-/* ================= CONTADOR EVENTOS ================= */
-
-const fechasLimite = {
-    evento1: new Date(2026, 3, 25, 20, 0),
-    evento2: new Date(2026, 3, 28, 10, 0)
-};
-
-function actualizarContadores(){
+/* ================= CONTADOR EN TIEMPO REAL ================= */
+function actualizarContadores() {
     const ahora = new Date();
 
     Object.keys(fechasLimite).forEach(id => {
+        const limite  = fechasLimite[id];
+        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+        const contador = document.getElementById("contador" + idCapit);
+        const btn      = document.getElementById("btn" + idCapit);
 
-        const limite = fechasLimite[id];
-        const contador = document.getElementById("contador" + id.charAt(0).toUpperCase() + id.slice(1));
-        const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
-
-        if(!contador) return;
+        if (!contador) return;
 
         const diferencia = limite - ahora;
 
-        if(diferencia <= 0){
-            contador.innerText = "⛔ Inscripción cerrada";
+        if (diferencia <= 0) {
+            // Inscripción cerrada
+            contador.innerText      = "⛔ Inscripción cerrada";
+            contador.style.color    = "red";
+            contador.style.fontWeight = "bold";
 
-            if(btn){
-                btn.disabled = true;
+            if (btn) {
+                btn.disabled  = true;
                 btn.innerText = "Cerrado";
             }
 
         } else {
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+            // Calcular tiempo restante
+            const dias    = Math.floor(diferencia / 86400000);
+            const horas   = Math.floor((diferencia % 86400000) / 3600000);
+            const minutos = Math.floor((diferencia % 3600000) / 60000);
+            const segs    = Math.floor((diferencia % 60000) / 1000);
 
-            contador.innerText = `⏳ Cierra en: ${dias}d ${horas}h ${minutos}m`;
+            if (diferencia < 3600000) {
+                // Menos de 1 hora: mostrar segundos y poner en rojo
+                contador.innerText      = `⚠️ Cierra en: ${horas}h ${minutos}m ${segs}s`;
+                contador.style.color    = "red";
+                contador.style.fontWeight = "bold";
+            } else if (diferencia < 86400000) {
+                // Menos de 1 día: mostrar horas y minutos en naranja
+                contador.innerText      = `⏳ Cierra en: ${horas}h ${minutos}m`;
+                contador.style.color    = "orange";
+                contador.style.fontWeight = "bold";
+            } else {
+                // Más de 1 día: mostrar días, horas y minutos en color normal
+                contador.innerText      = `⏳ Cierra en: ${dias}d ${horas}h ${minutos}m`;
+                contador.style.color    = "";
+                contador.style.fontWeight = "";
+            }
         }
     });
 }
 
 /* ================= INICIO ================= */
-window.onload = function() {
+window.onload = function () {
 
     mostrar('inicio');
 
     const tipoSelect = document.getElementById("tipo");
 
-    if(tipoSelect){
+    if (tipoSelect) {
         tipoSelect.addEventListener("change", () => {
             const tipo = tipoSelect.value;
-
-            document.getElementById("wifiNombre").innerText = "Nombre: " + wifiData[tipo].nombre;
-            document.getElementById("wifiPass").innerText = "Contraseña: " + wifiData[tipo].contraseña;
-
+            document.getElementById("wifiNombre").innerText = "Nombre: "     + wifiData[tipo].nombre;
+            document.getElementById("wifiPass").innerText   = "Contraseña: " + wifiData[tipo].contraseña;
             verificarRol();
         });
 
@@ -217,31 +231,29 @@ window.onload = function() {
     }
 
     const verPass = document.getElementById("verPassword");
-
-    if(verPass){
-        verPass.addEventListener("change", function(){
+    if (verPass) {
+        verPass.addEventListener("change", function () {
             const pass = document.getElementById("passwordLogin");
             pass.type = this.checked ? "text" : "password";
         });
     }
 
-    // 🔥 restaurar estado por usuario
+    // Restaurar estado de inscripción por usuario
     const usuario = localStorage.getItem("usuarioActual");
 
     Object.keys(tiposEventos).forEach(id => {
-
-        const clave = usuario + "_" + id;
+        const clave  = usuario + "_" + id;
         const estado = localStorage.getItem(clave);
+        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+        const btn = document.getElementById("btn" + idCapit);
 
-        const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
-
-        if(btn && estado){
+        if (btn && estado) {
             btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
-            btn.disabled = true;
+            btn.disabled  = true;
         }
     });
 
-    // 🔥 contador en tiempo real
+    // Contador en tiempo real — se actualiza cada 1 segundo
     actualizarContadores();
-    setInterval(actualizarContadores, 60000);
+    setInterval(actualizarContadores, 1000);
 };

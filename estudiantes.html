@@ -43,178 +43,181 @@
 </section>
 
 <section id="novedades">
-<h2>📢 Novedades</h2>
-<p>Contenido de novedades...</p>
+    <h2>📢 Novedades</h2>
+    <p>Contenido de novedades...</p>
 </section>
 
-<!-- 🎉 EVENTOS ACTUALIZADOS -->
-
+<!-- 🎉 EVENTOS -->
 <section id="eventos">
-<h2>🎉 Eventos</h2>
+    <h2>🎉 Eventos</h2>
 
-<!-- 🔘 BOTÓN ADMIN/PROFE -->
-<button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
-    ➕ Crear evento
-</button>
+    <!-- Botón solo visible para prof/admin -->
+    <button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
+        ➕ Crear evento
+    </button>
 
-<!-- 📦 LISTA -->
-<div id="listaEventos">
+    <!-- Lista de eventos -->
+    <div id="listaEventos">
 
-    <div class="evento">
-        <h3>Fiesta del Instituto</h3>
-        <p>Viernes 25 - 20:00 hs</p>
-        <p>🟢 Opcional</p>
-        <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
-            Anotarse
-        </button>
+        <div class="evento">
+            <h3>Fiesta del Instituto</h3>
+            <p>Viernes 25 - 20:00 hs</p>
+            <p>🟢 Opcional</p>
+            <span id="contadorEvento1" class="contador-evento"></span>
+            <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
+                Anotarse
+            </button>
+        </div>
+
+        <div class="evento">
+            <h3>Presentación de trabajos</h3>
+            <p>Lunes 28 - 10:00 hs</p>
+            <p>🔴 Obligatorio</p>
+            <span id="contadorEvento2" class="contador-evento"></span>
+            <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
+                Confirmar asistencia
+            </button>
+        </div>
+
     </div>
-
-    <div class="evento">
-        <h3>Presentación de trabajos</h3>
-        <p>Lunes 28 - 10:00 hs</p>
-        <p>🔴 Obligatorio</p>
-        <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
-            Confirmar asistencia
-        </button>
-    </div>
-
-</div>
-
 </section>
 
 <!-- 📝 FORMULARIO INSCRIPCIÓN -->
-
 <section id="formEvento">
-<h2 id="tituloForm">Inscripción al evento</h2>
+    <h2 id="tituloForm">Inscripción al evento</h2>
 
-<input type="text" id="formNombre" placeholder="Nombre">
-<input type="text" id="formApellido" placeholder="Apellido">
-<input type="email" id="formEmail" placeholder="Email">
-<input type="text" id="formTelefono" placeholder="Teléfono">
+    <input type="text" id="formNombre" placeholder="Nombre">
+    <input type="text" id="formApellido" placeholder="Apellido">
+    <input type="email" id="formEmail" placeholder="Email">
+    <input type="text" id="formTelefono" placeholder="Teléfono">
 
-<button onclick="enviarFormulario()">Enviar</button>
+    <button onclick="enviarFormulario()">Enviar</button>
 </section>
 
 <!-- ➕ CREAR EVENTO -->
-
 <section id="crearEvento">
-<h2>Crear evento</h2>
+    <h2>Crear evento</h2>
 
-<input type="text" id="nuevoTitulo" placeholder="Título del evento">
-<input type="text" id="nuevaFecha" placeholder="Fecha y hora">
+    <input type="text" id="nuevoTitulo" placeholder="Título del evento">
+    <input type="text" id="nuevaFecha" placeholder="Fecha y hora del evento (ej: Viernes 25 - 20:00 hs)">
 
-<select id="nuevoTipo">
-    <option value="opcional">Opcional</option>
-    <option value="obligatorio">Obligatorio</option>
-</select>
+    <label style="display:block; margin-top:10px; margin-bottom:4px; font-weight:bold;">
+        Límite de inscripción:
+    </label>
+    <input type="datetime-local" id="nuevoLimite">
 
-<button onclick="crearEvento()">Crear</button>
+    <select id="nuevoTipo" style="margin-top:10px;">
+        <option value="opcional">Opcional</option>
+        <option value="obligatorio">Obligatorio</option>
+    </select>
+
+    <button onclick="crearEvento()" style="margin-top:10px;">Crear</button>
 </section>
 
 <section id="calendario">
-<h2>Calendario</h2>
-<img src="calendario.jpeg" style="width:100%;max-width:900px;">
+    <h2>Calendario</h2>
+    <img src="calendario.jpeg" style="width:100%;max-width:900px;">
 </section>
 
 <section id="reglamentos">
-<h2>Reglamentos</h2>
-<ul>
-<li>Asistencia mínima del 80%</li>
-<li>Respeto a docentes</li>
-</ul>
+    <h2>Reglamentos</h2>
+    <ul>
+        <li>Asistencia mínima del 80%</li>
+        <li>Respeto a docentes</li>
+    </ul>
 </section>
 
 <section id="estudiantes">
-<h2>Estudiantes</h2>
-<p>Listado...</p>
+    <h2>Estudiantes</h2>
+    <p>Listado...</p>
 </section>
 
 <section id="profesores">
-<h2>Profesores</h2>
-<p>Listado...</p>
+    <h2>Profesores</h2>
+    <p>Listado...</p>
 </section>
 
 <section id="notas">
-<h2>Notas</h2>
-<p>Disponibles...</p>
+    <h2>Notas</h2>
+    <p>Disponibles...</p>
 </section>
 
 <section id="ingreso">
-<h2>Requisitos</h2>
-<p>Info...</p>
+    <h2>Requisitos</h2>
+    <p>Info...</p>
 </section>
 
 <section id="perfil">
-<div class="perfil-wrapper">
-<div class="perfil-card">
+    <div class="perfil-wrapper">
+        <div class="perfil-card">
 
-    <div class="perfil-header">
-        <h1>Mi Perfil</h1>
-    </div>
+            <div class="perfil-header">
+                <h1>Mi Perfil</h1>
+            </div>
 
-    <div class="perfil-foto">
-        <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
-        <input type="file" id="cambiarFoto">
-    </div>
+            <div class="perfil-foto">
+                <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
+                <input type="file" id="cambiarFoto">
+            </div>
 
-    <div class="perfil-info">
-        <div class="dato">
-            <span>Nombre</span>
-            <p id="nombre"></p>
+            <div class="perfil-info">
+                <div class="dato">
+                    <span>Nombre</span>
+                    <p id="nombre"></p>
+                </div>
+
+                <div class="dato">
+                    <span>Email</span>
+                    <p id="email"></p>
+                </div>
+
+                <div class="dato">
+                    <span>Rango</span>
+                    <p id="rango"></p>
+                </div>
+            </div>
+
+            <div class="perfil-seguridad">
+                <div class="dato">
+                    <span>Contraseña</span>
+                    <p id="pass">••••••••</p>
+                </div>
+
+                <button id="btnCambiarPass" class="btn-secundario">
+                    Cambiar contraseña
+                </button>
+            </div>
+
         </div>
-
-        <div class="dato">
-            <span>Email</span>
-            <p id="email"></p>
-        </div>
-
-        <div class="dato">
-            <span>Rango</span>
-            <p id="rango"></p>
-        </div>
     </div>
-
-    <div class="perfil-seguridad">
-        <div class="dato">
-            <span>Contraseña</span>
-            <p id="pass">••••••••</p>
-        </div>
-
-        <button id="btnCambiarPass" class="btn-secundario">
-            Cambiar contraseña
-        </button>
-    </div>
-
-</div>
-</div>
 </section>
 
+<!-- LOGIN -->
 <div id="login-container">
-<div class="login-box">
-<h2>Iniciar Sesión</h2>
+    <div class="login-box">
+        <h2>Iniciar Sesión</h2>
 
-<select id="tipo">
-<option value="estudiante">Estudiante</option>
-<option value="profesor">Profesor</option>
-<option value="administrativo">Administrativo</option>
-</select>
+        <select id="tipo">
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+            <option value="administrativo">Administrativo</option>
+        </select>
 
-<input type="text" id="nombreLogin" placeholder="Nombre">
-<input type="password" id="passwordLogin" placeholder="Contraseña">
+        <input type="text" id="nombreLogin" placeholder="Nombre">
+        <input type="password" id="passwordLogin" placeholder="Contraseña">
 
-<input type="checkbox" id="verPassword"> Mostrar contraseña
-<button onclick="login()">Ingresar</button>
+        <input type="checkbox" id="verPassword"> Mostrar contraseña
+        <button onclick="login()">Ingresar</button>
 
-<p id="wifiNombre"></p>
-<p id="wifiPass"></p>
-
-</div>
+        <p id="wifiNombre"></p>
+        <p id="wifiPass"></p>
+    </div>
 </div>
 
 <script src="script.js"></script>
 
 <footer class="footer">
-<p>© 2026 Instituto 57</p>
+    <p>© 2026 Instituto 57</p>
 </footer>
 
 </body>
