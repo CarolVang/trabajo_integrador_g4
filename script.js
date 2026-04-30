@@ -38,6 +38,8 @@ function login(){
 
     document.getElementById("login-container").style.display = "none";
     mostrar("inicio");
+
+    verificarRol(); // 🔥 mostrar botón crear evento
 }
 
 /* ================= LOGOUT ================= */
@@ -48,17 +50,17 @@ function cerrarSesion(){
 
 /* ================= EVENTOS ================= */
 
-const tiposEventos = {
+let tiposEventos = {
     evento1: "opcional",
     evento2: "obligatorio"
 };
 
 let eventoActual = "";
+let contadorEventos = 3;
 
-function anotarseEvento(idEvento){
+/* 🔹 ANOTARSE */
+function anotarseEvento(idEvento, tipo){
     eventoActual = idEvento;
-
-    const tipo = tiposEventos[idEvento] || "opcional";
 
     const titulo = document.getElementById("tituloForm");
     if(titulo){
@@ -70,6 +72,7 @@ function anotarseEvento(idEvento){
     mostrar('formEvento');
 }
 
+/* 🔹 ENVIAR */
 function enviarFormulario(){
     const nombre = document.getElementById("formNombre").value;
     const apellido = document.getElementById("formApellido").value;
@@ -100,6 +103,56 @@ function enviarFormulario(){
     }
 }
 
+/* 🔹 CREAR EVENTO */
+function crearEvento(){
+    const titulo = document.getElementById("nuevoTitulo").value;
+    const fecha = document.getElementById("nuevaFecha").value;
+    const tipo = document.getElementById("nuevoTipo").value;
+
+    if(titulo && fecha){
+
+        const id = "evento" + contadorEventos++;
+
+        tiposEventos[id] = tipo;
+
+        const contenedor = document.getElementById("listaEventos");
+
+        const nuevoEvento = document.createElement("div");
+        nuevoEvento.classList.add("evento");
+
+        nuevoEvento.innerHTML = `
+            <h3>${titulo}</h3>
+            <p>${fecha}</p>
+            <p>${tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</p>
+            <button id="btn${id.charAt(0).toUpperCase() + id.slice(1)}"
+                onclick="anotarseEvento('${id}', '${tipo}')">
+                ${tipo === "obligatorio" ? "Confirmar asistencia" : "Anotarse"}
+            </button>
+        `;
+
+        contenedor.appendChild(nuevoEvento);
+
+        mostrar('eventos');
+
+    } else {
+        alert("Completá los datos");
+    }
+}
+
+/* 🔹 CONTROL DE ROL */
+function verificarRol(){
+    const tipo = document.getElementById("tipo").value;
+    const btn = document.getElementById("btnCrearEvento");
+
+    if(!btn) return;
+
+    if(tipo === "profesor" || tipo === "administrativo"){
+        btn.style.display = "block";
+    } else {
+        btn.style.display = "none";
+    }
+}
+
 /* ================= INICIO ================= */
 window.onload = function() {
 
@@ -110,8 +163,11 @@ window.onload = function() {
     if(tipoSelect){
         tipoSelect.addEventListener("change", () => {
             const tipo = tipoSelect.value;
+
             document.getElementById("wifiNombre").innerText = "Nombre: " + wifiData[tipo].nombre;
             document.getElementById("wifiPass").innerText = "Contraseña: " + wifiData[tipo].contraseña;
+
+            verificarRol(); // 🔥 cada vez que cambia el rol
         });
 
         tipoSelect.dispatchEvent(new Event("change"));
@@ -126,17 +182,13 @@ window.onload = function() {
         });
     }
 
-    // 🔥 restaurar estado de TODOS los eventos
+    // 🔥 restaurar estado eventos
     Object.keys(tiposEventos).forEach(id => {
         const estado = localStorage.getItem(id);
         const btn = document.getElementById("btn" + id.charAt(0).toUpperCase() + id.slice(1));
 
         if(btn && estado){
-            if(estado === "confirmado"){
-                btn.innerText = "Confirmado";
-            } else {
-                btn.innerText = "Anotado";
-            }
+            btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
             btn.disabled = true;
         }
     });

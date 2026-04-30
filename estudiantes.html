@@ -19,8 +19,6 @@
     </div>
 </div>
 
-<!-- 🎯 BIENVENIDA -->
-
 <section id="inicio" class="hero">
     <div class="hero-texto">
         <h2>Bienvenido al Centro de Estudiantes</h2>
@@ -33,8 +31,6 @@
     </div>
 </section>
 
-<!-- 🎴 MENÚ -->
-
 <section class="menu-principal">
     <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
     <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
@@ -46,41 +42,47 @@
     <button class="btn-menu" onclick="mostrar('perfil')">👤 Perfil</button>
 </section>
 
-<!-- 📢 NOVEDADES -->
-
 <section id="novedades">
 <h2>📢 Novedades</h2>
 <p>Contenido de novedades...</p>
 </section>
 
-<!-- 🎉 EVENTOS -->
-
-<!-- 🎉 EVENTOS -->
+<!-- 🎉 EVENTOS ACTUALIZADOS -->
 
 <section id="eventos">
 <h2>🎉 Eventos</h2>
 
-<div class="evento">
-    <h3>Fiesta del Instituto</h3>
-    <p>Viernes 25 - 20:00 hs</p>
-    <p>🟢 Opcional</p>
-    <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
-        Anotarse
-    </button>
-</div>
+<!-- 🔘 BOTÓN ADMIN/PROFE -->
+<button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
+    ➕ Crear evento
+</button>
 
-<div class="evento">
-    <h3>Presentación de trabajos</h3>
-    <p>Lunes 28 - 10:00 hs</p>
-    <p>🔴 Obligatorio</p>
-    <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
-        Confirmar asistencia
-    </button>
+<!-- 📦 LISTA -->
+<div id="listaEventos">
+
+    <div class="evento">
+        <h3>Fiesta del Instituto</h3>
+        <p>Viernes 25 - 20:00 hs</p>
+        <p>🟢 Opcional</p>
+        <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
+            Anotarse
+        </button>
+    </div>
+
+    <div class="evento">
+        <h3>Presentación de trabajos</h3>
+        <p>Lunes 28 - 10:00 hs</p>
+        <p>🔴 Obligatorio</p>
+        <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
+            Confirmar asistencia
+        </button>
+    </div>
+
 </div>
 
 </section>
 
-<!-- 📝 FORMULARIO EVENTO -->
+<!-- 📝 FORMULARIO INSCRIPCIÓN -->
 
 <section id="formEvento">
 <h2 id="tituloForm">Inscripción al evento</h2>
@@ -93,27 +95,26 @@
 <button onclick="enviarFormulario()">Enviar</button>
 </section>
 
-<!-- 📝 FORMULARIO EVENTO -->
+<!-- ➕ CREAR EVENTO -->
 
-<section id="formEvento">
-<h2 id="tituloForm">Inscripción al evento</h2>
+<section id="crearEvento">
+<h2>Crear evento</h2>
 
-<input type="text" id="formNombre" placeholder="Nombre">
-<input type="text" id="formApellido" placeholder="Apellido">
-<input type="email" id="formEmail" placeholder="Email">
-<input type="text" id="formTelefono" placeholder="Teléfono">
+<input type="text" id="nuevoTitulo" placeholder="Título del evento">
+<input type="text" id="nuevaFecha" placeholder="Fecha y hora">
 
-<button onclick="enviarFormulario()">Enviar</button>
+<select id="nuevoTipo">
+    <option value="opcional">Opcional</option>
+    <option value="obligatorio">Obligatorio</option>
+</select>
+
+<button onclick="crearEvento()">Crear</button>
 </section>
-
-<!-- 📅 CALENDARIO -->
 
 <section id="calendario">
 <h2>Calendario</h2>
 <img src="calendario.jpeg" style="width:100%;max-width:900px;">
 </section>
-
-<!-- 📜 REGLAMENTOS -->
 
 <section id="reglamentos">
 <h2>Reglamentos</h2>
@@ -123,40 +124,28 @@
 </ul>
 </section>
 
-<!-- 👨‍🎓 ESTUDIANTES -->
-
 <section id="estudiantes">
 <h2>Estudiantes</h2>
 <p>Listado...</p>
 </section>
-
-<!-- 👩‍🏫 PROFESORES -->
 
 <section id="profesores">
 <h2>Profesores</h2>
 <p>Listado...</p>
 </section>
 
-<!-- 📝 NOTAS -->
-
 <section id="notas">
 <h2>Notas</h2>
 <p>Disponibles...</p>
 </section>
-
-<!-- 📌 INGRESO -->
 
 <section id="ingreso">
 <h2>Requisitos</h2>
 <p>Info...</p>
 </section>
 
-<!-- 👤 PERFIL -->
-
 <section id="perfil">
-
 <div class="perfil-wrapper">
-
 <div class="perfil-card">
 
     <div class="perfil-header">
@@ -197,12 +186,8 @@
     </div>
 
 </div>
-
 </div>
-
 </section>
-
-<!-- LOGIN -->
 
 <div id="login-container">
 <div class="login-box">
