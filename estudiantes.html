@@ -156,8 +156,22 @@
             </div>
 
             <div class="perfil-foto">
-                <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
-                <input type="file" id="cambiarFoto">
+                <img id="fotoPerfil"
+                     src="https://via.placeholder.com/120"
+                     class="avatar">
+                <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
+
+                <!-- Botones de foto: se muestran/ocultan según si hay foto -->
+                <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                    <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar foto</button>
+                    <button id="btnBorrarFoto" onclick="borrarFoto()" style="display:none;">🗑️ Borrar foto</button>
+                </div>
+
+                <!-- Mensaje de foto pendiente + botón guardar -->
+                <div id="fotoAcciones" style="display:none; margin-top:10px; text-align:center;">
+                    <p style="font-size:13px; color:#f59e0b; margin:0 0 6px;">⚠️ Foto seleccionada pero no guardada</p>
+                    <button onclick="guardarFoto()">💾 Guardar foto</button>
+                </div>
             </div>
 
             <div class="perfil-info">
@@ -183,9 +197,19 @@
                     <p id="pass">••••••••</p>
                 </div>
 
-                <button id="btnCambiarPass" class="btn-secundario">
+                <!-- Botón para mostrar/ocultar el formulario -->
+                <button id="btnCambiarPass" class="btn-secundario" onclick="cambiarContrasena()">
                     Cambiar contraseña
                 </button>
+
+                <!-- Formulario oculto de cambio de contraseña -->
+                <div id="formCambiarPass" style="display:none; margin-top:12px;">
+                    <input type="password" id="passActual"    placeholder="Contraseña actual"          style="display:block; width:100%; padding:8px; margin-bottom:8px;">
+                    <input type="password" id="passNueva"     placeholder="Nueva contraseña"           style="display:block; width:100%; padding:8px; margin-bottom:8px;">
+                    <input type="password" id="passConfirmar" placeholder="Confirmar nueva contraseña" style="display:block; width:100%; padding:8px; margin-bottom:8px;">
+                    <button onclick="guardarContrasena()" style="margin-right:8px;">💾 Guardar contraseña</button>
+                    <button onclick="cerrarFormPass()">Cancelar</button>
+                </div>
             </div>
 
         </div>

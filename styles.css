@@ -238,6 +238,15 @@ td, th {
     color: #444;
 }
 
+/* ================= AVATAR ================= */
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #667eea;
+}
+
 /* ================= FOOTER ================= */
 body {
     display: flex;

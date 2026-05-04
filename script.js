@@ -29,18 +29,35 @@ const wifiData = {
 /* ================= LOGIN ================= */
 function login() {
     const nombre = document.getElementById("nombreLogin").value;
+    const pass   = document.getElementById("passwordLogin").value;
 
     if (nombre === "") {
         alert("Ingresá un nombre");
         return;
     }
 
+    const passGuardada = localStorage.getItem("pass_" + nombre);
+
+    // Si es la primera vez que entra, registra la contraseña
+    if (!passGuardada) {
+        localStorage.setItem("pass_" + nombre, pass);
+    } else if (pass !== passGuardada) {
+        alert("Contraseña incorrecta");
+        return;
+    }
+
     localStorage.setItem("usuarioActual", nombre);
     document.getElementById("login-container").style.display = "none";
+
+    // Restaurar foto de perfil si tiene una guardada
+    const fotoGuardada = localStorage.getItem("fotoPerfil_" + nombre);
+    if (fotoGuardada) {
+        document.getElementById("fotoPerfil").src = fotoGuardada;
+    }
+
     mostrar("inicio");
     verificarRol();
 }
-
 /* ================= LOGOUT ================= */
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
@@ -54,7 +71,6 @@ let tiposEventos = {
     evento2: "obligatorio"
 };
 
-// Fechas límite de inscripción — ahora con let para poder agregar desde crearEvento()
 let fechasLimite = {
     evento1: new Date(2026, 3, 25, 20, 0),
     evento2: new Date(2026, 3, 28, 10, 0)
@@ -119,7 +135,6 @@ function crearEvento() {
         const id = "evento" + contadorEventos++;
         tiposEventos[id] = tipo;
 
-        // Guardar la fecha límite si se ingresó
         if (limite) {
             fechasLimite[id] = new Date(limite);
         }
@@ -175,9 +190,8 @@ function actualizarContadores() {
         const diferencia = limite - ahora;
 
         if (diferencia <= 0) {
-            // Inscripción cerrada
-            contador.innerText      = "⛔ Inscripción cerrada";
-            contador.style.color    = "red";
+            contador.innerText        = "⛔ Inscripción cerrada";
+            contador.style.color      = "red";
             contador.style.fontWeight = "bold";
 
             if (btn) {
@@ -186,30 +200,135 @@ function actualizarContadores() {
             }
 
         } else {
-            // Calcular tiempo restante
             const dias    = Math.floor(diferencia / 86400000);
             const horas   = Math.floor((diferencia % 86400000) / 3600000);
             const minutos = Math.floor((diferencia % 3600000) / 60000);
             const segs    = Math.floor((diferencia % 60000) / 1000);
 
             if (diferencia < 3600000) {
-                // Menos de 1 hora: mostrar segundos y poner en rojo
-                contador.innerText      = `⚠️ Cierra en: ${horas}h ${minutos}m ${segs}s`;
-                contador.style.color    = "red";
+                contador.innerText        = `⚠️ Cierra en: ${horas}h ${minutos}m ${segs}s`;
+                contador.style.color      = "red";
                 contador.style.fontWeight = "bold";
             } else if (diferencia < 86400000) {
-                // Menos de 1 día: mostrar horas y minutos en naranja
-                contador.innerText      = `⏳ Cierra en: ${horas}h ${minutos}m`;
-                contador.style.color    = "orange";
+                contador.innerText        = `⏳ Cierra en: ${horas}h ${minutos}m`;
+                contador.style.color      = "orange";
                 contador.style.fontWeight = "bold";
             } else {
-                // Más de 1 día: mostrar días, horas y minutos en color normal
-                contador.innerText      = `⏳ Cierra en: ${dias}d ${horas}h ${minutos}m`;
-                contador.style.color    = "";
+                contador.innerText        = `⏳ Cierra en: ${dias}d ${horas}h ${minutos}m`;
+                contador.style.color      = "";
                 contador.style.fontWeight = "";
             }
         }
     });
+}
+
+/* ================= FOTO DE PERFIL ================= */
+
+let fotoTemporal = null; // Guarda la foto seleccionada pero aún no guardada
+
+function iniciarCambioFoto() {
+    const inputFoto = document.getElementById("cambiarFoto");
+
+    inputFoto.addEventListener("change", function () {
+        const archivo = this.files[0];
+        if (!archivo) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            // Mostrar preview pero NO guardar todavía
+            fotoTemporal = e.target.result;
+            document.getElementById("fotoPerfil").src = fotoTemporal;
+
+            // Mostrar mensaje y botón de guardar
+            document.getElementById("fotoAcciones").style.display = "block";
+        };
+        reader.readAsDataURL(archivo);
+    });
+
+    // Mostrar/ocultar botón borrar según si hay foto guardada
+    actualizarBotonesFoto();
+}
+
+function guardarFoto() {
+    if (!fotoTemporal) return;
+
+    const usuario = localStorage.getItem("usuarioActual");
+    localStorage.setItem("fotoPerfil_" + usuario, fotoTemporal);
+    fotoTemporal = null;
+
+    // Ocultar mensaje pendiente y mostrar botón borrar
+    document.getElementById("fotoAcciones").style.display = "none";
+    document.getElementById("btnBorrarFoto").style.display = "inline-block";
+
+    alert("✅ Foto guardada correctamente");
+}
+
+function borrarFoto() {
+    if (!confirm("¿Borrar la foto de perfil?")) return;
+
+    const usuario = localStorage.getItem("usuarioActual");
+    localStorage.removeItem("fotoPerfil_" + usuario);
+    fotoTemporal = null;
+
+    document.getElementById("fotoPerfil").src = "https://via.placeholder.com/120";
+    document.getElementById("fotoAcciones").style.display = "none";
+    document.getElementById("cambiarFoto").value = "";
+
+    actualizarBotonesFoto();
+}
+
+function actualizarBotonesFoto() {
+    const usuario     = localStorage.getItem("usuarioActual");
+    const fotoGuardada = localStorage.getItem("fotoPerfil_" + usuario);
+    const btnBorrar   = document.getElementById("btnBorrarFoto");
+
+    if (btnBorrar) {
+        btnBorrar.style.display = fotoGuardada ? "inline-block" : "none";
+    }
+}
+
+/* ================= CAMBIAR CONTRASEÑA ================= */
+function cambiarContrasena() {
+    const form = document.getElementById("formCambiarPass");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+
+    // Limpiar campos cada vez que se abre
+    document.getElementById("passActual").value    = "";
+    document.getElementById("passNueva").value     = "";
+    document.getElementById("passConfirmar").value = "";
+}
+
+function cerrarFormPass() {
+    document.getElementById("formCambiarPass").style.display = "none";
+    document.getElementById("passActual").value    = "";
+    document.getElementById("passNueva").value     = "";
+    document.getElementById("passConfirmar").value = "";
+}
+
+function guardarContrasena() {
+    const usuario   = localStorage.getItem("usuarioActual");
+    const actual    = document.getElementById("passActual").value;
+    const nueva     = document.getElementById("passNueva").value;
+    const confirmar = document.getElementById("passConfirmar").value;
+
+    const guardada = localStorage.getItem("pass_" + usuario) || "";
+
+    if (actual !== guardada) {
+        alert("La contraseña actual es incorrecta");
+        return;
+    }
+    if (nueva !== confirmar) {
+        alert("Las contraseñas nuevas no coinciden");
+        return;
+    }
+    if (nueva.length < 4) {
+        alert("La nueva contraseña debe tener al menos 4 caracteres");
+        return;
+    }
+
+    localStorage.setItem("pass_" + usuario, nueva);
+    document.getElementById("formCambiarPass").style.display = "none";
+    alert("¡Contraseña cambiada con éxito!");
 }
 
 /* ================= INICIO ================= */
@@ -242,10 +361,10 @@ window.onload = function () {
     const usuario = localStorage.getItem("usuarioActual");
 
     Object.keys(tiposEventos).forEach(id => {
-        const clave  = usuario + "_" + id;
-        const estado = localStorage.getItem(clave);
+        const clave   = usuario + "_" + id;
+        const estado  = localStorage.getItem(clave);
         const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
-        const btn = document.getElementById("btn" + idCapit);
+        const btn     = document.getElementById("btn" + idCapit);
 
         if (btn && estado) {
             btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
@@ -253,7 +372,11 @@ window.onload = function () {
         }
     });
 
-    // Contador en tiempo real — se actualiza cada 1 segundo
+    // Iniciar listener de foto de perfil
+    iniciarCambioFoto();
+    actualizarBotonesFoto();
+
+    // Contador en tiempo real
     actualizarContadores();
     setInterval(actualizarContadores, 1000);
 };
