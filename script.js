@@ -72,8 +72,8 @@ let tiposEventos = {
 };
 
 let fechasLimite = {
-    evento1: new Date(2026, 3, 25, 20, 0),
-    evento2: new Date(2026, 3, 28, 10, 0)
+    evento1: new Date(2026, 5, 25, 20, 0),
+    evento2: new Date(2026, 5, 28, 10, 0)
 };
 
 let eventoActual = "";
@@ -90,7 +90,39 @@ function anotarseEvento(idEvento, tipo) {
             : "Inscripción al evento";
     }
 
+    // Limpiar campos del formulario
+    document.getElementById("formNombre").value   = "";
+    document.getElementById("formApellido").value = "";
+    document.getElementById("formEmail").value    = "";
+    document.getElementById("formTelefono").value = "";
+
+    // Mostrar u ocultar botón cancelar según tipo
+    const btnCancelar = document.getElementById("btnCancelarEvento");
+    if (btnCancelar) {
+        btnCancelar.style.display = (tipo === "opcional") ? "inline-block" : "none";
+    }
+
     mostrar('formEvento');
+}
+
+/* 🔹 CANCELAR INSCRIPCIÓN (solo opcionales) */
+function cancelarInscripcion() {
+    const tipo = tiposEventos[eventoActual] || "opcional";
+    if (tipo === "obligatorio") return; // seguridad extra
+
+    const usuario = localStorage.getItem("usuarioActual");
+    const clave   = usuario + "_" + eventoActual;
+    localStorage.removeItem(clave);
+
+    // Restaurar el botón del evento
+    const idCapit = eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1);
+    const btn = document.getElementById("btn" + idCapit);
+    if (btn) {
+        btn.innerText = "Anotarse";
+        btn.disabled  = false;
+    }
+
+    mostrar('eventos');
 }
 
 /* 🔹 ENVIAR FORMULARIO */
