@@ -12,7 +12,8 @@ function mostrar(seccion) {
 
     const botones = document.querySelectorAll(".menu-principal button");
     botones.forEach(boton => {
-        if (boton.getAttribute("onclick").includes(seccion)) {
+        const onclick = boton.getAttribute("onclick");
+        if (onclick && onclick.includes(seccion)) {
             boton.classList.add("activo");
         }
     });
@@ -148,6 +149,7 @@ function enviarFormulario() {
         if (btn) {
             btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
             btn.disabled = true;
+            btn.classList.add("ya-inscripto");
         }
 
     } else {
@@ -226,7 +228,7 @@ function actualizarContadores() {
             contador.style.color      = "red";
             contador.style.fontWeight = "bold";
 
-            if (btn) {
+            if (btn && !btn.classList.contains("ya-inscripto")) {
                 btn.disabled  = true;
                 btn.innerText = "Cerrado";
             }
@@ -392,17 +394,20 @@ window.onload = function () {
     // Restaurar estado de inscripción por usuario
     const usuario = localStorage.getItem("usuarioActual");
 
-    Object.keys(tiposEventos).forEach(id => {
-        const clave   = usuario + "_" + id;
-        const estado  = localStorage.getItem(clave);
-        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
-        const btn     = document.getElementById("btn" + idCapit);
+    if (usuario) {
+        Object.keys(tiposEventos).forEach(id => {
+            const clave   = usuario + "_" + id;
+            const estado  = localStorage.getItem(clave);
+            const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+            const btn     = document.getElementById("btn" + idCapit);
 
-        if (btn && estado) {
-            btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
-            btn.disabled  = true;
-        }
-    });
+            if (btn && estado) {
+                btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
+                btn.disabled  = true;
+                btn.classList.add("ya-inscripto");
+            }
+        });
+    }
 
     // Iniciar listener de foto de perfil
     iniciarCambioFoto();
@@ -411,4 +416,4 @@ window.onload = function () {
     // Contador en tiempo real
     actualizarContadores();
     setInterval(actualizarContadores, 1000);
-};
+}
