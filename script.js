@@ -58,7 +58,9 @@ function login() {
 
     mostrar("inicio");
     verificarRol();
+    cargarDatosPerfil();
 }
+
 /* ================= LOGOUT ================= */
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
@@ -66,19 +68,75 @@ function cerrarSesion() {
 }
 
 /* ================= EVENTOS ================= */
+let eventos = [
+    {
+        id: "evento1",
+        titulo: "Fiesta del Instituto",
+        fecha: "Viernes 25 - 20:00 hs",
+        descripcion: "Celebra el fin de semestre con música, comida y amigos. ¡No te lo pierdas!",
+        tipo: "opcional",
+        estado: "abierto",
+        limite: new Date(2026, 5, 25, 20, 0)
+    },
+    {
+        id: "evento2", 
+        titulo: "Presentación de trabajos",
+        fecha: "Lunes 28 - 10:00 hs",
+        descripcion: "Presentación obligatoria de trabajos finales del semestre.",
+        tipo: "obligatorio",
+        estado: "abierto",
+        limite: new Date(2026, 5, 28, 10, 0)
+    }
+];
 
-let tiposEventos = {
-    evento1: "opcional",
-    evento2: "obligatorio"
-};
-
-let fechasLimite = {
-    evento1: new Date(2026, 5, 25, 20, 0),
-    evento2: new Date(2026, 5, 28, 10, 0)
-};
-
-let eventoActual = "";
 let contadorEventos = 3;
+let eventoActual = "";
+
+/* 🔹 RENDERIZAR EVENTOS */
+function renderizarEventos() {
+    const contenedor = document.getElementById("listaEventos");
+    contenedor.innerHTML = "";
+
+    eventos.forEach(evento => {
+        const idCapit = evento.id.charAt(0).toUpperCase() + evento.id.slice(1);
+        const emojiEstado = evento.estado === "cerrado" ? "⚫" : 
+                           evento.tipo === "obligatorio" ? "🔴" : "🟢";
+
+        const divEvento = document.createElement("div");
+        divEvento.className = "evento";
+        
+        // Si está cerrado, aplicar estilo especial
+        if (evento.estado === "cerrado") {
+            divEvento.style.opacity = "0.6";
+            divEvento.style.background = "#f3f4f6";
+            divEvento.style.borderLeft = "4px solid #6b7280";
+        }
+
+        divEvento.innerHTML = `
+            <h3>${evento.titulo}</h3>
+            <p><strong>📅 ${evento.fecha}</strong></p>
+            <p>${emojiEstado} ${evento.tipo === "obligatorio" ? "Obligatorio" : "Opcional"}</p>
+            
+            ${evento.descripcion !== "Sin descripción" ? `<p style="font-style:italic; color:#666; margin:8px 0;">${evento.descripcion}</p>` : ""}
+            
+            <span id="contador${idCapit}" class="contador-evento"></span>
+            <div class="evento-botones">
+                ${evento.estado === "cerrado" ? 
+                    '<button disabled style="background:#6b7280; cursor:not-allowed;">⚫ Evento cerrado</button>' :
+                    `<button id="btn${idCapit}" onclick="anotarseEvento('${evento.id}', '${evento.tipo}')">
+                        ${evento.tipo === "obligatorio" ? "Confirmar asistencia" : "Anotarse"}
+                    </button>`
+                }
+                <button id="btnCancelar${evento.id.replace('evento', '')}" 
+                        class="btn-cancelar" 
+                        onclick="cancelarInscripcion('${evento.id}')" 
+                        style="display:none;">❌ Cancelar</button>
+            </div>
+        `;
+
+        contenedor.appendChild(divEvento);
+    });
+}
 
 /* 🔹 ANOTARSE */
 function anotarseEvento(idEvento, tipo) {
@@ -98,16 +156,6 @@ function anotarseEvento(idEvento, tipo) {
     document.getElementById("formTelefono").value = "";
 
     mostrar('formEvento');
-
-    // Mostrar u ocultar botón cancelar según tipo usando clase CSS
-    const btnCancelar = document.getElementById("btnCancelarEvento");
-    if (btnCancelar) {
-        if (tipo === "opcional") {
-            btnCancelar.classList.add("visible");
-        } else {
-            btnCancelar.classList.remove("visible");
-        }
-    }
 }
 
 /* 🔹 CANCELAR INSCRIPCIÓN */
@@ -122,8 +170,8 @@ function cancelarInscripcion(idEvento) {
     const btnCancelar = document.getElementById("btnCancelar" + numEvento);
 
     if (btn) {
-        const tipo = tiposEventos[idEvento] || "opcional";
-        btn.innerText = (tipo === "obligatorio") ? "Confirmar asistencia" : "Anotarse";
+        const evento = eventos.find(e => e.id === idEvento);
+        btn.innerText = (evento.tipo === "obligatorio") ? "Confirmar asistencia" : "Anotarse";
         btn.disabled  = false;
         btn.classList.remove("ya-inscripto");
     }
@@ -141,12 +189,11 @@ function enviarFormulario() {
     const telefono = document.getElementById("formTelefono").value;
 
     if (nombre && apellido && email && telefono) {
-
         const usuario = localStorage.getItem("usuarioActual");
-        const tipo    = tiposEventos[eventoActual] || "opcional";
+        const evento = eventos.find(e => e.id === eventoActual);
         const clave   = usuario + "_" + eventoActual;
 
-        localStorage.setItem(clave, tipo === "obligatorio" ? "confirmado" : "anotado");
+        localStorage.setItem(clave, evento.tipo === "obligatorio" ? "confirmado" : "anotado");
 
         mostrar('eventos');
 
@@ -154,12 +201,11 @@ function enviarFormulario() {
         const btn = document.getElementById("btn" + idCapit);
 
         if (btn) {
-            btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
+            btn.innerText = (evento.tipo === "obligatorio") ? "Confirmado" : "Anotado";
             btn.disabled = true;
             btn.classList.add("ya-inscripto");
         }
 
-        // Mostrar botón cancelar en la tarjeta
         const numEvento = eventoActual.replace("evento", "");
         const btnCancelar = document.getElementById("btnCancelar" + numEvento);
         if (btnCancelar) btnCancelar.style.display = "inline-block";
@@ -173,39 +219,44 @@ function enviarFormulario() {
 function crearEvento() {
     const titulo = document.getElementById("nuevoTitulo").value;
     const fecha  = document.getElementById("nuevaFecha").value;
+    const descripcion = document.getElementById("nuevaDescripcion").value;
     const tipo   = document.getElementById("nuevoTipo").value;
+    const estado = document.getElementById("nuevoEstado").value;
     const limite = document.getElementById("nuevoLimite").value;
 
     if (titulo && fecha) {
-
         const id = "evento" + contadorEventos++;
-        tiposEventos[id] = tipo;
+        
+        // Nuevo evento
+        const nuevoEvento = {
+            id: id,
+            titulo: titulo,
+            fecha: fecha,
+            descripcion: descripcion || "Sin descripción",
+            tipo: tipo,
+            estado: estado,
+            limite: limite ? new Date(limite) : new Date(2026, 11, 31)
+        };
 
-        if (limite) {
-            fechasLimite[id] = new Date(limite);
-        }
+        eventos.push(nuevoEvento);
 
-        const contenedor   = document.getElementById("listaEventos");
-        const nuevoEvento  = document.createElement("div");
-        nuevoEvento.classList.add("evento");
+        // Guardar en localStorage
+        localStorage.setItem("eventosInstituto57", JSON.stringify(eventos));
 
-        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
-
-        nuevoEvento.innerHTML = `
-            <h3>${titulo}</h3>
-            <p>${fecha}</p>
-            <p>${tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</p>
-            <span id="contador${idCapit}" class="contador-evento"></span>
-            <button id="btn${idCapit}" onclick="anotarseEvento('${id}', '${tipo}')">
-                ${tipo === "obligatorio" ? "Confirmar asistencia" : "Anotarse"}
-            </button>
-        `;
-
-        contenedor.appendChild(nuevoEvento);
+        renderizarEventos();
         mostrar('eventos');
+        alert("✅ Evento creado exitosamente");
+
+        // Limpiar formulario
+        document.getElementById("nuevoTitulo").value = "";
+        document.getElementById("nuevaFecha").value = "";
+        document.getElementById("nuevaDescripcion").value = "";
+        document.getElementById("nuevoLimite").value = "";
+        document.getElementById("nuevoTipo").value = "opcional";
+        document.getElementById("nuevoEstado").value = "abierto";
 
     } else {
-        alert("Completá los datos");
+        alert("Completá al menos título y fecha");
     }
 }
 
@@ -225,26 +276,24 @@ function verificarRol() {
 function actualizarContadores() {
     const ahora = new Date();
 
-    Object.keys(fechasLimite).forEach(id => {
-        const limite  = fechasLimite[id];
-        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+    eventos.forEach(evento => {
+        const idCapit = evento.id.charAt(0).toUpperCase() + evento.id.slice(1);
         const contador = document.getElementById("contador" + idCapit);
-        const btn      = document.getElementById("btn" + idCapit);
+        
+        if (!contador || evento.estado === "cerrado") return;
 
-        if (!contador) return;
-
-        const diferencia = limite - ahora;
+        const diferencia = evento.limite - ahora;
 
         if (diferencia <= 0) {
             contador.innerText        = "⛔ Inscripción cerrada";
             contador.style.color      = "red";
             contador.style.fontWeight = "bold";
 
+            const btn = document.getElementById("btn" + idCapit);
             if (btn && !btn.classList.contains("ya-inscripto")) {
                 btn.disabled  = true;
                 btn.innerText = "Cerrado";
             }
-
         } else {
             const dias    = Math.floor(diferencia / 86400000);
             const horas   = Math.floor((diferencia % 86400000) / 3600000);
@@ -269,8 +318,7 @@ function actualizarContadores() {
 }
 
 /* ================= FOTO DE PERFIL ================= */
-
-let fotoTemporal = null; // Guarda la foto seleccionada pero aún no guardada
+let fotoTemporal = null;
 
 function iniciarCambioFoto() {
     const inputFoto = document.getElementById("cambiarFoto");
@@ -281,17 +329,13 @@ function iniciarCambioFoto() {
 
         const reader = new FileReader();
         reader.onload = function (e) {
-            // Mostrar preview pero NO guardar todavía
             fotoTemporal = e.target.result;
             document.getElementById("fotoPerfil").src = fotoTemporal;
-
-            // Mostrar mensaje y botón de guardar
             document.getElementById("fotoAcciones").style.display = "block";
         };
         reader.readAsDataURL(archivo);
     });
 
-    // Mostrar/ocultar botón borrar según si hay foto guardada
     actualizarBotonesFoto();
 }
 
@@ -302,7 +346,6 @@ function guardarFoto() {
     localStorage.setItem("fotoPerfil_" + usuario, fotoTemporal);
     fotoTemporal = null;
 
-    // Ocultar mensaje pendiente y mostrar botón borrar
     document.getElementById("fotoAcciones").style.display = "none";
     document.getElementById("btnBorrarFoto").style.display = "inline-block";
 
@@ -333,12 +376,21 @@ function actualizarBotonesFoto() {
     }
 }
 
+function cargarDatosPerfil() {
+    const usuario = localStorage.getItem("usuarioActual");
+    if (usuario) {
+        document.getElementById("nombre").textContent = usuario;
+        document.getElementById("email").textContent = usuario + "@instituto57.edu";
+        const tipo = document.getElementById("tipo").value;
+        document.getElementById("rango").textContent = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+    }
+}
+
 /* ================= CAMBIAR CONTRASEÑA ================= */
 function cambiarContrasena() {
     const form = document.getElementById("formCambiarPass");
     form.style.display = form.style.display === "none" ? "block" : "none";
 
-    // Limpiar campos cada vez que se abre
     document.getElementById("passActual").value    = "";
     document.getElementById("passNueva").value     = "";
     document.getElementById("passConfirmar").value = "";
@@ -379,11 +431,18 @@ function guardarContrasena() {
 
 /* ================= INICIO ================= */
 window.onload = function () {
-
     mostrar('inicio');
 
-    const tipoSelect = document.getElementById("tipo");
+    // Cargar eventos desde localStorage o usar los por defecto
+    const eventosGuardados = localStorage.getItem("eventosInstituto57");
+    if (eventosGuardados) {
+        eventos = JSON.parse(eventosGuardados);
+    }
 
+    // Renderizar eventos al cargar
+    renderizarEventos();
+
+    const tipoSelect = document.getElementById("tipo");
     if (tipoSelect) {
         tipoSelect.addEventListener("change", () => {
             const tipo = tipoSelect.value;
@@ -405,25 +464,21 @@ window.onload = function () {
 
     // Restaurar estado de inscripción por usuario
     const usuario = localStorage.getItem("usuarioActual");
-
     if (usuario) {
-        Object.keys(tiposEventos).forEach(id => {
-            const clave   = usuario + "_" + id;
+        eventos.forEach(evento => {
+            const clave   = usuario + "_" + evento.id;
             const estado  = localStorage.getItem(clave);
-            const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+            const idCapit = evento.id.charAt(0).toUpperCase() + evento.id.slice(1);
             const btn     = document.getElementById("btn" + idCapit);
 
-            if (btn && estado) {
+            if (btn && estado && evento.estado !== "cerrado") {
                 btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
                 btn.disabled  = true;
                 btn.classList.add("ya-inscripto");
 
-                // Mostrar cancelar si estaba inscripto
-                if (estado) {
-                    const numEvento = id.replace("evento", "");
-                    const btnCancelar = document.getElementById("btnCancelar" + numEvento);
-                    if (btnCancelar) btnCancelar.style.display = "inline-block";
-                }
+                const numEvento = evento.id.replace("evento", "");
+                const btnCancelar = document.getElementById("btnCancelar" + numEvento);
+                if (btnCancelar) btnCancelar.style.display = "inline-block";
             }
         });
     }

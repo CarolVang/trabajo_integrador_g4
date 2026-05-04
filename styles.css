@@ -3,6 +3,9 @@ body {
     margin: 0;
     background-color: #f4f4ef;
     color: rgb(5, 1, 1);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -68,6 +71,7 @@ td, th {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .login-box {
@@ -76,6 +80,7 @@ td, th {
     border-radius: 10px;
     width: 350px;
     color: rgb(255, 255, 255);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .login-box input,
@@ -83,6 +88,7 @@ td, th {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
+    box-sizing: border-box;
 }
 
 /* ================= TOPBAR ================= */
@@ -93,12 +99,18 @@ td, th {
     background-color: #1e293b;
     color: white;
     padding: 15px 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .logo {
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: #3b82f6;
 }
 
 .acciones button {
@@ -108,6 +120,8 @@ td, th {
     border-radius: 6px;
     color: rgb(234, 232, 232);
     cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
 }
 
 .acciones button:hover {
@@ -119,10 +133,11 @@ td, th {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 40px 20px;
     background: linear-gradient(to right, #7c9cd0, #1146d8);
     color: white;
     flex-wrap: wrap;
+    gap: 30px;
 }
 
 .hero-texto {
@@ -132,24 +147,36 @@ td, th {
 .hero-texto h2 {
     font-size: 40px;
     margin-bottom: 15px;
+    line-height: 1.2;
 }
 
 .hero-texto p {
     font-size: 18px;
     margin-bottom: 20px;
+    opacity: 0.95;
 }
 
 .hero-texto button {
     background: orange;
     border: none;
-    padding: 12px 20px;
+    padding: 12px 24px;
     color: white;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.hero-texto button:hover {
+    background: #f97316;
+    transform: translateY(-2px);
 }
 
 .hero-img img {
     width: 300px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 /* ================= MENÚ PRINCIPAL ================= */
@@ -205,51 +232,62 @@ td, th {
 }
 
 .menu-principal button.activo {
-    background-color: #87abf0;
+    background: linear-gradient(135deg, #87abf0 0%, #a8b8f0 100%);
     color: #000;
-    border-radius: 5px;
-    padding: 5px 10px;
+    box-shadow: 0 6px 25px rgba(135, 171, 240, 0.4);
 }
 
 /* ================= EVENTOS ================= */
 .evento {
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
     max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.evento:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
 }
 
 .evento h3 {
-    margin: 0 0 6px;
+    margin: 0 0 10px;
+    color: #1f2937;
+    font-size: 20px;
 }
 
 .evento p {
-    margin: 3px 0;
+    margin: 6px 0;
+    color: #374151;
+}
+
+/* Eventos cerrados */
+.evento[style*="opacity: 0.6"] h3,
+.evento[style*="opacity: 0.6"] p {
+    color: #6b7280 !important;
 }
 
 /* Contador de inscripción */
 .contador-evento {
     display: inline-block;
-    margin: 8px 0;
+    margin: 10px 0;
     font-size: 14px;
-    font-weight: normal;
-    color: #444;
+    font-weight: 500;
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border-radius: 20px;
+    border-left: 3px solid #3b82f6;
 }
 
-/* ================= FORMULARIO EVENTO ================= */
-.form-botones {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-}
-
+/* ================= BOTONES EVENTOS ================= */
 .evento-botones {
     display: flex;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 15px;
     flex-wrap: wrap;
     align-items: center;
 }
@@ -258,37 +296,130 @@ td, th {
     background: #ef4444;
     color: white;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
 }
 
 .btn-cancelar:hover {
     background: #dc2626;
 }
 
-/* ================= AVATAR ================= */
+/* ================= FORMULARIO EVENTO ================= */
+#formEvento input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.form-botones button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* ================= PERFIL ================= */
+.perfil-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.perfil-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.perfil-header h1 {
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 30px;
+}
+
+.perfil-foto {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 .avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #667eea;
+    border: 4px solid #667eea;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.perfil-info, .perfil-seguridad {
+    margin-bottom: 25px;
+}
+
+.dato {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.dato:last-child {
+    border-bottom: none;
+}
+
+.dato span {
+    font-weight: 600;
+    color: #374151;
+}
+
+.dato p {
+    margin: 0;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.btn-secundario {
+    width: 100%;
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-secundario:hover {
+    background: #4b5563;
 }
 
 /* ================= FOOTER ================= */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
 .footer {
     background-color: #1e293b;
     color: white;
     text-align: center;
-    padding: 15px;
+    padding: 20px;
     margin-top: auto;
+    font-size: 14px;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -312,6 +443,7 @@ body {
     .hero {
         flex-direction: column;
         text-align: center;
+        padding: 30px 20px;
     }
 
     .hero-img img {
@@ -321,10 +453,39 @@ body {
     }
 
     .hero-texto h2 {
-        font-size: 26px;
+        font-size: 28px;
     }
 
     .evento {
         max-width: 100%;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .perfil-card {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .login-box {
+        width: 90%;
+        max-width: 350px;
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-principal {
+        grid-template-columns: 1fr;
+    }
+    
+    .topbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .evento-botones {
+        flex-direction: column;
     }
 }

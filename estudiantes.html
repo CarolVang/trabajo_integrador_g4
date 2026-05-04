@@ -56,29 +56,7 @@
     </button>
 
     <div id="listaEventos">
-
-        <div class="evento">
-            <h3>Fiesta del Instituto</h3>
-            <p>Viernes 25 - 20:00 hs</p>
-            <p>🟢 Opcional</p>
-            <span id="contadorEvento1" class="contador-evento"></span>
-            <div class="evento-botones">
-                <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
-                <button id="btnCancelar1" class="btn-cancelar" onclick="cancelarInscripcion('evento1')" style="display:none;">❌ Cancelar</button>
-            </div>
-        </div>
-
-        <div class="evento">
-            <h3>Presentación de trabajos</h3>
-            <p>Lunes 28 - 10:00 hs</p>
-            <p>🔴 Obligatorio</p>
-            <span id="contadorEvento2" class="contador-evento"></span>
-            <div class="evento-botones">
-                <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">Confirmar asistencia</button>
-                <button id="btnCancelar2" class="btn-cancelar" onclick="cancelarInscripcion('evento2')" style="display:none;">❌ Cancelar</button>
-            </div>
-        </div>
-
+        <!-- Los eventos se cargan dinámicamente -->
     </div>
 </section>
 
@@ -102,6 +80,10 @@
 
     <input type="text" id="nuevoTitulo" placeholder="Título del evento">
     <input type="text" id="nuevaFecha" placeholder="Fecha y hora del evento (ej: Viernes 25 - 20:00 hs)">
+    
+    <!-- Descripción -->
+    <textarea id="nuevaDescripcion" placeholder="Descripción del evento (opcional)" 
+              style="width:100%; height:80px; margin-top:10px; padding:8px; border-radius:6px; border:1px solid #ddd; resize:vertical;"></textarea>
 
     <label style="display:block; margin-top:10px; margin-bottom:4px; font-weight:bold;">
         Límite de inscripción:
@@ -109,8 +91,17 @@
     <input type="datetime-local" id="nuevoLimite">
 
     <select id="nuevoTipo" style="margin-top:10px;">
-        <option value="opcional">Opcional</option>
-        <option value="obligatorio">Obligatorio</option>
+        <option value="opcional">🟢 Opcional</option>
+        <option value="obligatorio">🔴 Obligatorio</option>
+    </select>
+
+    <!-- Estado del evento -->
+    <label style="display:block; margin-top:10px; margin-bottom:4px; font-weight:bold;">
+        Estado:
+    </label>
+    <select id="nuevoEstado" style="margin-top:10px;">
+        <option value="abierto">🟢 Abierto</option>
+        <option value="cerrado">⚫ Cerrado</option>
     </select>
 
     <button onclick="crearEvento()" style="margin-top:10px;">Crear</button>
