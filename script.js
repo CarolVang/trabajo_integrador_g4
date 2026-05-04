@@ -110,21 +110,20 @@ function anotarseEvento(idEvento, tipo) {
     }
 }
 
-/* 🔹 CANCELAR INSCRIPCIÓN (solo opcionales) */
+/* 🔹 CANCELAR INSCRIPCIÓN */
 function cancelarInscripcion(idEvento) {
-    const tipo = tiposEventos[idEvento] || "opcional";
-    if (tipo === "obligatorio") return;
-
     const usuario = localStorage.getItem("usuarioActual");
     const clave   = usuario + "_" + idEvento;
     localStorage.removeItem(clave);
 
     const idCapit = idEvento.charAt(0).toUpperCase() + idEvento.slice(1);
     const btn     = document.getElementById("btn" + idCapit);
-    const btnCancelar = document.getElementById("btnCancelar" + idCapit.replace("Evento", ""));
+    const numEvento = idEvento.replace("evento", "");
+    const btnCancelar = document.getElementById("btnCancelar" + numEvento);
 
     if (btn) {
-        btn.innerText = "Anotarse";
+        const tipo = tiposEventos[idEvento] || "opcional";
+        btn.innerText = (tipo === "obligatorio") ? "Confirmar asistencia" : "Anotarse";
         btn.disabled  = false;
         btn.classList.remove("ya-inscripto");
     }
@@ -160,12 +159,10 @@ function enviarFormulario() {
             btn.classList.add("ya-inscripto");
         }
 
-        // Mostrar botón cancelar en la tarjeta si es opcional
-        if (tipo === "opcional") {
-            const numEvento = eventoActual.replace("evento", "");
-            const btnCancelar = document.getElementById("btnCancelar" + numEvento);
-            if (btnCancelar) btnCancelar.style.display = "inline-block";
-        }
+        // Mostrar botón cancelar en la tarjeta
+        const numEvento = eventoActual.replace("evento", "");
+        const btnCancelar = document.getElementById("btnCancelar" + numEvento);
+        if (btnCancelar) btnCancelar.style.display = "inline-block";
 
     } else {
         alert("Completá todos los campos");
@@ -421,8 +418,8 @@ window.onload = function () {
                 btn.disabled  = true;
                 btn.classList.add("ya-inscripto");
 
-                // Mostrar cancelar si era opcional
-                if (estado === "anotado") {
+                // Mostrar cancelar si estaba inscripto
+                if (estado) {
                     const numEvento = id.replace("evento", "");
                     const btnCancelar = document.getElementById("btnCancelar" + numEvento);
                     if (btnCancelar) btnCancelar.style.display = "inline-block";
