@@ -99,31 +99,39 @@ function anotarseEvento(idEvento, tipo) {
 
     mostrar('formEvento');
 
-    // Mostrar u ocultar botón cancelar según tipo (después de mostrar la sección)
+    // Mostrar u ocultar botón cancelar según tipo usando clase CSS
     const btnCancelar = document.getElementById("btnCancelarEvento");
     if (btnCancelar) {
-        btnCancelar.style.display = (tipo === "opcional") ? "inline-block" : "none";
+        if (tipo === "opcional") {
+            btnCancelar.classList.add("visible");
+        } else {
+            btnCancelar.classList.remove("visible");
+        }
     }
 }
 
 /* 🔹 CANCELAR INSCRIPCIÓN (solo opcionales) */
-function cancelarInscripcion() {
-    const tipo = tiposEventos[eventoActual] || "opcional";
-    if (tipo === "obligatorio") return; // seguridad extra
+function cancelarInscripcion(idEvento) {
+    const tipo = tiposEventos[idEvento] || "opcional";
+    if (tipo === "obligatorio") return;
 
     const usuario = localStorage.getItem("usuarioActual");
-    const clave   = usuario + "_" + eventoActual;
+    const clave   = usuario + "_" + idEvento;
     localStorage.removeItem(clave);
 
-    // Restaurar el botón del evento
-    const idCapit = eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1);
-    const btn = document.getElementById("btn" + idCapit);
+    const idCapit = idEvento.charAt(0).toUpperCase() + idEvento.slice(1);
+    const btn     = document.getElementById("btn" + idCapit);
+    const btnCancelar = document.getElementById("btnCancelar" + idCapit.replace("Evento", ""));
+
     if (btn) {
         btn.innerText = "Anotarse";
         btn.disabled  = false;
+        btn.classList.remove("ya-inscripto");
     }
 
-    mostrar('eventos');
+    if (btnCancelar) {
+        btnCancelar.style.display = "none";
+    }
 }
 
 /* 🔹 ENVIAR FORMULARIO */
@@ -150,6 +158,13 @@ function enviarFormulario() {
             btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
             btn.disabled = true;
             btn.classList.add("ya-inscripto");
+        }
+
+        // Mostrar botón cancelar en la tarjeta si es opcional
+        if (tipo === "opcional") {
+            const numEvento = eventoActual.replace("evento", "");
+            const btnCancelar = document.getElementById("btnCancelar" + numEvento);
+            if (btnCancelar) btnCancelar.style.display = "inline-block";
         }
 
     } else {
@@ -405,6 +420,13 @@ window.onload = function () {
                 btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
                 btn.disabled  = true;
                 btn.classList.add("ya-inscripto");
+
+                // Mostrar cancelar si era opcional
+                if (estado === "anotado") {
+                    const numEvento = id.replace("evento", "");
+                    const btnCancelar = document.getElementById("btnCancelar" + numEvento);
+                    if (btnCancelar) btnCancelar.style.display = "inline-block";
+                }
             }
         });
     }
@@ -412,10 +434,6 @@ window.onload = function () {
     // Iniciar listener de foto de perfil
     iniciarCambioFoto();
     actualizarBotonesFoto();
-
-    // Ocultar botón cancelar al inicio — lo controla el JS según el tipo de evento
-    const btnCancelarInicio = document.getElementById("btnCancelarEvento");
-    if (btnCancelarInicio) btnCancelarInicio.style.display = "none";
 
     // Contador en tiempo real
     actualizarContadores();

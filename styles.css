@@ -238,6 +238,35 @@ td, th {
     color: #444;
 }
 
+/* ================= FORMULARIO EVENTO ================= */
+.form-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.evento-botones {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-cancelar {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    background: #dc2626;
+}
+
 /* ================= AVATAR ================= */
 .avatar {
     width: 120px;

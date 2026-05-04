@@ -51,12 +51,10 @@
 <section id="eventos">
     <h2>🎉 Eventos</h2>
 
-    <!-- Botón solo visible para prof/admin -->
     <button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
         ➕ Crear evento
     </button>
 
-    <!-- Lista de eventos -->
     <div id="listaEventos">
 
         <div class="evento">
@@ -64,9 +62,10 @@
             <p>Viernes 25 - 20:00 hs</p>
             <p>🟢 Opcional</p>
             <span id="contadorEvento1" class="contador-evento"></span>
-            <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">
-                Anotarse
-            </button>
+            <div class="evento-botones">
+                <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
+                <button id="btnCancelar1" class="btn-cancelar" onclick="cancelarInscripcion('evento1')" style="display:none;">❌ Cancelar</button>
+            </div>
         </div>
 
         <div class="evento">
@@ -74,9 +73,9 @@
             <p>Lunes 28 - 10:00 hs</p>
             <p>🔴 Obligatorio</p>
             <span id="contadorEvento2" class="contador-evento"></span>
-            <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">
-                Confirmar asistencia
-            </button>
+            <div class="evento-botones">
+                <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">Confirmar asistencia</button>
+            </div>
         </div>
 
     </div>
@@ -91,9 +90,8 @@
     <input type="email" id="formEmail" placeholder="Email">
     <input type="text" id="formTelefono" placeholder="Teléfono">
 
-    <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+    <div class="form-botones">
         <button onclick="enviarFormulario()">Enviar</button>
-        <button id="btnCancelarEvento" onclick="cancelarInscripcion()" style="background:#6b7280;">Cancelar</button>
     </div>
 </section>
 
@@ -159,18 +157,14 @@
             </div>
 
             <div class="perfil-foto">
-                <img id="fotoPerfil"
-                     src="https://via.placeholder.com/120"
-                     class="avatar">
+                <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
                 <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
 
-                <!-- Botones de foto: se muestran/ocultan según si hay foto -->
                 <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
                     <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar foto</button>
                     <button id="btnBorrarFoto" onclick="borrarFoto()" style="display:none;">🗑️ Borrar foto</button>
                 </div>
 
-                <!-- Mensaje de foto pendiente + botón guardar -->
                 <div id="fotoAcciones" style="display:none; margin-top:10px; text-align:center;">
                     <p style="font-size:13px; color:#f59e0b; margin:0 0 6px;">⚠️ Foto seleccionada pero no guardada</p>
                     <button onclick="guardarFoto()">💾 Guardar foto</button>
@@ -182,12 +176,10 @@
                     <span>Nombre</span>
                     <p id="nombre"></p>
                 </div>
-
                 <div class="dato">
                     <span>Email</span>
                     <p id="email"></p>
                 </div>
-
                 <div class="dato">
                     <span>Rango</span>
                     <p id="rango"></p>
@@ -200,12 +192,10 @@
                     <p id="pass">••••••••</p>
                 </div>
 
-                <!-- Botón para mostrar/ocultar el formulario -->
                 <button id="btnCambiarPass" class="btn-secundario" onclick="cambiarContrasena()">
                     Cambiar contraseña
                 </button>
 
-                <!-- Formulario oculto de cambio de contraseña -->
                 <div id="formCambiarPass" style="display:none; margin-top:12px;">
                     <input type="password" id="passActual"    placeholder="Contraseña actual"          style="display:block; width:100%; padding:8px; margin-bottom:8px;">
                     <input type="password" id="passNueva"     placeholder="Nueva contraseña"           style="display:block; width:100%; padding:8px; margin-bottom:8px;">
