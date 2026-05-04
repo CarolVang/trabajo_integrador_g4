@@ -413,7 +413,11 @@ window.onload = function () {
     iniciarCambioFoto();
     actualizarBotonesFoto();
 
+    // Ocultar botón cancelar al inicio — lo controla el JS según el tipo de evento
+    const btnCancelarInicio = document.getElementById("btnCancelarEvento");
+    if (btnCancelarInicio) btnCancelarInicio.style.display = "none";
+
     // Contador en tiempo real
     actualizarContadores();
     setInterval(actualizarContadores, 1000);
-};
+}
