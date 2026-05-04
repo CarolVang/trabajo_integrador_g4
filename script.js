@@ -97,13 +97,13 @@ function anotarseEvento(idEvento, tipo) {
     document.getElementById("formEmail").value    = "";
     document.getElementById("formTelefono").value = "";
 
-    // Mostrar u ocultar botón cancelar según tipo
+    mostrar('formEvento');
+
+    // Mostrar u ocultar botón cancelar según tipo (después de mostrar la sección)
     const btnCancelar = document.getElementById("btnCancelarEvento");
     if (btnCancelar) {
         btnCancelar.style.display = (tipo === "opcional") ? "inline-block" : "none";
     }
-
-    mostrar('formEvento');
 }
 
 /* 🔹 CANCELAR INSCRIPCIÓN (solo opcionales) */
@@ -416,4 +416,4 @@ window.onload = function () {
     // Contador en tiempo real
     actualizarContadores();
     setInterval(actualizarContadores, 1000);
-}
+};
