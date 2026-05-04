@@ -276,3 +276,87 @@ body {
     padding: 15px;
     margin-top: 20px;
 }
+<!-- 🔽 MODIFICACION NOVEDADES lean -->
+.novedad {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.novedad:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.02);
+}
+
+.novedad h3 {
+    margin: 0;
+}
+
+.novedad span {
+    font-size: 12px;
+    color: #000000;
+}
+/* botón activo */
+.btn-menu.activo {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
+.btn-menu {
+    transition: 0.3s;
+}
+/* CONTENEDOR */5
+.novedades-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* TARJETA BASE */
+.novedad {
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    transition: 0.3s;
+}
+
+/* EFECTO */
+.novedad:hover {
+    transform: scale(1.03);
+}
+
+/* TIPOS DE NOVEDADES */
+.importante {
+    background: #ffd966;
+    color: black;
+}
+
+.urgente {
+    background: #ff4d4d;color: black;
+}
+
+.info {
+    background: #4da6ff;color: black;
+}
+
+.evento {
+    background: #4CAF50;color: black;
+}
+
+/* TEXTO */
+.novedad h3 {
+    margin: 0 0 5px 0;
+}
+
+.novedad p {
+    margin: 0 0 8px 0;
+}
+
+.novedad span {
+    font-size: 12px;
+    opacity: 0.9;
+}
+<!-- hasta ahi llega las novedades lean -->

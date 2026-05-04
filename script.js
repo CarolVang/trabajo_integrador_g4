@@ -65,3 +65,17 @@ function cerrarSesion(){
     // ocultar todas las secciones
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 }
+<!-- 🔽 MODIFICACION NOVEDADES lean -->
+function mostrar(seccion){
+
+    // ocultar secciones
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(seccion).classList.add("active");
+
+    // quitar activo a todos los botones
+    document.querySelectorAll(".btn-menu").forEach(b => b.classList.remove("activo"));
+
+    // marcar el botón clickeado
+    event.target.classList.add("activo");
+}
+<!-- hasta ahi llega las novedades lean -->
