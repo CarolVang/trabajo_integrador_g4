@@ -92,12 +92,47 @@ let eventos = [
 let contadorEventos = 3;
 let eventoActual = "";
 
-/* 🔹 RENDERIZAR EVENTOS */
-function renderizarEventos() {
+/* 🔹 BUSCADOR DE EVENTOS */
+function buscarEventos() {
+    const termino = document.getElementById("buscador").value.toLowerCase().trim();
+    const contenedor = document.getElementById("listaEventos");
+    const contadorResultados = document.getElementById("contadorResultados");
+    
+    // Filtrar eventos
+    const eventosFiltrados = eventos.filter(evento => {
+        return evento.titulo.toLowerCase().includes(termino) ||
+               evento.fecha.toLowerCase().includes(termino) ||
+               (evento.descripcion || "").toLowerCase().includes(termino);
+    });
+    
+    // Actualizar contador
+    if (termino === "") {
+        contadorResultados.textContent = `Mostrando todos los eventos (${eventos.length})`;
+    } else {
+        contadorResultados.textContent = `Encontrados ${eventosFiltrados.length} resultado${eventosFiltrados.length !== 1 ? 's' : ''}`;
+    }
+    
+    // Renderizar eventos filtrados
+    renderizarEventosFiltrados(eventosFiltrados);
+    
+    // Si no hay resultados
+    if (eventosFiltrados.length === 0 && termino !== "") {
+        contenedor.innerHTML = `
+            <div class="sin-resultados">
+                <div>No se encontraron eventos</div>
+                <p style="font-size: 14px; margin-top: 8px;">Intenta con otras palabras clave</p>
+            </div>
+        `;
+        return;
+    }
+}
+
+/* 🔹 RENDERIZAR EVENTOS FILTRADOS */
+function renderizarEventosFiltrados(eventosAMostrar) {
     const contenedor = document.getElementById("listaEventos");
     contenedor.innerHTML = "";
 
-    eventos.forEach(evento => {
+    eventosAMostrar.forEach(evento => {
         const idCapit = evento.id.charAt(0).toUpperCase() + evento.id.slice(1);
         const emojiEstado = evento.estado === "cerrado" ? "⚫" : 
                            evento.tipo === "obligatorio" ? "🔴" : "🟢";
@@ -105,7 +140,6 @@ function renderizarEventos() {
         const divEvento = document.createElement("div");
         divEvento.className = "evento";
         
-        // Si está cerrado, aplicar estilo especial
         if (evento.estado === "cerrado") {
             divEvento.style.opacity = "0.6";
             divEvento.style.background = "#f3f4f6";
@@ -136,6 +170,23 @@ function renderizarEventos() {
 
         contenedor.appendChild(divEvento);
     });
+    
+    // Restaurar estado de botones para eventos visibles
+    restaurarEstadoInscripciones();
+    actualizarContadores();
+}
+
+/* 🔹 RENDERIZAR EVENTOS (MODIFICADA) */
+function renderizarEventos() {
+    // Si hay búsqueda activa, no hacer nada (el buscador maneja la renderización)
+    const termino = document.getElementById("buscador")?.value || "";
+    if (termino.trim() !== "") {
+        buscarEventos();
+        return;
+    }
+    
+    // Renderizar todos normalmente
+    renderizarEventosFiltrados(eventos);
 }
 
 /* 🔹 ANOTARSE */
@@ -317,6 +368,29 @@ function actualizarContadores() {
     });
 }
 
+/* 🔹 RESTAURAR ESTADO DE INSCRIPCIONES */
+function restaurarEstadoInscripciones() {
+    const usuario = localStorage.getItem("usuarioActual");
+    if (!usuario) return;
+
+    eventos.forEach(evento => {
+        const clave = usuario + "_" + evento.id;
+        const estado = localStorage.getItem(clave);
+        const idCapit = evento.id.charAt(0).toUpperCase() + evento.id.slice(1);
+        const btn = document.getElementById("btn" + idCapit);
+
+        if (btn && estado && evento.estado !== "cerrado") {
+            btn.innerText = (estado === "confirmado") ? "Confirmado" : "Anotado";
+            btn.disabled = true;
+            btn.classList.add("ya-inscripto");
+
+            const numEvento = evento.id.replace("evento", "");
+            const btnCancelar = document.getElementById("btnCancelar" + numEvento);
+            if (btnCancelar) btnCancelar.style.display = "inline-block";
+        }
+    });
+}
+
 /* ================= FOTO DE PERFIL ================= */
 let fotoTemporal = null;
 
@@ -459,6 +533,33 @@ window.onload = function () {
         verPass.addEventListener("change", function () {
             const pass = document.getElementById("passwordLogin");
             pass.type = this.checked ? "text" : "password";
+        });
+    }
+
+    // 🔍 INICIALIZAR BUSCADOR
+    const buscador = document.getElementById("buscador");
+    if (buscador) {
+        // Buscar al escribir
+        buscador.addEventListener("input", function() {
+            // Pequeño debounce para mejor performance
+            clearTimeout(window.buscadorTimeout);
+            window.buscadorTimeout = setTimeout(buscarEventos, 300);
+        });
+        
+        // Buscar con Enter
+        buscador.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                buscarEventos();
+            }
+        });
+        
+        // Limpiar búsqueda al hacer clic fuera
+        document.addEventListener("click", function(e) {
+            if (!e.target.closest(".buscador-eventos")) {
+                if (buscador.value.trim() === "") {
+                    renderizarEventos();
+                }
+            }
         });
     }
 
