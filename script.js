@@ -39,7 +39,6 @@ function login() {
 
     const passGuardada = localStorage.getItem("pass_" + nombre);
 
-    // Si es la primera vez que entra, registra la contraseña
     if (!passGuardada) {
         localStorage.setItem("pass_" + nombre, pass);
     } else if (pass !== passGuardada) {
@@ -50,7 +49,6 @@ function login() {
     localStorage.setItem("usuarioActual", nombre);
     document.getElementById("login-container").style.display = "none";
 
-    // Restaurar foto de perfil si tiene una guardada
     const fotoGuardada = localStorage.getItem("fotoPerfil_" + nombre);
     if (fotoGuardada) {
         document.getElementById("fotoPerfil").src = fotoGuardada;
@@ -59,6 +57,7 @@ function login() {
     mostrar("inicio");
     verificarRol();
 }
+
 /* ================= LOGOUT ================= */
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
@@ -80,6 +79,37 @@ let fechasLimite = {
 let eventoActual = "";
 let contadorEventos = 3;
 
+/* ================= BUSCADOR ================= */
+function buscarEventos() {
+    const termino  = document.getElementById("buscador").value.toLowerCase().trim();
+    const tarjetas = document.querySelectorAll("#listaEventos .evento");
+    const contador = document.getElementById("contadorResultados");
+
+    let visibles = 0;
+
+    tarjetas.forEach(tarjeta => {
+        const titulo = (tarjeta.dataset.titulo || "").toLowerCase();
+        const fecha  = (tarjeta.dataset.fecha  || "").toLowerCase();
+        const tipo   = (tarjeta.dataset.tipo   || "").toLowerCase();
+
+        const coincide = termino === "" ||
+                         titulo.includes(termino) ||
+                         fecha.includes(termino)  ||
+                         tipo.includes(termino);
+
+        tarjeta.style.display = coincide ? "block" : "none";
+        if (coincide) visibles++;
+    });
+
+    if (termino === "") {
+        contador.textContent = "";
+    } else {
+        contador.textContent = visibles === 0
+            ? "Sin resultados"
+            : `${visibles} resultado${visibles !== 1 ? "s" : ""}`;
+    }
+}
+
 /* 🔹 ANOTARSE */
 function anotarseEvento(idEvento, tipo) {
     eventoActual = idEvento;
@@ -91,7 +121,6 @@ function anotarseEvento(idEvento, tipo) {
             : "Inscripción al evento";
     }
 
-    // Limpiar campos del formulario
     document.getElementById("formNombre").value   = "";
     document.getElementById("formApellido").value = "";
     document.getElementById("formEmail").value    = "";
@@ -99,7 +128,6 @@ function anotarseEvento(idEvento, tipo) {
 
     mostrar('formEvento');
 
-    // Mostrar u ocultar botón cancelar según tipo usando clase CSS
     const btnCancelar = document.getElementById("btnCancelarEvento");
     if (btnCancelar) {
         if (tipo === "opcional") {
@@ -119,8 +147,8 @@ function cancelarInscripcion(idEvento) {
     const clave   = usuario + "_" + idEvento;
     localStorage.removeItem(clave);
 
-    const idCapit = idEvento.charAt(0).toUpperCase() + idEvento.slice(1);
-    const btn     = document.getElementById("btn" + idCapit);
+    const idCapit     = idEvento.charAt(0).toUpperCase() + idEvento.slice(1);
+    const btn         = document.getElementById("btn" + idCapit);
     const btnCancelar = document.getElementById("btnCancelar" + idCapit.replace("Evento", ""));
 
     if (btn) {
@@ -152,17 +180,16 @@ function enviarFormulario() {
         mostrar('eventos');
 
         const idCapit = eventoActual.charAt(0).toUpperCase() + eventoActual.slice(1);
-        const btn = document.getElementById("btn" + idCapit);
+        const btn     = document.getElementById("btn" + idCapit);
 
         if (btn) {
             btn.innerText = (tipo === "obligatorio") ? "Confirmado" : "Anotado";
-            btn.disabled = true;
+            btn.disabled  = true;
             btn.classList.add("ya-inscripto");
         }
 
-        // Mostrar botón cancelar en la tarjeta si es opcional
         if (tipo === "opcional") {
-            const numEvento = eventoActual.replace("evento", "");
+            const numEvento   = eventoActual.replace("evento", "");
             const btnCancelar = document.getElementById("btnCancelar" + numEvento);
             if (btnCancelar) btnCancelar.style.display = "inline-block";
         }
@@ -188,9 +215,14 @@ function crearEvento() {
             fechasLimite[id] = new Date(limite);
         }
 
-        const contenedor   = document.getElementById("listaEventos");
-        const nuevoEvento  = document.createElement("div");
+        const contenedor  = document.getElementById("listaEventos");
+        const nuevoEvento = document.createElement("div");
         nuevoEvento.classList.add("evento");
+
+        // data attributes para que el buscador funcione con eventos nuevos
+        nuevoEvento.dataset.titulo = titulo;
+        nuevoEvento.dataset.fecha  = fecha;
+        nuevoEvento.dataset.tipo   = tipo;
 
         const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
 
@@ -229,8 +261,8 @@ function actualizarContadores() {
     const ahora = new Date();
 
     Object.keys(fechasLimite).forEach(id => {
-        const limite  = fechasLimite[id];
-        const idCapit = id.charAt(0).toUpperCase() + id.slice(1);
+        const limite   = fechasLimite[id];
+        const idCapit  = id.charAt(0).toUpperCase() + id.slice(1);
         const contador = document.getElementById("contador" + idCapit);
         const btn      = document.getElementById("btn" + idCapit);
 
@@ -272,8 +304,7 @@ function actualizarContadores() {
 }
 
 /* ================= FOTO DE PERFIL ================= */
-
-let fotoTemporal = null; // Guarda la foto seleccionada pero aún no guardada
+let fotoTemporal = null;
 
 function iniciarCambioFoto() {
     const inputFoto = document.getElementById("cambiarFoto");
@@ -284,17 +315,13 @@ function iniciarCambioFoto() {
 
         const reader = new FileReader();
         reader.onload = function (e) {
-            // Mostrar preview pero NO guardar todavía
             fotoTemporal = e.target.result;
             document.getElementById("fotoPerfil").src = fotoTemporal;
-
-            // Mostrar mensaje y botón de guardar
             document.getElementById("fotoAcciones").style.display = "block";
         };
         reader.readAsDataURL(archivo);
     });
 
-    // Mostrar/ocultar botón borrar según si hay foto guardada
     actualizarBotonesFoto();
 }
 
@@ -305,7 +332,6 @@ function guardarFoto() {
     localStorage.setItem("fotoPerfil_" + usuario, fotoTemporal);
     fotoTemporal = null;
 
-    // Ocultar mensaje pendiente y mostrar botón borrar
     document.getElementById("fotoAcciones").style.display = "none";
     document.getElementById("btnBorrarFoto").style.display = "inline-block";
 
@@ -319,7 +345,7 @@ function borrarFoto() {
     localStorage.removeItem("fotoPerfil_" + usuario);
     fotoTemporal = null;
 
-    document.getElementById("fotoPerfil").src = "https://via.placeholder.com/120";
+    document.getElementById("fotoPerfil").src = "https://placehold.co/120x120?text=Foto";
     document.getElementById("fotoAcciones").style.display = "none";
     document.getElementById("cambiarFoto").value = "";
 
@@ -327,9 +353,9 @@ function borrarFoto() {
 }
 
 function actualizarBotonesFoto() {
-    const usuario     = localStorage.getItem("usuarioActual");
+    const usuario      = localStorage.getItem("usuarioActual");
     const fotoGuardada = localStorage.getItem("fotoPerfil_" + usuario);
-    const btnBorrar   = document.getElementById("btnBorrarFoto");
+    const btnBorrar    = document.getElementById("btnBorrarFoto");
 
     if (btnBorrar) {
         btnBorrar.style.display = fotoGuardada ? "inline-block" : "none";
@@ -341,7 +367,6 @@ function cambiarContrasena() {
     const form = document.getElementById("formCambiarPass");
     form.style.display = form.style.display === "none" ? "block" : "none";
 
-    // Limpiar campos cada vez que se abre
     document.getElementById("passActual").value    = "";
     document.getElementById("passNueva").value     = "";
     document.getElementById("passConfirmar").value = "";
@@ -359,8 +384,7 @@ function guardarContrasena() {
     const actual    = document.getElementById("passActual").value;
     const nueva     = document.getElementById("passNueva").value;
     const confirmar = document.getElementById("passConfirmar").value;
-
-    const guardada = localStorage.getItem("pass_" + usuario) || "";
+    const guardada  = localStorage.getItem("pass_" + usuario) || "";
 
     if (actual !== guardada) {
         alert("La contraseña actual es incorrecta");
@@ -406,6 +430,18 @@ window.onload = function () {
         });
     }
 
+    // Iniciar buscador
+    const buscador = document.getElementById("buscador");
+    if (buscador) {
+        buscador.addEventListener("input", function () {
+            clearTimeout(window.buscadorTimeout);
+            window.buscadorTimeout = setTimeout(buscarEventos, 200);
+        });
+        buscador.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") buscarEventos();
+        });
+    }
+
     // Restaurar estado de inscripción por usuario
     const usuario = localStorage.getItem("usuarioActual");
 
@@ -421,9 +457,8 @@ window.onload = function () {
                 btn.disabled  = true;
                 btn.classList.add("ya-inscripto");
 
-                // Mostrar cancelar si era opcional
                 if (estado === "anotado") {
-                    const numEvento = id.replace("evento", "");
+                    const numEvento   = id.replace("evento", "");
                     const btnCancelar = document.getElementById("btnCancelar" + numEvento);
                     if (btnCancelar) btnCancelar.style.display = "inline-block";
                 }
@@ -431,11 +466,8 @@ window.onload = function () {
         });
     }
 
-    // Iniciar listener de foto de perfil
     iniciarCambioFoto();
     actualizarBotonesFoto();
-
-    // Contador en tiempo real
     actualizarContadores();
     setInterval(actualizarContadores, 1000);
 }

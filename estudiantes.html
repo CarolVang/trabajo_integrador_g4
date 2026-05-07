@@ -27,7 +27,7 @@
     </div>
 
     <div class="hero-img">
-        <img src="img.avif" alt="Imagen de bienvenida">
+        <img src="img/img.avif" alt="Imagen de bienvenida">
     </div>
 </section>
 
@@ -51,13 +51,19 @@
 <section id="eventos">
     <h2>🎉 Eventos</h2>
 
+    <!-- 🔍 BUSCADOR -->
+    <div class="buscador-eventos">
+        <input type="text" id="buscador" placeholder="🔍 Buscar por título, fecha o tipo...">
+        <span id="contadorResultados" class="contador-resultados"></span>
+    </div>
+
     <button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
         ➕ Crear evento
     </button>
 
     <div id="listaEventos">
 
-        <div class="evento">
+        <div class="evento" data-titulo="Fiesta del Instituto" data-fecha="Viernes 25 - 20:00 hs" data-tipo="opcional">
             <h3>Fiesta del Instituto</h3>
             <p>Viernes 25 - 20:00 hs</p>
             <p>🟢 Opcional</p>
@@ -68,7 +74,7 @@
             </div>
         </div>
 
-        <div class="evento">
+        <div class="evento" data-titulo="Presentación de trabajos" data-fecha="Lunes 28 - 10:00 hs" data-tipo="obligatorio">
             <h3>Presentación de trabajos</h3>
             <p>Lunes 28 - 10:00 hs</p>
             <p>🔴 Obligatorio</p>
@@ -118,7 +124,7 @@
 
 <section id="calendario">
     <h2>Calendario</h2>
-    <img src="calendario.jpeg" style="width:100%;max-width:900px;">
+    <img src="img/calendario.jpeg" style="width:100%;max-width:900px;">
 </section>
 
 <section id="reglamentos">
@@ -158,7 +164,7 @@
             </div>
 
             <div class="perfil-foto">
-                <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
+                <img id="fotoPerfil" src="https://placehold.co/120x120?text=Foto" class="avatar">
                 <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
 
                 <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">

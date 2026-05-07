@@ -3,6 +3,9 @@ body {
     margin: 0;
     background-color: #f4f4ef;
     color: rgb(5, 1, 1);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -211,6 +214,36 @@ td, th {
     padding: 5px 10px;
 }
 
+/* ================= BUSCADOR ================= */
+.buscador-eventos {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.buscador-eventos input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.buscador-eventos input:focus {
+    border-color: #3b82f6;
+}
+
+.contador-resultados {
+    font-size: 13px;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
 /* ================= EVENTOS ================= */
 .evento {
     background: white;
@@ -229,7 +262,6 @@ td, th {
     margin: 3px 0;
 }
 
-/* Contador de inscripción */
 .contador-evento {
     display: inline-block;
     margin: 8px 0;
@@ -277,12 +309,6 @@ td, th {
 }
 
 /* ================= FOOTER ================= */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
 .footer {
     background-color: #1e293b;
     color: white;
@@ -326,5 +352,10 @@ body {
 
     .evento {
         max-width: 100%;
+    }
+
+    .buscador-eventos input {
+        min-width: unset;
+        width: 100%;
     }
 }
