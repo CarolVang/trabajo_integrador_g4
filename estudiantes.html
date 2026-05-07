@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Instituto 57</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Instituto 57</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
-    <div class="logo" onclick="mostrar('inicio')">
-        Instituto 57
-    </div>
-
+    <div class="logo" onclick="mostrar('inicio')">Instituto 57</div>
     <div class="acciones">
         <button onclick="cerrarSesion()">Salir</button>
     </div>
 </div>
 
+<!-- HERO -->
 <section id="inicio" class="hero">
     <div class="hero-texto">
         <h2>Bienvenido al Centro de Estudiantes</h2>
         <p>Conectando alumnos, profesores y administración</p>
         <button onclick="mostrar('ingreso')">Ayuda</button>
     </div>
-
     <div class="hero-img">
         <img src="img.avif" alt="Imagen de bienvenida">
     </div>
 </section>
 
+<!-- MENÚ PRINCIPAL -->
 <section class="menu-principal">
     <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
     <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
@@ -42,77 +40,10 @@
     <button class="btn-menu" onclick="mostrar('perfil')">👤 Perfil</button>
 </section>
 
+<!-- SECCIONES VACÍAS -->
 <section id="novedades">
     <h2>📢 Novedades</h2>
     <p>Contenido de novedades...</p>
-</section>
-
-<!-- 🎉 EVENTOS -->
-<section id="eventos">
-    <h2>🎉 Eventos</h2>
-    
-    <!-- 🔍 BUSCADOR -->
-    <div class="buscador-eventos">
-        <div class="input-buscar">
-            <input type="text" id="buscador" placeholder="🔍 Buscar eventos por título, fecha o descripción...">
-            <span id="contadorResultados" class="contador-resultados">Mostrando todos los eventos</span>
-        </div>
-    </div>
-
-    <button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
-        ➕ Crear evento
-    </button>
-
-    <div id="listaEventos">
-        <!-- Los eventos se cargan dinámicamente -->
-    </div>
-</section>
-
-<!-- 📝 FORMULARIO INSCRIPCIÓN -->
-<section id="formEvento">
-    <h2 id="tituloForm">Inscripción al evento</h2>
-
-    <input type="text" id="formNombre" placeholder="Nombre">
-    <input type="text" id="formApellido" placeholder="Apellido">
-    <input type="email" id="formEmail" placeholder="Email">
-    <input type="text" id="formTelefono" placeholder="Teléfono">
-
-    <div class="form-botones">
-        <button onclick="enviarFormulario()">Enviar</button>
-    </div>
-</section>
-
-<!-- ➕ CREAR EVENTO -->
-<section id="crearEvento">
-    <h2>Crear evento</h2>
-
-    <input type="text" id="nuevoTitulo" placeholder="Título del evento">
-    <input type="text" id="nuevaFecha" placeholder="Fecha y hora del evento (ej: Viernes 25 - 20:00 hs)">
-    
-    <!-- Descripción -->
-    <textarea id="nuevaDescripcion" placeholder="Descripción del evento (opcional)" 
-              style="width:100%; height:80px; margin-top:10px; padding:8px; border-radius:6px; border:1px solid #ddd; resize:vertical;"></textarea>
-
-    <label style="display:block; margin-top:10px; margin-bottom:4px; font-weight:bold;">
-        Límite de inscripción:
-    </label>
-    <input type="datetime-local" id="nuevoLimite">
-
-    <select id="nuevoTipo" style="margin-top:10px;">
-        <option value="opcional">🟢 Opcional</option>
-        <option value="obligatorio">🔴 Obligatorio</option>
-    </select>
-
-    <!-- Estado del evento -->
-    <label style="display:block; margin-top:10px; margin-bottom:4px; font-weight:bold;">
-        Estado:
-    </label>
-    <select id="nuevoEstado" style="margin-top:10px;">
-        <option value="abierto">🟢 Abierto</option>
-        <option value="cerrado">⚫ Cerrado</option>
-    </select>
-
-    <button onclick="crearEvento()" style="margin-top:10px;">Crear</button>
 </section>
 
 <section id="calendario">
@@ -148,84 +79,19 @@
     <p>Info...</p>
 </section>
 
-<section id="perfil">
-    <div class="perfil-wrapper">
-        <div class="perfil-card">
-
-            <div class="perfil-header">
-                <h1>Mi Perfil</h1>
-            </div>
-
-            <div class="perfil-foto">
-                <img id="fotoPerfil" src="https://via.placeholder.com/120" class="avatar">
-                <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
-
-                <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                    <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar foto</button>
-                    <button id="btnBorrarFoto" onclick="borrarFoto()" style="display:none;">🗑️ Borrar foto</button>
-                </div>
-
-                <div id="fotoAcciones" style="display:none; margin-top:10px; text-align:center;">
-                    <p style="font-size:13px; color:#f59e0b; margin:0 0 6px;">⚠️ Foto seleccionada pero no guardada</p>
-                    <button onclick="guardarFoto()">💾 Guardar foto</button>
-                </div>
-            </div>
-
-            <div class="perfil-info">
-                <div class="dato">
-                    <span>Nombre</span>
-                    <p id="nombre"></p>
-                </div>
-                <div class="dato">
-                    <span>Email</span>
-                    <p id="email"></p>
-                </div>
-                <div class="dato">
-                    <span>Rango</span>
-                    <p id="rango"></p>
-                </div>
-            </div>
-
-            <div class="perfil-seguridad">
-                <div class="dato">
-                    <span>Contraseña</span>
-                    <p id="pass">••••••••</p>
-                </div>
-
-                <button id="btnCambiarPass" class="btn-secundario" onclick="cambiarContrasena()">
-                    Cambiar contraseña
-                </button>
-
-                <div id="formCambiarPass" style="display:none; margin-top:12px;">
-                    <input type="password" id="passActual"    placeholder="Contraseña actual"          style="display:block; width:100%; padding:8px; margin-bottom:8px;">
-                    <input type="password" id="passNueva"     placeholder="Nueva contraseña"           style="display:block; width:100%; padding:8px; margin-bottom:8px;">
-                    <input type="password" id="passConfirmar" placeholder="Confirmar nueva contraseña" style="display:block; width:100%; padding:8px; margin-bottom:8px;">
-                    <button onclick="guardarContrasena()" style="margin-right:8px;">💾 Guardar contraseña</button>
-                    <button onclick="cerrarFormPass()">Cancelar</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
 <!-- LOGIN -->
 <div id="login-container">
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
-
         <select id="tipo">
             <option value="estudiante">Estudiante</option>
             <option value="profesor">Profesor</option>
             <option value="administrativo">Administrativo</option>
         </select>
-
-        <input type="text" id="nombreLogin" placeholder="Nombre">
+        <input type="text"     id="nombreLogin"   placeholder="Nombre">
         <input type="password" id="passwordLogin" placeholder="Contraseña">
-
         <input type="checkbox" id="verPassword"> Mostrar contraseña
         <button onclick="login()">Ingresar</button>
-
         <p id="wifiNombre"></p>
         <p id="wifiPass"></p>
     </div>
