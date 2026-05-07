@@ -11,7 +11,8 @@
 <div class="topbar">
     <div class="logo" onclick="mostrar('inicio')">Instituto 57</div>
     <div class="acciones">
-        <button onclick="cerrarSesion()">Salir</button>
+        <!-- Perfil ahora en la barra superior -->
+        <button class="btn-perfil-top" onclick="mostrar('perfil')">👤 Mi Perfil</button>
     </div>
 </div>
 
@@ -34,25 +35,16 @@
     <button class="btn-menu" onclick="mostrar('estudiantes')">👨‍🎓 Estudiantes</button>
     <button class="btn-menu" onclick="mostrar('profesores')">👩‍🏫 Profesores</button>
     <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
-    <button class="btn-menu" onclick="mostrar('perfil')">👤 Perfil</button>
-</section>
-
-<section id="novedades">
-    <h2>📢 Novedades</h2>
-    <p>Contenido de novedades...</p>
 </section>
 
 <!-- 🎉 EVENTOS -->
 <section id="eventos">
     <h2>🎉 Eventos</h2>
-
-    <!-- 🔍 BUSCADOR Y FILTROS -->
     <div class="contenedor-filtros">
         <div class="buscador-eventos">
             <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
             <span id="contadorResultados" class="contador-resultados"></span>
         </div>
-
         <div class="filtros-carreras">
             <button class="btn-filtro activo" onclick="filtrarCarrera('todos', this)">Todos</button>
             <button class="btn-filtro" onclick="filtrarCarrera('general', this)">🌎 Para Todos</button>
@@ -67,7 +59,6 @@
     </button>
 
     <div id="listaEventos">
-        <!-- Evento 1 -->
         <div class="evento" data-titulo="Fiesta del Instituto" data-fecha="Viernes 25 - 20:00 hs" data-tipo="opcional" data-carrera="general">
             <h3>Fiesta del Instituto</h3>
             <p class="tag-carrera">🌎 Para: Todas las carreras</p>
@@ -76,59 +67,12 @@
             <span id="contadorEvento1" class="contador-evento"></span>
             <div class="evento-botones">
                 <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
-                <button id="btnCancelar1" class="btn-cancelar" onclick="cancelarInscripcion('evento1')" style="display:none;">❌ Cancelar</button>
-            </div>
-        </div>
-
-        <!-- Evento 2 -->
-        <div class="evento" data-titulo="Presentación de trabajos" data-fecha="Lunes 28 - 10:00 hs" data-tipo="obligatorio" data-carrera="Ciencia de Datos">
-            <h3>Presentación de trabajos</h3>
-            <p class="tag-carrera">📊 Para: Ciencia de Datos e IA</p>
-            <p>Lunes 28 - 10:00 hs</p>
-            <p>🔴 Obligatorio</p>
-            <span id="contadorEvento2" class="contador-evento"></span>
-            <div class="evento-botones">
-                <button id="btnEvento2" onclick="anotarseEvento('evento2', 'obligatorio')">Confirmar asistencia</button>
-                <button id="btnCancelar2" class="btn-cancelar" onclick="cancelarInscripcion('evento2')" style="display:none;">❌ Cancelar</button>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ➕ CREAR EVENTO -->
-<section id="crearEvento">
-    <h2>Crear evento</h2>
-
-    <input type="text" id="nuevoTitulo" placeholder="Título del evento">
-    <input type="text" id="nuevaFecha" placeholder="Fecha y hora (ej: Viernes 25 - 20:00 hs)">
-
-    <label style="display:block; margin-top:10px; font-weight:bold;">Dirigido a:</label>
-    <select id="nuevaCarrera" style="width:100%; padding:8px; margin-bottom:10px;">
-        <option value="general">Todas las carreras (General)</option>
-        <option value="Ciencia de Datos">Ciencia de Datos e IA</option>
-        <option value="Farmacia">Farmacia</option>
-        <option value="Trabajo Social">Trabajo Social</option>
-    </select>
-
-    <label style="display:block; margin-top:10px; font-weight:bold;">Límite de inscripción:</label>
-    <input type="datetime-local" id="nuevoLimite">
-
-    <select id="nuevoTipo" style="margin-top:10px;">
-        <option value="opcional">Opcional</option>
-        <option value="obligatorio">Obligatorio</option>
-    </select>
-
-    <button onclick="crearEvento()" style="margin-top:20px; background:#22c55e; color:white; width:100%; padding:12px; border:none; border-radius:8px;">Crear</button>
-</section>
-
-<!-- (Resto de secciones se mantienen igual: Notas, Perfil, Login, etc.) -->
-<section id="calendario"><h2>Calendario</h2><img src="img/calendario.jpeg" style="width:100%;max-width:900px;"></section>
-<section id="reglamentos"><h2>Reglamentos</h2><ul><li>Asistencia mínima del 80%</li><li>Respeto a docentes</li></ul></section>
-<section id="estudiantes"><h2>Estudiantes</h2><p>Listado...</p></section>
-<section id="profesores"><h2>Profesores</h2><p>Listado...</p></section>
-<section id="notas"><h2>Notas</h2><p>Disponibles...</p></section>
-<section id="ingreso"><h2>Requisitos</h2><p>Info...</p></section>
-
+<!-- 👤 PERFIL -->
 <section id="perfil">
     <div class="perfil-wrapper">
         <div class="perfil-card">
@@ -136,31 +80,22 @@
             <div class="perfil-foto">
                 <img id="fotoPerfil" src="https://placehold.co/120x120?text=Foto" class="avatar">
                 <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
-                <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                    <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar foto</button>
-                    <button id="btnBorrarFoto" onclick="borrarFoto()" style="display:none;">🗑️ Borrar foto</button>
-                </div>
-                <div id="fotoAcciones" style="display:none; margin-top:10px; text-align:center;">
-                    <p style="font-size:13px; color:#f59e0b; margin:0 0 6px;">⚠️ Foto seleccionada pero no guardada</p>
-                    <button onclick="guardarFoto()">💾 Guardar foto</button>
+                <div style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
+                    <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar</button>
                 </div>
             </div>
             <div class="perfil-info">
-                <div class="dato"><span>Nombre</span><p id="nombre"></p></div>
-                <div class="dato"><span>Email</span><p id="email"></p></div>
-                <div class="dato"><span>Rango</span><p id="rango"></p></div>
+                <div class="dato"><span>Nombre</span><p id="nombre">Usuario Demo</p></div>
+                <div class="dato"><span>Rango</span><p id="rango">Estudiante</p></div>
             </div>
-            <div class="perfil-seguridad">
-                <div class="dato"><span>Contraseña</span><p id="pass">••••••••</p></div>
-                <button id="btnCambiarPass" class="btn-secundario" onclick="cambiarContrasena()">Cambiar contraseña</button>
-                <div id="formCambiarPass" style="display:none; margin-top:12px;">
-                    <input type="password" id="passActual" placeholder="Contraseña actual">
-                    <input type="password" id="passNueva" placeholder="Nueva contraseña">
-                    <input type="password" id="passConfirmar" placeholder="Confirmar nueva contraseña">
-                    <button onclick="guardarContrasena()">💾 Guardar</button>
-                    <button onclick="cerrarFormPass()">Cancelar</button>
-                </div>
-            </div>
+            
+            <button class="btn-secundario" onclick="cambiarContrasena()">Cambiar contraseña</button>
+            
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            <!-- Botón Salir reubicado aquí -->
+            <button onclick="cerrarSesion()" style="background: #ef4444; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                🚪 Cerrar Sesión
+            </button>
         </div>
     </div>
 </section>
@@ -176,13 +111,10 @@
         </select>
         <input type="text" id="nombreLogin" placeholder="Nombre">
         <input type="password" id="passwordLogin" placeholder="Contraseña">
-        <div style="margin: 10px 0;"><input type="checkbox" id="verPassword"> Mostrar contraseña</div>
         <button onclick="login()">Ingresar</button>
-        <p id="wifiNombre"></p><p id="wifiPass"></p>
     </div>
 </div>
 
-<footer class="footer"><p>© 2026 Instituto 57</p></footer>
 <script src="script.js"></script>
 </body>
 </html>
