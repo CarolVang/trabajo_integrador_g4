@@ -11,12 +11,23 @@
 <div class="topbar">
     <div class="logo" onclick="mostrar('inicio')">Instituto 57</div>
     <div class="acciones">
-        <!-- Perfil ahora en la barra superior -->
         <button class="btn-perfil-top" onclick="mostrar('perfil')">👤 Mi Perfil</button>
     </div>
 </div>
 
-<section id="inicio" class="hero">
+<!-- FIX #1: era <section class="menu-principal">, ahora es <div> para que no
+     desaparezca con el display:none que el JS aplica a todos los <section> -->
+<div class="menu-principal">
+    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
+    <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
+    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
+    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
+    <button class="btn-menu" onclick="mostrar('estudiantes')">👨‍🎓 Estudiantes</button>
+    <button class="btn-menu" onclick="mostrar('profesores')">👩‍🏫 Profesores</button>
+    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
+</div>
+
+<section id="inicio" class="hero active">
     <div class="hero-texto">
         <h2>Bienvenido al Centro de Estudiantes</h2>
         <p>Conectando alumnos, profesores y administración</p>
@@ -27,22 +38,13 @@
     </div>
 </section>
 
-<section class="menu-principal">
-    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
-    <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
-    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
-    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
-    <button class="btn-menu" onclick="mostrar('estudiantes')">👨‍🎓 Estudiantes</button>
-    <button class="btn-menu" onclick="mostrar('profesores')">👩‍🏫 Profesores</button>
-    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
-</section>
-
 <!-- 🎉 EVENTOS -->
 <section id="eventos">
     <h2>🎉 Eventos</h2>
     <div class="contenedor-filtros">
         <div class="buscador-eventos">
             <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
+            <!-- FIX #6: el span se rellena desde JS -->
             <span id="contadorResultados" class="contador-resultados"></span>
         </div>
         <div class="filtros-carreras">
@@ -64,8 +66,10 @@
             <p class="tag-carrera">🌎 Para: Todas las carreras</p>
             <p>Viernes 25 - 20:00 hs</p>
             <p>🟢 Opcional</p>
+            <!-- FIX #6: contador de inscriptos, se rellena desde JS -->
             <span id="contadorEvento1" class="contador-evento"></span>
             <div class="evento-botones">
+                <!-- FIX #2: anotarseEvento ahora existe en script.js -->
                 <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
             </div>
         </div>
@@ -88,11 +92,11 @@
                 <div class="dato"><span>Nombre</span><p id="nombre">Usuario Demo</p></div>
                 <div class="dato"><span>Rango</span><p id="rango">Estudiante</p></div>
             </div>
-            
+
+            <!-- FIX #3: cambiarContrasena() ahora existe en script.js -->
             <button class="btn-secundario" onclick="cambiarContrasena()">Cambiar contraseña</button>
-            
+
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-            <!-- Botón Salir reubicado aquí -->
             <button onclick="cerrarSesion()" style="background: #ef4444; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
                 🚪 Cerrar Sesión
             </button>
@@ -101,6 +105,7 @@
 </section>
 
 <!-- LOGIN -->
+<!-- FIX #4: ahora el login valida la contraseña (lógica en script.js) -->
 <div id="login-container">
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
