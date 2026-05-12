@@ -69,12 +69,12 @@ tipoSelect.dispatchEvent(new Event("change"));
 
 // ─── LOGIN ───────────────────────────────────────────────────
 function login() {
+    
     const password = document.getElementById("passwordLogin").value;
 
-    /* ACÁ SE CAMBIA LA CONTRASEÑA */
     if (password === "") {
         document.getElementById("login-container").style.display = "none";
-        mostrar("novedades", false); // sin scroll al entrar
+        mostrar("inicio", false); // ← ahora queda en inicio
     }
 }
 
@@ -87,4 +87,21 @@ window.onload = function () {
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+}
+// ── ACORDEÓN CORRELATIVAS ──
+function toggleCorr(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains("open");
+
+    // Cierra todos los que estén abiertos
+    document.querySelectorAll(".acord-trigger.open").forEach(b => {
+        b.classList.remove("open");
+        b.nextElementSibling.classList.remove("open");
+    });
+
+    // Si estaba cerrado, lo abre
+    if (!isOpen) {
+        btn.classList.add("open");
+        body.classList.add("open");
+    }
 }

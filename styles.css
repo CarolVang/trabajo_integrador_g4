@@ -1116,3 +1116,19 @@ section.active { display: block !important; }
 
     .btn-menu { max-width: 100%; }
 }
+/* ── Acordeón correlativas ── */
+.acord-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
+.acord-trigger { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--surface); border: none; cursor: pointer; font-family: inherit; }
+.acord-trigger:hover, .acord-trigger.open { background: var(--bg); }
+.acord-num { width: 28px; height: 28px; border-radius: 8px; background: #dbeafe; color: var(--blue); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.acord-num.libre { background: #dcfce7; color: #15803d; }
+.acord-title { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); text-align: left; }
+.acord-badge { font-size: 11px; padding: 3px 9px; border-radius: 999px; font-weight: 700; }
+.badge-req { background: #ffedd5; color: #c2410c; }
+.badge-libre { background: #dcfce7; color: #15803d; }
+.acord-chevron { transition: transform 0.2s; color: var(--text-muted); font-style: normal; }
+.acord-trigger.open .acord-chevron { transform: rotate(180deg); }
+.acord-body { display: none; padding: 14px 16px; border-top: 1px solid var(--border); }
+.acord-body.open { display: block; }
+.corr-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.corr-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 13px; margin: 4px 4px 4px 0; }

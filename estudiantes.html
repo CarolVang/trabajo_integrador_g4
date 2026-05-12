@@ -42,7 +42,6 @@
         <p>Trabajamos por y para estudiantes, promoviendo participación, derechos y oportunidades.</p>
         <div class="hero-btns">
             <button class="btn-primary">SUMATE AL CENTRO</button>
-            <button class="btn-outline">CONOCÉ NUESTRAS COMISIONES</button>
         </div>
     </div>
 
@@ -210,24 +209,85 @@
     <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
   </div>
 
-  <h3>Tabla de correlativas</h3>
-  <table>
-    <tr>
-      <th>Materia</th>
-      <th>Necesitás tener aprobada</th>
-    </tr>
-    <tr>
-      <td>Programación II</td>
-      <td>Programación I</td>
-    </tr>
-    <tr>
-      <td>Bases de Datos</td>
-      <td>Programación I — Lógica y Algoritmos</td>
-    </tr>
-    <tr>
-      <td>Desarrollo Web</td>
-      <td>Programación II — Sistemas Operativos</td>
-    </tr>
+ <h3>Tabla de correlativas</h3>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">1</div>
+    <span class="acord-title">Programación I</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">2</div>
+    <span class="acord-title">Lógica y Algoritmos</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">3</div>
+    <span class="acord-title">Programación II</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">4</div>
+    <span class="acord-title">Bases de Datos</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación I</div>
+    <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">5</div>
+    <span class="acord-title">Sistemas Operativos</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">6</div>
+    <span class="acord-title">Desarrollo Web</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación II</div>
+    <div class="corr-pill">🔓 Sistemas Operativos</div>
+  </div>
+</div>
   </table>
 
   <h3>Consejos para no atrasarte</h3>
