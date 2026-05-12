@@ -1,503 +1,819 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Instituto 57</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Instituto 57</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
 
-<div class="topbar">
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="logo" onclick="mostrar('inicio')">
+            <span class="logo-badge">CE</span>
+            <div class="logo-text">
+                <strong>CENTRO DE ESTUDIANTES</strong>
+                <small>Instituto Superior del Futuro</small>
+            </div>
+        </div>
 
-    <div class="logo" onclick="mostrar('inicio')">
-        Instituto 57
+        <div class="nav-links">
+            <button onclick="mostrar('inicio')">Inicio</button>
+            <button onclick="mostrar('novedades')">Novedades</button>
+            <button onclick="mostrar('calendario')">Eventos</button>
+            <button onclick="mostrar('reglamentos')">Reglamentos</button>
+            <button onclick="mostrar('correlativas')">Correlativas</button>
+        </div>
     </div>
 
-    <div class="acciones">
-        <button onclick="cerrarSesion()">Salir</button>
+    <!-- HERO -->
+    <section id="inicio" class="hero active">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-texto">
+            <h2>
+                Tu voz.<br>
+                Tu comunidad.<br>
+                <span>Tu centro.</span>
+            </h2>
+            <p>Trabajamos por y para estudiantes, promoviendo participación, derechos y oportunidades.</p>
+            <div class="hero-btns">
+                <button class="btn-primary">SUMATE AL CENTRO</button>
+            </div>
+        </div>
+
+        <div class="hero-img">
+            <img src="img/estudiantes.jpeg" alt="Estudiantes felices">
+        </div>
+    </section>
+
+    <!-- BARRA DE VALORES -->
+    <div class="valores-bar">
+        <div class="valor">
+            <span class="valor-icon">👥</span>
+            <div>
+                <strong>Representamos tus intereses</strong>
+                <p>Somos el puente entre estudiantes e institución.</p>
+            </div>
+        </div>
+        <div class="valor">
+            <span class="valor-icon">📢</span>
+            <div>
+                <strong>Defendemos tus derechos</strong>
+                <p>Promovemos una educación pública, inclusiva y de calidad.</p>
+            </div>
+        </div>
+        <div class="valor">
+            <span class="valor-icon">🤝</span>
+            <div>
+                <strong>Construimos comunidad</strong>
+                <p>Fomentamos la participación, el respeto y la diversidad.</p>
+            </div>
+        </div>
+        <div class="valor">
+            <span class="valor-icon">📅</span>
+            <div>
+                <strong>Organizamos actividades</strong>
+                <p>Eventos, talleres, charlas y mucho más.</p>
+            </div>
+        </div>
+        <div class="valor">
+            <span class="valor-icon">❤️</span>
+            <div>
+                <strong>Estamos para acompañarte</strong>
+                <p>Ante dudas, problemas o propuestas, acá estamos.</p>
+            </div>
+        </div>
     </div>
 
-</div>
+    <!-- ============================================================
+     SECCIONES DE CONTENIDO
+     Estas secciones son las que el JS muestra/oculta con mostrar()
+     CADA COMPAÑERO PONE SU CONTENIDO DENTRO DE SU SECCIÓN
+     ============================================================ -->
+
+    <!-- NOVEDADES — branch de compañero -->
+    <section id="novedades"></section>
+
+    <!-- CALENDARIO — branch de compañero -->
+    <section id="calendario"></section>
+
+    <!-- REGLAMENTOS — branch de compañero -->
+    <section id="reglamentos">
+
+        <h2>Reglamentos y documentos</h2>
+        <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
+
+        <h3>Organización y gobierno</h3>
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Estatuto del Centro de Estudiantes</strong>
+                <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Reglamento interno de comisiones</strong>
+                <p>Funciones, responsabilidades y organización de cada comisión.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Reglamento de elecciones estudiantiles</strong>
+                <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
 
 
+        <!-- CALENDARIO -->
+        <section id="calendario">
+            <div class="panel">
 
-<!-- 🎯 BIENVENIDA -->
-<section id="inicio" class="hero">
+                <div class="panel-header">
+                    <h2>CALENDARIO DE ACTIVIDADES</h2>
 
-    <div class="hero-texto">
-        <h2>Bienvenido al Centro de Estudiantes</h2>
-        <p>Conectando alumnos, profesores y administración</p>
-        <button onclick="mostrar('ingreso')">Ayuda</button>
-    </div>
+                </div>
 
-    <div class="hero-img">
-        <img src="img/cuatro-estudiantes-felices-dos-mujeres-dos-hombres-caminan-frente-edificio-escolar-mochilas_150234-178481.avif" alt="Estudiantes felices">
-    </div>
+                <div class="calendario-nav">
+                    <button id="cal-prev">‹</button>
+                    <strong id="cal-titulo">MAYO 2024</strong>
+                    <button id="cal-next">›</button>
+                </div>
 
-</section>
+                <table class="cal-table" id="cal-table">
+                    <thead>
+                        <tr>
+                            <th>LUN</th>
+                            <th>MAR</th>
+                            <th>MIÉ</th>
+                            <th>JUE</th>
+                            <th>VIE</th>
+                            <th>SÁB</th>
+                            <th>DOM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cal-body"></tbody>
+                </table>
 
-<!-- 🎴 BOTONES DE ACCESO -->
-<section class="menu-principal">
-    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
-    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
-    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
-   
-    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
-</section>
+                <!-- Modal detalle evento -->
+                <div id="cal-modal"
+                    style="display:none; background:#f0f4f8; border:1px solid #ccc; border-radius:10px; margin:0 16px 12px; padding:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <strong id="modal-fecha" style="font-size:0.95rem;"></strong>
+                        <button id="modal-cerrar"
+                            style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+                    </div>
+                    <div id="modal-eventos-lista"></div>
+                </div>
+
+                <!-- Formulario agregar evento -->
+
+                <div style="border-top:1px solid #ddd; padding:14px 16px;">
+                    <details id="form-toggle">
+                        <summary
+                            style="cursor:pointer; font-size:1.2rem; font-weight:600; color:#1a3a5c; user-select:none;">
+                            + Agregar nuevo evento
+                        </summary>
+                        <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end;">
+
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label
+                                    style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Día</label>
+                                <input type="number" id="ev-dia" min="1" max="31" placeholder="15" 0
+                                    oninput="if(this.value>31) this.value=31; if(this.value<1) this.value='';"
+                                    style="width:70px; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+                            </div>
+
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label
+                                    style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Mes</label>
+                                <select id="ev-mes"
+                                    style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+                                    <option value="0">Enero</option>
+                                    <option value="1">Febrero</option>
+                                    <option value="2">Marzo</option>
+                                    <option value="3">Abril</option>
+                                    <option value="4">Mayo</option>
+                                    <option value="5">Junio</option>
+                                    <option value="6">Julio</option>
+                                    <option value="7">Agosto</option>
+                                    <option value="8">Septiembre</option>
+                                    <option value="9">Octubre</option>
+                                    <option value="10">Noviembre</option>
+                                    <option value="11">Diciembre</option>
+                                </select>
+                            </div>
+
+                            <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:180px;">
+                                <label
+                                    style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Descripción</label>
+                                <input type="text" id="ev-desc" placeholder="Ej: Examen parcial"
+                                    style="width:100%; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+                            </div>
+
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label
+                                    style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Color</label>
+                                <select id="ev-color"
+                                    style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+                                    <option value="blue">Azul</option>
+                                    <option value="teal">Verde</option>
+                                    <option value="orange">Naranja</option>
+                                    <option value="red">Rojo</option>
+                                </select>
+                            </div>
+
+                            <button id="ev-guardar"
+                                style="padding:8px 18px; background:#1a3a5c; color:#fff; border:none; border-radius:7px; font-size:1rem; font-weight:600; cursor:pointer;">
+                                Guardar
+                            </button>
 
 
-<section id="novedades">
-<h2>Novedades</h2>
-<p>El profesor Santiago López no puede venir a dar clase porque se fue a ver el mundial.</p>
-</section>
+                            </button>
 
-<section id="reglamentos">
-<h2>Reglamentos</h2>
-<ul>
-<li>Asistencia mínima del 80%</li>
-<li>Respeto a docentes y compañeros</li>
-<li>No plagio en trabajos prácticos</li>
-<li>Entrega de trabajos en fecha</li>
-<li>Uso responsable de equipos informáticos</li>
-<li>Prohibido el uso del celular en clase</li>
-<li>Participación obligatoria en proyectos</li>
-<li>Aprobación de exámenes parciales y finales</li>
-<li>Cumplimiento de horarios</li>
-<li>Conducta ética y profesional</li>
-</ul>
-</section>
+                        </div>
+                        <p id="ev-error" style="color:#c0392b; font-size:0.82rem; margin-top:6px; display:none;">
+                            Completá todos los campos correctamente.
+                        </p>
+                    </details>
+                </div>
 
-<section id="estudiantes">
-<h2>Lista de Estudiantes</h2>
-<table>
-<tr><th>Nombre</th><th>Apellido</th><th>Edad</th></tr>
-<tr><td>Juan</td><td>Pérez</td><td>20</td></tr>
-<tr><td>Ana</td><td>Gómez</td><td>21</td></tr>
-</table>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ipsa, repellat eaque tempore perspiciatis iure temporibus deserunt molestiae. Provident at earum illo iure, nesciunt vel quibusdam. Iste voluptatem quam nesciunt.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque dolorem deleniti nam, maiores aliquid quos blanditiis natus in fugit cum vel quidem maxime iusto et perspiciatis. Doloribus, nostrum nam.
-</p>
-</section>
+                <!-- Lista de eventos del mes -->
+                <div class="cal-eventos" id="cal-eventos-lista"></div>
 
-<section id="profesores">
-<h2>Profesores</h2>
-<ul>
-<li>Santiago López</li>
-<li>María Fernández</li>
-</ul>
-</section>
+                <a href="#" class="ver-mas-cal">+ Ver más actividades</a>
+            </div>
+        </section>
 
+        <style>
+            .cal-table td.event {
+                position: relative;
+                font-weight: 600;
+                cursor: pointer;
+            }
 
-<!-- CALENDARIO -->
-    <section id="calendario">
-  <div class="panel">
+            .cal-table td.event:hover {
+                background: #eef4fb;
+                border-radius: 50%;
+            }
 
-    <div class="panel-header">
-      <h2>CALENDARIO DE ACTIVIDADES</h2>
-    
-    </div>
+            .cal-table td.event::after {
+                content: '';
+                display: block;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                margin: 2px auto 0;
+            }
 
-    <div class="calendario-nav">
-      <button id="cal-prev">‹</button>
-      <strong id="cal-titulo">MAYO 2024</strong>
-      <button id="cal-next">›</button>
-    </div>
+            .cal-table td.event.blue::after {
+                background: #2563a8;
+            }
 
-    <table class="cal-table" id="cal-table">
-      <thead>
-        <tr>
-          <th>LUN</th><th>MAR</th><th>MIÉ</th><th>JUE</th><th>VIE</th><th>SÁB</th><th>DOM</th>
-        </tr>
-      </thead>
-      <tbody id="cal-body"></tbody>
-    </table>
+            .cal-table td.event.teal::after {
+                background: #0f9e75;
+            }
 
-    <!-- Modal detalle evento -->
-    <div id="cal-modal" style="display:none; background:#f0f4f8; border:1px solid #ccc; border-radius:10px; margin:0 16px 12px; padding:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <strong id="modal-fecha" style="font-size:0.95rem;"></strong>
-        <button id="modal-cerrar" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
-      </div>
-      <div id="modal-eventos-lista"></div>
-    </div>
+            .cal-table td.event.orange::after {
+                background: #f5a623;
+            }
 
-    <!-- Formulario agregar evento -->
-     
-    <div style="border-top:1px solid #ddd; padding:14px 16px;">
-      <details id="form-toggle">
-  <summary style="cursor:pointer; font-size:1.2rem; font-weight:600; color:#1a3a5c; user-select:none;">
-    + Agregar nuevo evento
-  </summary>
-  <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end;">
+            .cal-table td.event.red::after {
+                background: #d73a3a;
+            }
 
-    <div style="display:flex; flex-direction:column; gap:4px;">
-      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Día</label>
-      <input type="number" id="ev-dia" min="1" max="31" placeholder="15"0
-  oninput="if(this.value>31) this.value=31; if(this.value<1) this.value='';"
-  style="width:70px; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
-    </div>
+            .cal-table td.event.green::after {
+                background: #2e9e5a;
+            }
 
-    <div style="display:flex; flex-direction:column; gap:4px;">
-      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Mes</label>
-      <select id="ev-mes" style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
-        <option value="0">Enero</option>
-        <option value="1">Febrero</option>
-        <option value="2">Marzo</option>
-        <option value="3">Abril</option>
-        <option value="4">Mayo</option>
-        <option value="5">Junio</option>
-        <option value="6">Julio</option>
-        <option value="7">Agosto</option>
-        <option value="8">Septiembre</option>
-        <option value="9">Octubre</option>
-        <option value="10">Noviembre</option>
-        <option value="11">Diciembre</option>
-      </select>
-    </div>
+            .cal-table td.selected {
+                outline: 2px solid #2563a8;
+                border-radius: 50%;
+            }
 
-    <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:180px;">
-      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Descripción</label>
-      <input type="text" id="ev-desc" placeholder="Ej: Examen parcial"
-        style="width:100%; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
-    </div>
+            .modal-evento-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 5px 0;
+                font-size: 0.9rem;
+                border-bottom: 1px solid #dde3ec;
+            }
 
-    <div style="display:flex; flex-direction:column; gap:4px;">
-      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Color</label>
-      <select id="ev-color" style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
-        <option value="blue">Azul</option>
-        <option value="teal">Verde</option>
-        <option value="orange">Naranja</option>
-        <option value="red">Rojo</option>
-      </select>
-    </div>
+            .modal-evento-item:last-child {
+                border-bottom: none;
+            }
 
-    <button id="ev-guardar" style="padding:8px 18px; background:#1a3a5c; color:#fff; border:none; border-radius:7px; font-size:1rem; font-weight:600; cursor:pointer;">
-    Guardar
-</button>
+            .dot {
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
 
-      
-    </button>
+            .dot.blue {
+                background: #2563a8;
+            }
 
-  </div>
-  <p id="ev-error" style="color:#c0392b; font-size:0.82rem; margin-top:6px; display:none;">
-    Completá todos los campos correctamente.
-  </p>
-</details>
-    </div>
+            .dot.green {
+                background: #2e9e5a;
+            }
 
-    <!-- Lista de eventos del mes -->
-    <div class="cal-eventos" id="cal-eventos-lista"></div>
+            .dot.orange {
+                background: #f5a623;
+            }
 
-    <a href="#" class="ver-mas-cal">+ Ver más actividades</a>
-  </div>
-</section>
+            .dot.teal {
+                background: #0f9e75;
+            }
 
-<style>
-  .cal-table td.event { position: relative; font-weight: 600; cursor: pointer; }
-  .cal-table td.event:hover { background: #eef4fb; border-radius: 50%; }
-  .cal-table td.event::after {
-    content: '';
-    display: block;
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    margin: 2px auto 0;
-  }
-  .cal-table td.event.blue::after  { background: #2563a8; }
-  .cal-table td.event.teal::after  { background: #0f9e75; }
-  .cal-table td.event.orange::after{ background: #f5a623; }
-  .cal-table td.event.red::after   { background: #d73a3a; }
-  .cal-table td.event.green::after { background: #2e9e5a; }
+            .dot.red {
+                background: #d73a3a;
+            }
+        </style>
 
-  .cal-table td.selected {
-    outline: 2px solid #2563a8;
-    border-radius: 50%;
-  }
+        <script>
+            (function () {
+                // ── Estado ──
+                const hoy = new Date();
+                let currentYear = 2026;
+                let currentMonth = 4; // 4-indexed → Mayo
 
-  .modal-evento-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 0;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #dde3ec;
-  }
-  .modal-evento-item:last-child { border-bottom: none; }
+                const MESES = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO',
+                    'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 
-  .dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-  .dot.blue   { background:#2563a8; }
-  .dot.green  { background:#2e9e5a; }
-  .dot.orange { background:#f5a623; }
-  .dot.teal   { background:#0f9e75; }
-  .dot.red    { background:#d73a3a; }
-</style>
+                // eventos[año][mes(0-idx)][día] = [{desc, color}]
+                const eventos = {
+                    2024: {
+                        4: {
+                            8: [{ desc: 'Taller de oratoria', color: 'teal' }],
+                            16: [{ desc: 'Asamblea Estudiantil', color: 'blue' }],
+                            22: [{ desc: 'Feria del Libro Usado', color: 'orange' }],
+                            30: [{ desc: 'Jornada de Voluntariado', color: 'red' }],
+                            1: [{ desc: 'Reunión Comisión Académica', color: 'blue' }],
+                        }
+                    }
+                };
 
-<script>
-(function() {
-  // ── Estado ──
-  const hoy = new Date();
-  let currentYear  = 2026;
-  let currentMonth = 4; // 4-indexed → Mayo
+                function getEventos(year, month, day) {
+                    return (eventos[year] && eventos[year][month] && eventos[year][month][day]) || [];
+                }
 
-  const MESES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO',
-                 'JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+                function allEventosDelMes(year, month) {
+                    const mes = (eventos[year] && eventos[year][month]) || {};
+                    return Object.entries(mes)
+                        .sort((a, b) => Number(a[0]) - Number(b[0]))
+                        .flatMap(([dia, evs]) => evs.map(ev => ({ dia: Number(dia), ...ev })));
+                }
 
-  // eventos[año][mes(0-idx)][día] = [{desc, color}]
-  const eventos = {
-    2024: {
-      4: {
-        8:  [{ desc: 'Taller de oratoria',        color: 'teal'   }],
-        16: [{ desc: 'Asamblea Estudiantil',       color: 'blue'   }],
-        22: [{ desc: 'Feria del Libro Usado',      color: 'orange' }],
-        30: [{ desc: 'Jornada de Voluntariado',    color: 'red'    }],
-        1:  [{ desc: 'Reunión Comisión Académica', color: 'blue'   }],
-      }
-    }
-  };
+                // ── Render calendario ──
+                function render() {
+                    // Título
+                    document.getElementById('cal-titulo').textContent =
+                        MESES[currentMonth] + ' ' + currentYear;
 
-  function getEventos(year, month, day) {
-    return (eventos[year] && eventos[year][month] && eventos[year][month][day]) || [];
-  }
+                    // Primer día del mes (lunes = 0)
+                    const primerDia = new Date(currentYear, currentMonth, 1);
+                    let inicioSemana = primerDia.getDay(); // 0=dom
+                    inicioSemana = (inicioSemana === 0) ? 6 : inicioSemana - 1; // ajuste a lunes=0
 
-  function allEventosDelMes(year, month) {
-    const mes = (eventos[year] && eventos[year][month]) || {};
-    return Object.entries(mes)
-      .sort((a, b) => Number(a[0]) - Number(b[0]))
-      .flatMap(([dia, evs]) => evs.map(ev => ({ dia: Number(dia), ...ev })));
-  }
+                    const diasEnMes = new Date(currentYear, currentMonth + 1, 0).getDate();
+                    const diasMesAnterior = new Date(currentYear, currentMonth, 0).getDate();
 
-  // ── Render calendario ──
-  function render() {
-    // Título
-    document.getElementById('cal-titulo').textContent =
-      MESES[currentMonth] + ' ' + currentYear;
+                    const tbody = document.getElementById('cal-body');
+                    tbody.innerHTML = '';
 
-    // Primer día del mes (lunes = 0)
-    const primerDia = new Date(currentYear, currentMonth, 1);
-    let inicioSemana = primerDia.getDay(); // 0=dom
-    inicioSemana = (inicioSemana === 0) ? 6 : inicioSemana - 1; // ajuste a lunes=0
+                    let dia = 1;
+                    let diaPost = 1;
+                    const totalCeldas = Math.ceil((inicioSemana + diasEnMes) / 7) * 7;
 
-    const diasEnMes = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const diasMesAnterior = new Date(currentYear, currentMonth, 0).getDate();
+                    for (let i = 0; i < totalCeldas; i++) {
+                        if (i % 7 === 0) tbody.insertRow();
+                        const fila = tbody.rows[tbody.rows.length - 1];
+                        const td = fila.insertCell();
 
-    const tbody = document.getElementById('cal-body');
-    tbody.innerHTML = '';
+                        if (i < inicioSemana) {
+                            // días mes anterior
+                            td.textContent = diasMesAnterior - inicioSemana + 1 + i;
+                            td.className = 'prev';
+                        } else if (dia > diasEnMes) {
+                            // días mes siguiente
+                            td.textContent = diaPost++;
+                            td.className = 'prev';
+                        } else {
+                            td.textContent = dia;
 
-    let dia = 1;
-    let diaPost = 1;
-    const totalCeldas = Math.ceil((inicioSemana + diasEnMes) / 7) * 7;
+                            // hoy
+                            const esHoy = (dia === hoy.getDate() &&
+                                currentMonth === hoy.getMonth() &&
+                                currentYear === hoy.getFullYear());
+                            if (esHoy) td.classList.add('today');
 
-    for (let i = 0; i < totalCeldas; i++) {
-      if (i % 7 === 0) tbody.insertRow();
-      const fila = tbody.rows[tbody.rows.length - 1];
-      const td = fila.insertCell();
+                            // eventos
+                            const evs = getEventos(currentYear, currentMonth, dia);
+                            if (evs.length > 0) {
+                                td.classList.add('event', evs[0].color);
+                                const diaCapturado = dia;
+                                td.addEventListener('click', () => mostrarModal(diaCapturado));
+                            }
 
-      if (i < inicioSemana) {
-        // días mes anterior
-        td.textContent = diasMesAnterior - inicioSemana + 1 + i;
-        td.className = 'prev';
-      } else if (dia > diasEnMes) {
-        // días mes siguiente
-        td.textContent = diaPost++;
-        td.className = 'prev';
-      } else {
-        td.textContent = dia;
+                            dia++;
+                        }
+                    }
 
-        // hoy
-        const esHoy = (dia === hoy.getDate() &&
-                       currentMonth === hoy.getMonth() &&
-                       currentYear === hoy.getFullYear());
-        if (esHoy) td.classList.add('today');
+                    renderEventosLista();
+                    cerrarModal();
+                }
 
-        // eventos
-        const evs = getEventos(currentYear, currentMonth, dia);
-        if (evs.length > 0) {
-          td.classList.add('event', evs[0].color);
-          const diaCapturado = dia;
-          td.addEventListener('click', () => mostrarModal(diaCapturado));
-        }
-
-        dia++;
-      }
-    }
-
-    renderEventosLista();
-    cerrarModal();
-  }
-
-  function renderEventosLista() {
-    const contenedor = document.getElementById('cal-eventos-lista');
-    const lista = allEventosDelMes(currentYear, currentMonth);
-    if (lista.length === 0) {
-        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
-        return;
-    }
-    contenedor.innerHTML = lista.map(ev => `
+                function renderEventosLista() {
+                    const contenedor = document.getElementById('cal-eventos-lista');
+                    const lista = allEventosDelMes(currentYear, currentMonth);
+                    if (lista.length === 0) {
+                        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
+                        return;
+                    }
+                    contenedor.innerHTML = lista.map(ev => `
         <div class="cal-evento">
             <span class="dot ${ev.color}"></span>
-            <strong>${String(ev.dia).padStart(2,'0')} ${MESES[ev.mes].slice(0,3)}</strong>
+            <strong>${String(ev.dia).padStart(2, '0')} ${MESES[ev.mes].slice(0, 3)}</strong>
             &nbsp;${ev.desc}
         </div>
     `).join('');
-}
+                }
 
-  // ── Modal detalle ──
-  function mostrarModal(dia) {
-    const modal = document.getElementById('cal-modal');
-    const evs = getEventos(currentYear, currentMonth, dia);
+                // ── Modal detalle ──
+                function mostrarModal(dia) {
+                    const modal = document.getElementById('cal-modal');
+                    const evs = getEventos(currentYear, currentMonth, dia);
 
-    document.getElementById('modal-fecha').textContent =
-      dia + ' de ' + MESES[currentMonth].charAt(0) + MESES[currentMonth].slice(1).toLowerCase() + ' ' + currentYear;
+                    document.getElementById('modal-fecha').textContent =
+                        dia + ' de ' + MESES[currentMonth].charAt(0) + MESES[currentMonth].slice(1).toLowerCase() + ' ' + currentYear;
 
-    document.getElementById('modal-eventos-lista').innerHTML = evs.map(ev => `
+                    document.getElementById('modal-eventos-lista').innerHTML = evs.map(ev => `
       <div class="modal-evento-item">
         <span class="dot ${ev.color}"></span>
         <span>${ev.desc}</span>
       </div>
     `).join('');
 
-    modal.style.display = 'block';
+                    modal.style.display = 'block';
 
-    // resaltar celda
-    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('#cal-body td:not(.prev)').forEach(td => {
-      if (Number(td.textContent) === dia) td.classList.add('selected');
-    });
-  }
+                    // resaltar celda
+                    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+                    document.querySelectorAll('#cal-body td:not(.prev)').forEach(td => {
+                        if (Number(td.textContent) === dia) td.classList.add('selected');
+                    });
+                }
 
-  function cerrarModal() {
-    document.getElementById('cal-modal').style.display = 'none';
-    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
-  }
+                function cerrarModal() {
+                    document.getElementById('cal-modal').style.display = 'none';
+                    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+                }
 
-  // ── Navegación ──
-  document.getElementById('cal-prev').addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-    render();
-  });
+                // ── Navegación ──
+                document.getElementById('cal-prev').addEventListener('click', () => {
+                    currentMonth--;
+                    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                    render();
+                });
 
-  document.getElementById('cal-next').addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-    render();
-  });
+                document.getElementById('cal-next').addEventListener('click', () => {
+                    currentMonth++;
+                    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+                    render();
+                });
 
-  document.getElementById('modal-cerrar').addEventListener('click', cerrarModal);
+                document.getElementById('modal-cerrar').addEventListener('click', cerrarModal);
 
-  // ── Agregar evento ──
-  document.getElementById('ev-guardar').addEventListener('click', () => {
-    const dia   = parseInt(document.getElementById('ev-dia').value);
-    const mes   = parseInt(document.getElementById('ev-mes').value); // ← mes del select
-    const desc  = document.getElementById('ev-desc').value.trim();
-    const color = document.getElementById('ev-color').value;
-    const error = document.getElementById('ev-error');
-    const diasEnMes = new Date(currentYear, mes + 1, 0).getDate();
+                // ── Agregar evento ──
+                document.getElementById('ev-guardar').addEventListener('click', () => {
+                    const dia = parseInt(document.getElementById('ev-dia').value);
+                    const mes = parseInt(document.getElementById('ev-mes').value); // ← mes del select
+                    const desc = document.getElementById('ev-desc').value.trim();
+                    const color = document.getElementById('ev-color').value;
+                    const error = document.getElementById('ev-error');
+                    const diasEnMes = new Date(currentYear, mes + 1, 0).getDate();
 
-    if (!dia || dia < 1 || dia > diasEnMes || !desc) {
-        error.style.display = 'block';
-        return;
-    }
-    error.style.display = 'none';
+                    if (!dia || dia < 1 || dia > diasEnMes || !desc) {
+                        error.style.display = 'block';
+                        return;
+                    }
+                    error.style.display = 'none';
 
-    if (!eventos[currentYear]) eventos[currentYear] = {};
-    if (!eventos[currentYear][mes]) eventos[currentYear][mes] = {};
-    if (!eventos[currentYear][mes][dia]) eventos[currentYear][mes][dia] = [];
+                    if (!eventos[currentYear]) eventos[currentYear] = {};
+                    if (!eventos[currentYear][mes]) eventos[currentYear][mes] = {};
+                    if (!eventos[currentYear][mes][dia]) eventos[currentYear][mes][dia] = [];
 
-    eventos[currentYear][mes][dia].push({ desc, color, mes }); // ← guardás el mes
+                    eventos[currentYear][mes][dia].push({ desc, color, mes }); // ← guardás el mes
 
-    document.getElementById('ev-dia').value  = '';
-    document.getElementById('ev-desc').value = '';
-    document.getElementById('form-toggle').removeAttribute('open');
+                    document.getElementById('ev-dia').value = '';
+                    document.getElementById('ev-desc').value = '';
+                    document.getElementById('form-toggle').removeAttribute('open');
 
-    currentMonth = mes; // ← navegás al mes del evento
-    render();
-});
+                    currentMonth = mes; // ← navegás al mes del evento
+                    render();
+                });
 
 
-  // ── Init ──
-  render();
-})();
-</script>
-</section>
+                // ── Init ──
+                render();
+            })();
+        </script>
+    </section>
 
-<section id="horario">
-<h2>Horario</h2>
-<p>Primera entrada: 17:30 a 19:30</p>
-<p>Segunda entrada: 19:40 a 21:30</p>
-</section>
+    <h3>Convivencia y participación</h3>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Código de convivencia estudiantil</strong>
+            <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
+    </div>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Reglamento de asambleas estudiantiles</strong>
+            <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
+    </div>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Protocolo ante situaciones de violencia o discriminación</strong>
+            <p>Pasos a seguir y canales de denuncia disponibles.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
+    </div>
+    <h3>Información académica</h3>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Guía de derechos del estudiante</strong>
+            <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
+    </div>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Guía de comisiones del CE</strong>
+            <p>Información y funciones de cada comisión de trabajo activa.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
+    </div>
 
-<section id="notas">
-<h2>Notas</h2>
-<p>Las notas estarán disponibles en el sistema.</p>
-</section>
+    </section>
+    <!-- CORRELATIVAS — tuya -->
+    <section id="correlativas">
 
-<section id="ingreso">
-<h2>Requisitos</h2>
-<ul>
-<li>Secundario completo</li>
-<li>Computadora</li>
-<li>Internet</li>
-</ul>
-</section>
+        <h2>Correlativas</h2>
+        <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las
+            materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más
+            complejos.</p>
 
-<!-- LOGIN (NO SE TOCA) -->
-<div id="login-container">
-<div class="login-box">
-<h2>Iniciar Sesión</h2>
+        <h3>¿Cómo funcionan?</h3>
+        <div class="cards">
+            <div class="card">
+                <h3>Para cursar</h3>
+                <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.
+                </p>
+            </div>
+            <div class="card">
+                <h3>Para rendir</h3>
+                <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
+            </div>
+            <div class="card">
+                <h3>Efecto encadenado</h3>
+                <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
+            </div>
+            <div class="card">
+                <h3>Planificación</h3>
+                <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
+            </div>
+        </div>
 
-<label>Tipo:</label>
-<select id="tipo">
-<option value="estudiante">Estudiante</option>
-<option value="profesor">Profesor</option>
-<option value="administrativo">Administrativo</option>
-</select>
+        <div
+            style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
+            <strong>¿Cómo puede afectarte?</strong>
+            <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre
+                siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
+        </div>
 
-<label>Nombre:</label>
-<input type="text" id="nombreLogin">
+        <h3>Tabla de correlativas</h3>
 
-<label>Contraseña:</label>
-<input type="password" id="passwordLogin">
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num libre">1</div>
+                <span class="acord-title">Programación I</span>
+                <span class="acord-badge badge-libre">Sin correlativas</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p>Materia de primer año, podés inscribirte libremente.</p>
+            </div>
+        </div>
 
-<input type="checkbox" id="verPassword"> Mostrar contraseña
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num libre">2</div>
+                <span class="acord-title">Lógica y Algoritmos</span>
+                <span class="acord-badge badge-libre">Sin correlativas</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p>Materia de primer año, podés inscribirte libremente.</p>
+            </div>
+        </div>
 
-<button onclick="login()">Ingresar</button>
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num">3</div>
+                <span class="acord-title">Programación II</span>
+                <span class="acord-badge badge-req">1 requerida</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p class="corr-label">Necesitás tener aprobada</p>
+                <div class="corr-pill">🔓 Programación I</div>
+            </div>
+        </div>
 
-<div id="wifi">
-<p id="wifiNombre"></p>
-<p id="wifiPass"></p>
-</div> 
-</div>
-</div>
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num">4</div>
+                <span class="acord-title">Bases de Datos</span>
+                <span class="acord-badge badge-req">2 requeridas</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p class="corr-label">Necesitás tener aprobadas</p>
+                <div class="corr-pill">🔓 Programación I</div>
+                <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+            </div>
+        </div>
 
-<script src="script.js"></script>
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num">5</div>
+                <span class="acord-title">Sistemas Operativos</span>
+                <span class="acord-badge badge-req">1 requerida</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p class="corr-label">Necesitás tener aprobada</p>
+                <div class="corr-pill">🔓 Programación I</div>
+            </div>
+        </div>
 
-<footer class="footer">
-    <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
-    <p>Contacto: instituto57@email.com</p>
+        <div class="acord-item">
+            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+                <div class="acord-num">6</div>
+                <span class="acord-title">Desarrollo Web</span>
+                <span class="acord-badge badge-req">2 requeridas</span>
+                <span class="acord-chevron">▼</span>
+            </button>
+            <div class="acord-body">
+                <p class="corr-label">Necesitás tener aprobadas</p>
+                <div class="corr-pill">🔓 Programación II</div>
+                <div class="corr-pill">🔓 Sistemas Operativos</div>
+            </div>
+        </div>
+        </table>
 
-    <button class="btn-ayuda" onclick="mostrar('ingreso')">
-        ❓ Ayuda
-    </button>
-</footer>
+        <h3>Consejos para no atrasarte</h3>
+        <ul>
+            <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
+            <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
+            <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
+            <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
+        </ul>
 
-<section id="calendario">
-<h2>Calendario académico</h2>
-<section id="calendario">
-  <h2 style="text-align:center;">Calendario</h2>
+    </section>
 
-  <div style="display:flex; justify-content:center;">
-    <img src="img/calendario-final.jpg" 
-         alt="Calendario Abril 2026"
-         style="width:100%; max-width:900px;">
-  </div>
+    <!-- ESTUDIANTES — branch de compañero -->
+    <section id="estudiantes"></section>
 
-</section>
-<img src="img/calendario final jpg.jpg" alt="Calendario Abril 2026" style="width:100%; max-width:600px;">
+    <!-- PROFESORES — branch de compañero -->
+    <section id="profesores"></section>
 
-<div style="display:flex; justify-content:center;">
+    <!-- HORARIO — branch de compañero -->
+    <section id="horario"></section>
 
-</section>
+    <!-- NOTAS — branch de compañero -->
+    <section id="notas"></section>
+
+    <!-- INGRESO — branch de compañero -->
+    <section id="ingreso"></section>
+
+    <!-- LOGIN — NO TOCAR -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Iniciar Sesión</h2>
+            <label>Tipo:</label>
+            <select id="tipo">
+                <option value="estudiante">Estudiante</option>
+                <option value="profesor">Profesor</option>
+                <option value="administrativo">Administrativo</option>
+            </select>
+            <label>Nombre:</label>
+            <input type="text" id="nombreLogin">
+            <label>Contraseña:</label>
+            <input type="password" id="passwordLogin">
+            <input type="checkbox" id="verPassword"> Mostrar contraseña
+            <button onclick="login()">Ingresar</button>
+            <div id="wifi">
+                <p id="wifiNombre"></p>
+                <p id="wifiPass"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA BAR -->
+    <div class="cta-bar">
+        <div class="cta-item">
+            <span>💡</span>
+            <div><strong>SUMÁ TU IDEA</strong>
+                <p>Tenés una propuesta? Enviánosla. →</p>
+            </div>
+        </div>
+        <div class="cta-item">
+            <span>👥</span>
+            <div><strong>PARTICIPÁ</strong>
+                <p>Sumate a las comisiones y proyectos. →</p>
+            </div>
+        </div>
+        <div class="cta-item">
+            <span>💬</span>
+            <div><strong>HACÉ OÍR TU VOZ</strong>
+                <p>Tu opinión nos ayuda a representarte mejor. →</p>
+            </div>
+        </div>
+        <div class="cta-item">
+            <span>📱</span>
+            <div><strong>SEGUINOS</strong>
+                <p>Enterate de todo en nuestras redes sociales. →</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo-badge">CE</div>
+                <div>
+                    <strong>CENTRO DE ESTUDIANTES</strong>
+                    <small>Instituto Superior del Futuro</small>
+                    <p>Estudiantes organizados, comunidad fortalecida.</p>
+                </div>
+            </div>
+            <div class="footer-col">
+                <strong>ENLACES</strong>
+                <a href="#">Sobre nosotros</a>
+                <a href="#">Comisiones</a>
+                <a href="#">Actividades</a>
+                <a href="#">Noticias</a>
+                <a href="#">Documentos</a>
+            </div>
+            <div class="footer-col">
+                <strong>CONTACTO</strong>
+                <p>📞 (11) 1234-5678</p>
+                <p>✉ instituto57@email.com</p>
+                <p>📍 Av. Siempre Viva 1234, CABA</p>
+            </div>
+            <div class="footer-col">
+                <strong>SEGUINOS</strong>
+                <div class="social-links">
+                    <a href="#">f</a>
+                    <a href="#">in</a>
+                    <a href="#">tw</a>
+                    <a href="#">yt</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
+            <div>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Términos y condiciones</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
