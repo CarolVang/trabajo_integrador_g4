@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
 </head>
- 
+
 <body>
 
 <div class="topbar">
@@ -89,16 +89,337 @@
 </ul>
 </section>
 
-<section id="calendario">
-<h2>Calendario - Abril 2026</h2>
-<table>
-<tr>
-<th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
-</tr>
-<tr>
-<td></td><td></td><td></td><td>1</td><td>2</td><td class="verde">3</td><td class="verde">4</td>
-</tr>
-</table>
+
+<!-- CALENDARIO -->
+    <section id="calendario">
+  <div class="panel">
+
+    <div class="panel-header">
+      <h2>CALENDARIO DE ACTIVIDADES</h2>
+    
+    </div>
+
+    <div class="calendario-nav">
+      <button id="cal-prev">‹</button>
+      <strong id="cal-titulo">MAYO 2024</strong>
+      <button id="cal-next">›</button>
+    </div>
+
+    <table class="cal-table" id="cal-table">
+      <thead>
+        <tr>
+          <th>LUN</th><th>MAR</th><th>MIÉ</th><th>JUE</th><th>VIE</th><th>SÁB</th><th>DOM</th>
+        </tr>
+      </thead>
+      <tbody id="cal-body"></tbody>
+    </table>
+
+    <!-- Modal detalle evento -->
+    <div id="cal-modal" style="display:none; background:#f0f4f8; border:1px solid #ccc; border-radius:10px; margin:0 16px 12px; padding:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <strong id="modal-fecha" style="font-size:0.95rem;"></strong>
+        <button id="modal-cerrar" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+      </div>
+      <div id="modal-eventos-lista"></div>
+    </div>
+
+    <!-- Formulario agregar evento -->
+     
+    <div style="border-top:1px solid #ddd; padding:14px 16px;">
+      <details id="form-toggle">
+  <summary style="cursor:pointer; font-size:1.2rem; font-weight:600; color:#1a3a5c; user-select:none;">
+    + Agregar nuevo evento
+  </summary>
+  <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end;">
+
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Día</label>
+      <input type="number" id="ev-dia" min="1" max="31" placeholder="15"0
+  oninput="if(this.value>31) this.value=31; if(this.value<1) this.value='';"
+  style="width:70px; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Mes</label>
+      <select id="ev-mes" style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+        <option value="0">Enero</option>
+        <option value="1">Febrero</option>
+        <option value="2">Marzo</option>
+        <option value="3">Abril</option>
+        <option value="4">Mayo</option>
+        <option value="5">Junio</option>
+        <option value="6">Julio</option>
+        <option value="7">Agosto</option>
+        <option value="8">Septiembre</option>
+        <option value="9">Octubre</option>
+        <option value="10">Noviembre</option>
+        <option value="11">Diciembre</option>
+      </select>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:180px;">
+      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Descripción</label>
+      <input type="text" id="ev-desc" placeholder="Ej: Examen parcial"
+        style="width:100%; padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <label style="font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#555;">Color</label>
+      <select id="ev-color" style="padding:7px 10px; border:1px solid #ccc; border-radius:7px; font-size:1rem;">
+        <option value="blue">Azul</option>
+        <option value="teal">Verde</option>
+        <option value="orange">Naranja</option>
+        <option value="red">Rojo</option>
+      </select>
+    </div>
+
+    <button id="ev-guardar" style="padding:8px 18px; background:#1a3a5c; color:#fff; border:none; border-radius:7px; font-size:1rem; font-weight:600; cursor:pointer;">
+    Guardar
+</button>
+
+      
+    </button>
+
+  </div>
+  <p id="ev-error" style="color:#c0392b; font-size:0.82rem; margin-top:6px; display:none;">
+    Completá todos los campos correctamente.
+  </p>
+</details>
+    </div>
+
+    <!-- Lista de eventos del mes -->
+    <div class="cal-eventos" id="cal-eventos-lista"></div>
+
+    <a href="#" class="ver-mas-cal">+ Ver más actividades</a>
+  </div>
+</section>
+
+<style>
+  .cal-table td.event { position: relative; font-weight: 600; cursor: pointer; }
+  .cal-table td.event:hover { background: #eef4fb; border-radius: 50%; }
+  .cal-table td.event::after {
+    content: '';
+    display: block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin: 2px auto 0;
+  }
+  .cal-table td.event.blue::after  { background: #2563a8; }
+  .cal-table td.event.teal::after  { background: #0f9e75; }
+  .cal-table td.event.orange::after{ background: #f5a623; }
+  .cal-table td.event.red::after   { background: #d73a3a; }
+  .cal-table td.event.green::after { background: #2e9e5a; }
+
+  .cal-table td.selected {
+    outline: 2px solid #2563a8;
+    border-radius: 50%;
+  }
+
+  .modal-evento-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #dde3ec;
+  }
+  .modal-evento-item:last-child { border-bottom: none; }
+
+  .dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .dot.blue   { background:#2563a8; }
+  .dot.green  { background:#2e9e5a; }
+  .dot.orange { background:#f5a623; }
+  .dot.teal   { background:#0f9e75; }
+  .dot.red    { background:#d73a3a; }
+</style>
+
+<script>
+(function() {
+  // ── Estado ──
+  const hoy = new Date();
+  let currentYear  = 2026;
+  let currentMonth = 4; // 4-indexed → Mayo
+
+  const MESES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO',
+                 'JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+
+  // eventos[año][mes(0-idx)][día] = [{desc, color}]
+  const eventos = {
+    2024: {
+      4: {
+        8:  [{ desc: 'Taller de oratoria',        color: 'teal'   }],
+        16: [{ desc: 'Asamblea Estudiantil',       color: 'blue'   }],
+        22: [{ desc: 'Feria del Libro Usado',      color: 'orange' }],
+        30: [{ desc: 'Jornada de Voluntariado',    color: 'red'    }],
+        1:  [{ desc: 'Reunión Comisión Académica', color: 'blue'   }],
+      }
+    }
+  };
+
+  function getEventos(year, month, day) {
+    return (eventos[year] && eventos[year][month] && eventos[year][month][day]) || [];
+  }
+
+  function allEventosDelMes(year, month) {
+    const mes = (eventos[year] && eventos[year][month]) || {};
+    return Object.entries(mes)
+      .sort((a, b) => Number(a[0]) - Number(b[0]))
+      .flatMap(([dia, evs]) => evs.map(ev => ({ dia: Number(dia), ...ev })));
+  }
+
+  // ── Render calendario ──
+  function render() {
+    // Título
+    document.getElementById('cal-titulo').textContent =
+      MESES[currentMonth] + ' ' + currentYear;
+
+    // Primer día del mes (lunes = 0)
+    const primerDia = new Date(currentYear, currentMonth, 1);
+    let inicioSemana = primerDia.getDay(); // 0=dom
+    inicioSemana = (inicioSemana === 0) ? 6 : inicioSemana - 1; // ajuste a lunes=0
+
+    const diasEnMes = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const diasMesAnterior = new Date(currentYear, currentMonth, 0).getDate();
+
+    const tbody = document.getElementById('cal-body');
+    tbody.innerHTML = '';
+
+    let dia = 1;
+    let diaPost = 1;
+    const totalCeldas = Math.ceil((inicioSemana + diasEnMes) / 7) * 7;
+
+    for (let i = 0; i < totalCeldas; i++) {
+      if (i % 7 === 0) tbody.insertRow();
+      const fila = tbody.rows[tbody.rows.length - 1];
+      const td = fila.insertCell();
+
+      if (i < inicioSemana) {
+        // días mes anterior
+        td.textContent = diasMesAnterior - inicioSemana + 1 + i;
+        td.className = 'prev';
+      } else if (dia > diasEnMes) {
+        // días mes siguiente
+        td.textContent = diaPost++;
+        td.className = 'prev';
+      } else {
+        td.textContent = dia;
+
+        // hoy
+        const esHoy = (dia === hoy.getDate() &&
+                       currentMonth === hoy.getMonth() &&
+                       currentYear === hoy.getFullYear());
+        if (esHoy) td.classList.add('today');
+
+        // eventos
+        const evs = getEventos(currentYear, currentMonth, dia);
+        if (evs.length > 0) {
+          td.classList.add('event', evs[0].color);
+          const diaCapturado = dia;
+          td.addEventListener('click', () => mostrarModal(diaCapturado));
+        }
+
+        dia++;
+      }
+    }
+
+    renderEventosLista();
+    cerrarModal();
+  }
+
+  function renderEventosLista() {
+    const contenedor = document.getElementById('cal-eventos-lista');
+    const lista = allEventosDelMes(currentYear, currentMonth);
+    if (lista.length === 0) {
+        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
+        return;
+    }
+    contenedor.innerHTML = lista.map(ev => `
+        <div class="cal-evento">
+            <span class="dot ${ev.color}"></span>
+            <strong>${String(ev.dia).padStart(2,'0')} ${MESES[ev.mes].slice(0,3)}</strong>
+            &nbsp;${ev.desc}
+        </div>
+    `).join('');
+}
+
+  // ── Modal detalle ──
+  function mostrarModal(dia) {
+    const modal = document.getElementById('cal-modal');
+    const evs = getEventos(currentYear, currentMonth, dia);
+
+    document.getElementById('modal-fecha').textContent =
+      dia + ' de ' + MESES[currentMonth].charAt(0) + MESES[currentMonth].slice(1).toLowerCase() + ' ' + currentYear;
+
+    document.getElementById('modal-eventos-lista').innerHTML = evs.map(ev => `
+      <div class="modal-evento-item">
+        <span class="dot ${ev.color}"></span>
+        <span>${ev.desc}</span>
+      </div>
+    `).join('');
+
+    modal.style.display = 'block';
+
+    // resaltar celda
+    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#cal-body td:not(.prev)').forEach(td => {
+      if (Number(td.textContent) === dia) td.classList.add('selected');
+    });
+  }
+
+  function cerrarModal() {
+    document.getElementById('cal-modal').style.display = 'none';
+    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+  }
+
+  // ── Navegación ──
+  document.getElementById('cal-prev').addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    render();
+  });
+
+  document.getElementById('cal-next').addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    render();
+  });
+
+  document.getElementById('modal-cerrar').addEventListener('click', cerrarModal);
+
+  // ── Agregar evento ──
+  document.getElementById('ev-guardar').addEventListener('click', () => {
+    const dia   = parseInt(document.getElementById('ev-dia').value);
+    const mes   = parseInt(document.getElementById('ev-mes').value); // ← mes del select
+    const desc  = document.getElementById('ev-desc').value.trim();
+    const color = document.getElementById('ev-color').value;
+    const error = document.getElementById('ev-error');
+    const diasEnMes = new Date(currentYear, mes + 1, 0).getDate();
+
+    if (!dia || dia < 1 || dia > diasEnMes || !desc) {
+        error.style.display = 'block';
+        return;
+    }
+    error.style.display = 'none';
+
+    if (!eventos[currentYear]) eventos[currentYear] = {};
+    if (!eventos[currentYear][mes]) eventos[currentYear][mes] = {};
+    if (!eventos[currentYear][mes][dia]) eventos[currentYear][mes][dia] = [];
+
+    eventos[currentYear][mes][dia].push({ desc, color, mes }); // ← guardás el mes
+
+    document.getElementById('ev-dia').value  = '';
+    document.getElementById('ev-desc').value = '';
+    document.getElementById('form-toggle').removeAttribute('open');
+
+    currentMonth = mes; // ← navegás al mes del evento
+    render();
+});
+
+
+  // ── Init ──
+  render();
+})();
+</script>
 </section>
 
 <section id="horario">

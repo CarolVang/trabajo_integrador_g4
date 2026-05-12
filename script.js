@@ -65,3 +65,19 @@ function cerrarSesion(){
     // ocultar todas las secciones
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 }
+function renderEventosLista() {
+    
+    const contenedor = document.getElementById('cal-eventos-lista');
+    const lista = allEventosDelMes(currentYear, currentMonth);
+    if (lista.length === 0) {
+        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
+        return;
+    }
+    contenedor.innerHTML = lista.map(ev => `
+        <div class="cal-evento">
+            <span class="dot ${ev.color}"></span>
+            <strong>${String(ev.dia).padStart(2,'0')} ${MESES[ev.mes].slice(0,3)}</strong>
+            &nbsp;${ev.desc}
+        </div>
+    `).join('');
+}

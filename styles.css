@@ -276,3 +276,97 @@ body {
     padding: 15px;
     margin-top: 20px;
 }
+/* ===== CALENDARIO ===== */
+.calendario-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.calendario-nav strong {
+    font-size: 33px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #8d2020;
+}
+
+.calendario-nav button {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 55px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.calendario-nav button:hover { background: var(--bg); }
+
+.cal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 16px;
+    table-layout: fixed;
+    border: 1px solid #000000; /* borde exterior */
+}
+
+.cal-table th {
+    background: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 6px 4px;
+    text-align: center;
+    border: 1px solid #000000; /* ← agregás esto */
+    width: 14.28%;
+}
+
+.cal-table td {
+ padding: 4px 2px;
+    text-align: center;
+    border:  1px solid #000000;
+    font-weight: 700;
+    color: var(--navy-mid);
+    cursor: pointer;
+    border-radius: 0; /* ← cambiás 22px por 0 */
+    transition: background 0.15s;
+    width: 14.28%;
+    font-size: 22px;
+    padding: 0;
+    height: 40px;
+    
+}
+
+.cal-table td:hover { background: var(--bg); }
+.cal-table td.prev { color: #2c5a92; }
+
+.cal-table td.today {
+    background: var(--blue);
+    color: rgb(102, 34, 34);
+    font-weight: 800;
+    border-radius: 0%;
+    font-size: 33px;
+}
+
+.cal-table td.event {
+  font-weight: 800;
+    border-radius: 50%;
+    font-size: 33px;
+}
+
+.cal-table td.event.blue { background: #dbeafe; color: var(--blue); }
+.cal-table td.event.teal { background: #ccfbf1; color: #0f766e; }
+.cal-table td.event.orange { background: #ffedd5; color: #c2410c; }
+.cal-table td.event.red { background: #fee2e2; color: #b91c1c; }
+
+.cal-evento {
+    font-size: 22px;
+}
