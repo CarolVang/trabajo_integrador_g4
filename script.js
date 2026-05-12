@@ -174,6 +174,52 @@ function iniciarCambioFoto() {
     });
 }
 
+// ─── CREAR EVENTO ────────────────────────────────────────────
+function crearEvento() {
+    const titulo  = document.getElementById("nuevoTitulo").value.trim();
+    const carrera = document.getElementById("nuevaCarrera").value;
+    const fecha   = document.getElementById("nuevaFecha").value.trim();
+    const tipo    = document.getElementById("nuevoTipo").value;
+
+    if (!titulo) return alert("Ingresá un título para el evento");
+    if (!fecha)  return alert("Ingresá la fecha del evento");
+
+    const id  = "evento" + Date.now();
+    const div = document.createElement("div");
+    div.className = "evento";
+    div.dataset.titulo  = titulo;
+    div.dataset.carrera = carrera;
+    div.dataset.fecha   = fecha;
+    div.dataset.tipo    = tipo;
+
+    const etiquetaCarrera = {
+        "general":         "🌎 Para: Todas las carreras",
+        "Ciencia de Datos":"📊 Ciencia de Datos",
+        "Farmacia":        "💊 Farmacia",
+        "Trabajo Social":  "🤝 Trabajo Social"
+    }[carrera] || carrera;
+
+    div.innerHTML = `
+        <h3>${titulo}</h3>
+        <p class="tag-carrera">${etiquetaCarrera}</p>
+        <p>${fecha}</p>
+        <p>${tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</p>
+        <span id="contador${id}" class="contador-evento"></span>
+        <div class="evento-botones">
+            <button id="btn${id}" onclick="anotarseEvento('${id}', '${tipo}')">Anotarse</button>
+        </div>
+    `;
+
+    document.getElementById("listaEventos").appendChild(div);
+
+    // Limpiar formulario
+    document.getElementById("nuevoTitulo").value = "";
+    document.getElementById("nuevaFecha").value  = "";
+
+    mostrar('eventos');
+    alert(`Evento "${titulo}" creado correctamente ✅`);
+}
+
 // ─── INIT ─────────────────────────────────────────────────────
 window.onload = () => {
     if (localStorage.getItem("usuarioActual")) {

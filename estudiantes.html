@@ -104,6 +104,37 @@
     </div>
 </section>
 
+<!-- ➕ CREAR EVENTO -->
+<section id="crearEvento">
+    <h2>➕ Crear Evento</h2>
+    <div class="form-crear-evento">
+        <label>Título del evento</label>
+        <input type="text" id="nuevoTitulo" placeholder="Ej: Charla de orientación">
+
+        <label>Carrera destinataria</label>
+        <select id="nuevaCarrera">
+            <option value="general">🌎 Para Todos</option>
+            <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
+            <option value="Farmacia">💊 Farmacia</option>
+            <option value="Trabajo Social">🤝 Trabajo Social</option>
+        </select>
+
+        <label>Fecha y hora</label>
+        <input type="text" id="nuevaFecha" placeholder="Ej: Viernes 25 - 20:00 hs">
+
+        <label>Tipo</label>
+        <select id="nuevoTipo">
+            <option value="opcional">🟢 Opcional</option>
+            <option value="obligatorio">🔴 Obligatorio</option>
+        </select>
+
+        <div class="form-botones">
+            <button class="btn-confirmar" onclick="crearEvento()">✅ Crear evento</button>
+            <button class="btn-cancelar" onclick="mostrar('eventos')">Cancelar</button>
+        </div>
+    </div>
+</section>
+
 <!-- LOGIN -->
 <!-- FIX #4: ahora el login valida la contraseña (lógica en script.js) -->
 <div id="login-container">

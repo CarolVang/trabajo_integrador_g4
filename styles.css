@@ -232,6 +232,70 @@ td, th {
     color: white;
 }
 
+/* FORMULARIO CREAR EVENTO */
+.form-crear-evento {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+}
+.form-crear-evento label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: -6px;
+}
+.form-crear-evento input,
+.form-crear-evento select {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.form-crear-evento input:focus,
+.form-crear-evento select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+.form-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+.btn-confirmar {
+    flex: 1;
+    padding: 11px;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-confirmar:hover { background: #16a34a; }
+.btn-cancelar {
+    flex: 1;
+    padding: 11px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-cancelar:hover { background: #e2e8f0; }
+
 /* FOOTER */
 .footer {
     background-color: #1e293b;
