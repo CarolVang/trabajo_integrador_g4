@@ -276,7 +276,7 @@ body {
     padding: 15px;
     margin-top: 20px;
 }
-<!-- 🔽 MODIFICACION NOVEDADES lean -->
+<!-- 🔽 MODIFICACION NOVEDADES lean */
 .novedad {
     background: rgba(255,255,255,0.1);
     padding: 12px;
@@ -307,7 +307,7 @@ body {
 .btn-menu {
     transition: 0.3s;
 }
-/* CONTENEDOR */5
+/* CONTENEDOR */
 .novedades-container {
     display: flex;
     flex-direction: column;
@@ -359,4 +359,4 @@ body {
     font-size: 12px;
     opacity: 0.9;
 }
-<!-- hasta ahi llega las novedades lean -->
+<!-- hasta ahi llega las novedades lean */
