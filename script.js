@@ -1,81 +1,83 @@
-function mostrar(seccion){
-    // oculta todas las secciones
+// ─── MOSTRAR SECCIÓN ────────────────────────────────────────────────────────
+// Una sola definición, limpia. Acepta nombre de sección y evento opcional.
+function mostrar(seccion, event) {
+
+    // Ocultar todas las secciones
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 
-    // muestra la seleccionada
+    // Mostrar la seleccionada
     const seccionActiva = document.getElementById(seccion);
+    if (!seccionActiva) return;
     seccionActiva.classList.add("active");
 
-    // 👇 ESTO HACE QUE BAJE LA PANTALLA
+    // Bajar suavemente a la sección
     seccionActiva.scrollIntoView({ behavior: "smooth" });
 
-    // quitar activo a todos los botones
-    document.querySelectorAll(".menu-principal button")
-        .forEach(b => b.classList.remove("activo"));
+    // Quitar "activo" de todos los botones del menú
+    document.querySelectorAll(".btn-menu").forEach(b => b.classList.remove("activo"));
 
-    // marcar botón activo
-    const botones = document.querySelectorAll(".menu-principal button");
-
-    botones.forEach(boton => {
-        if (boton.getAttribute("onclick").includes(seccion)) {
-            boton.classList.add("activo");
-        }
-    });
+    // Marcar el botón que corresponde (si el evento viene de un botón del menú)
+    if (event && event.target && event.target.closest(".btn-menu")) {
+        event.target.closest(".btn-menu").classList.add("activo");
+    }
 }
 
-
+// ─── WIFI DATA ───────────────────────────────────────────────────────────────
 const wifiData = {
-    estudiante: {nombre:"Estudiantes", contraseña:"Escuelas_2025"},
-    profesor: {nombre:"Docentes", contraseña:"Docentes_2025"},
-    video: {nombre:"Videollamada", contraseña:"Video_2025"},
-    administrativo: {nombre:"Administracion", contraseña:"Admin_2025"}
+    estudiante:    { nombre: "Estudiantes",  contraseña: "Escuelas_2025" },
+    profesor:      { nombre: "Docentes",     contraseña: "Docentes_2025" },
+    video:         { nombre: "Videollamada", contraseña: "Video_2025"    },
+    administrativo:{ nombre: "Administracion", contraseña: "Admin_2025"  }
 };
 
+// ─── SELECTOR DE TIPO EN EL LOGIN ────────────────────────────────────────────
 const tipoSelect = document.getElementById("tipo");
 
 tipoSelect.addEventListener("change", () => {
     const tipo = tipoSelect.value;
-    document.getElementById("wifiNombre").innerText = "Nombre: " + wifiData[tipo].nombre;
-    document.getElementById("wifiPass").innerText = "Contraseña: " + wifiData[tipo].contraseña;
+    const data = wifiData[tipo];
+    if (!data) return;
+    document.getElementById("wifiNombre").innerText = "Nombre: " + data.nombre;
+    document.getElementById("wifiPass").innerText   = "Contraseña: " + data.contraseña;
 });
 
-document.getElementById("verPassword").addEventListener("change", function(){
+// Disparar al cargar para mostrar el wifi del tipo por defecto
+tipoSelect.dispatchEvent(new Event("change"));
+
+// ─── MOSTRAR / OCULTAR CONTRASEÑA ────────────────────────────────────────────
+document.getElementById("verPassword").addEventListener("change", function () {
     const pass = document.getElementById("passwordLogin");
     pass.type = this.checked ? "text" : "password";
 });
 
-tipoSelect.dispatchEvent(new Event("change"));
-
-function login(){
-    const nombre = document.getElementById("nombreLogin").value;
+// ─── LOGIN ───────────────────────────────────────────────────────────────────
+function login() {
     const password = document.getElementById("passwordLogin").value;
-/*ACA SE CAMBIA LA CONTRASEÑA */
-    if(password === ""){
+
+    // CAMBIAR LA CONTRASEÑA ACÁ SI HACE FALTA
+    // Por ahora entra con contraseña vacía
+    if (password === "") {
         document.getElementById("login-container").style.display = "none";
         mostrar("novedades");
-        
-    } }
-  window.onload = function() {
-    mostrar('inicio');
+    } else {
+        alert("Contraseña incorrecta");
+    }
 }
-function cerrarSesion(){
-    // mostrar login otra vez
+
+// ─── CERRAR SESIÓN ───────────────────────────────────────────────────────────
+function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
-
-    // ocultar todas las secciones
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-}
-<!-- 🔽 MODIFICACION NOVEDADES lean -->
-function mostrar(seccion){
-
-    // ocultar secciones
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    document.getElementById(seccion).classList.add("active");
-
-    // quitar activo a todos los botones
     document.querySelectorAll(".btn-menu").forEach(b => b.classList.remove("activo"));
 
-    // marcar el botón clickeado
-    event.target.classList.add("activo");
+    // Limpiar campos del login
+    document.getElementById("nombreLogin").value  = "";
+    document.getElementById("passwordLogin").value = "";
+    document.getElementById("verPassword").checked = false;
+    document.getElementById("passwordLogin").type  = "password";
 }
-<!-- hasta ahi llega las novedades lean -->
+
+// ─── INICIO ──────────────────────────────────────────────────────────────────
+window.onload = function () {
+    mostrar("inicio");
+};
