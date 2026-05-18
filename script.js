@@ -61,16 +61,14 @@ function mostrar(seccion, hacerScroll = true) {
         if (onclick && onclick.includes(seccion)) {
             boton.classList.add("activo");
         }
+});
 }
 // ─── WIFI DATA ───────────────────────────────────────────────
 const wifiData = {
     estudiante:    { nombre: "Estudiantes",  contraseña: "Escuelas_2025" },
     profesor:      { nombre: "Docentes",     contraseña: "Docentes_2025" },
     video:         { nombre: "Videollamada", contraseña: "Video_2025"    },
-   { nombre: "Administracion", contraseña: "Admin_2025"  }
-    
-    { nombre: "Administracion", contraseña: "Admin_2025"  }
-
+    administracion:{ nombre: "Administracion", contraseña: "Admin_2025" }
 };
 
 // ─── SELECTOR DE TIPO EN EL LOGIN ────────────────────────────────────────────
@@ -88,46 +86,22 @@ tipoSelect.addEventListener("change", () => {
 tipoSelect.dispatchEvent(new Event("change"));
 
 // ─── MOSTRAR / OCULTAR CONTRASEÑA ────────────────────────────────────────────
-
-    if (data) {
-        document.getElementById("wifiNombre").innerText = "Nombre: "     + data.nombre;
-        document.getElementById("wifiPass").innerText   = "Contraseña: " + data.contraseña;
-    }
-
-
 document.getElementById("verPassword").addEventListener("change", function () {
     const pass = document.getElementById("passwordLogin");
     pass.type = this.checked ? "text" : "password";
 });
 
-// ─── LOGIN ───────────────────────────────────────────────────────────────────
-function login() {
-    const password = document.getElementById("passwordLogin").value;
-
-    // CAMBIAR LA CONTRASEÑA ACÁ SI HACE FALTA
-    // Por ahora entra con contraseña vacía
-    if (password === "") {
-        document.getElementById("login-container").style.display = "none";
-        mostrar("novedades");
-    } else {
-        alert("Contraseña incorrecta");
-    }
-}
+// (login) La versión correcta de la función `login` aparece más abajo.
 
 // ─── CERRAR SESIÓN ───────────────────────────────────────────────────────────
 
-// Disparar el evento para mostrar wifi al cargar
-tipoSelect.dispatchEvent(new Event("change"));
-
-
-// ─── LOGIN ───────────────────────────────────────────────────
+// ─── LOGIN (definitiva) ───────────────────────────────────────────────────
 function login() {
-    // versión correcta
     const password = document.getElementById("passwordLogin").value;
 
     if (password === "") {
         document.getElementById("login-container").style.display = "none";
-        mostrar("inicio", false); // ← ahora queda en inicio
+        mostrar("inicio", false); // quedarse en inicio
     }
 }
 
@@ -150,9 +124,7 @@ function cerrarSesion() {
 }
 
 // ─── INICIO ──────────────────────────────────────────────────────────────────
-window.onload = function () {
-    mostrar("inicio");
-};
+// (Se eliminó window.onload duplicado)
 
 // ── ACORDEÓN CORRELATIVAS ──
 function toggleCorr(btn) {

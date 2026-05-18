@@ -487,11 +487,10 @@ body {
     letter-spacing: 0.5px;
     padding: 6px 4px;
     text-align: center;
- HEAD
-    padding: 15px;
-    margin-top: 20px;
+.    margin-top: 20px;
 }
-<!-- 🔽 MODIFICACION NOVEDADES lean */
+
+/* MODIFICACION NOVEDADES lean */
 .novedad {
     background: rgba(255,255,255,0.1);
     padding: 12px;
@@ -574,8 +573,6 @@ body {
     font-size: 12px;
     opacity: 0.9;
 }
-<!-- hasta ahi llega las novedades lean */
-    border none
 .cal-table td {
     padding: 6px 4px;
     text-align: center;
