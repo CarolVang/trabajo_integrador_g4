@@ -4,532 +4,176 @@
 <meta charset="UTF-8">
 <title>Instituto 57</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f4f4ef;
-    color: rgb(5, 1, 1);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-header {
-    background-color: #4085f4;
-    padding: 15px;
-    text-align: center;
-    color: white;
-}
-nav {
-    background-color: #5f83b6;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-nav button {
-    background: none;
-    border: none;
-    color: rgb(224, 14, 14);
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-nav button:hover {
-    background-color: #e40e23;
-}
-section {
-    display: none;
-    padding: 20px;
-}
-.active {
-    display: block;
-}
-h2 {
-    color: #38bdf8;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-td, th {
-    border: 1px solid white;
-    padding: 8px;
-    text-align: center;
-}
-.rojo { color: red; }
-.verde { color: lightgreen; }
-
-/* LOGIN */
-#login-container {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(15,23,42,0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-.login-box {
-    background-color: #5682c9;
-    padding: 30px;
-    border-radius: 10px;
-    width: 350px;
-    color: white;
-}
-.login-box input, .login-box select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-.login-box button {
-    margin-top: 15px;
-    width: 100%;
-    padding: 10px;
-    background: #3b82f6;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-}
-.login-box button:hover {
-    background: #2563eb;
-}
-
-/* TOPBAR */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1e293b;
-    color: white;
-    padding: 15px 25px;
-}
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.acciones button {
-    background: #ef4444;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-}
-.acciones button:hover {
-    background: #dc2626;
-}
-
-/* HERO */
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background: linear-gradient(to right, #7c9cd0, #1146d8);
-    color: white;
-    flex-wrap: wrap;
-}
-.hero-texto { max-width: 500px; }
-.hero-texto h2 { font-size: 40px; margin-bottom: 15px; }
-.hero-texto p  { font-size: 18px; margin-bottom: 20px; }
-.hero-texto button {
-    background: orange;
-    border: none;
-    padding: 12px 20px;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.hero-img img { width: 300px; }
-
-/* MENÚ PRINCIPAL */
-.menu-principal {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 20px auto 0;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-.btn-menu {
-    flex: 1;
-    max-width: 180px;
-    min-width: 140px;
-    padding: 14px 18px;
-    font-size: 16px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 55px;
-}
-.btn-menu:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-}
-.btn-menu.activo {
-    background: yellow;
-    color: black;
-    font-weight: bold;
-}
-
-/* NOVEDADES */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-.novedades-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-.novedad {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    border-radius: 12px;
-    border: 1px solid;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.1s, opacity 0.1s;
-    overflow: hidden;
-}
-.novedad:active { transform: scale(0.99); opacity: 0.85; }
-.novedad-img {
-    width: 140px;
-    min-height: 90px;
-    flex-shrink: 0;
-    object-fit: cover;
-    display: block;
-}
-.novedad-body {
-    padding: 14px 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.novedad h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-.novedad p  { font-size: 14px; margin-bottom: 6px; color: #222; }
-.novedad span { font-size: 12px; color: #666; }
-.importante { background: #FAEEDA; border-color: #BA7517; }
-.importante h3 { color: #633806; }
-.urgente    { background: #FCEBEB; border-color: #A32D2D; }
-.urgente    h3 { color: #501313; }
-.info       { background: #E6F1FB; border-color: #185FA5; }
-.info       h3 { color: #042C53; }
-.evento     { background: #EAF3DE; border-color: #3B6D11; }
-.evento     h3 { color: #173404; }
-
-/* FOOTER */
-.footer {
-    background-color: #1e293b;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    margin-top: auto;
-}
-.btn-ayuda {
-    margin-top: 8px;
-    background: #3b82f6;
-    border: none;
-    padding: 8px 16px;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .menu-principal {
-        flex-direction: column;
-        gap: 18px;
-        max-width: 100%;
-    }
-    .btn-menu {
-        max-width: 50%;
-        height: 85px;
-        font-size: 10px;
-    }
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-    <div class="logo" onclick="mostrar('inicio')">Instituto 57</div>
+
+    <div class="logo" onclick="mostrar('inicio')">
+        Instituto 57
+    </div>
+
     <div class="acciones">
         <button onclick="cerrarSesion()">Salir</button>
     </div>
 </div>
 
-<!-- BIENVENIDA -->
+
+
+<!-- 🎯 BIENVENIDA -->
 <section id="inicio" class="hero">
+
     <div class="hero-texto">
         <h2>Bienvenido al Centro de Estudiantes</h2>
         <p>Conectando alumnos, profesores y administración</p>
-        <button onclick="mostrar('ingreso', event)">Ayuda</button>
+        <button onclick="mostrar('ingreso')">Ayuda</button>
     </div>
     <div class="hero-img">
-        <img src="img/cuatro-estudiantes-felices-dos-mujeres-dos-hombres-caminan-frente-edificio-escolar-mochilas_150234-178481.avif" alt="Estudiantes felices">
+        <img src="img/estudiantes.jpeg" alt="Estudiantes felices">
     </div>
 </section>
 
-<!-- MENÚ PRINCIPAL -->
-<div class="menu-principal">
-    <button class="btn-menu" onclick="mostrar('novedades', event)">📢 Novedades</button>
-    <button class="btn-menu" onclick="mostrar('calendario', event)">📅 Calendario</button>
-    <button class="btn-menu" onclick="mostrar('reglamentos', event)">📜 Reglamentos</button>
-    <button class="btn-menu" onclick="mostrar('notas', event)">📝 Notas</button>
-</div>
+<!-- 🎴 BOTONES DE ACCESO -->
+<section class="menu-principal">
+    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
+    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
+    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
+   
+    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
+</section>
 
-<!-- NOVEDADES -->
+
 <section id="novedades">
-    <h2>📢 Novedades</h2>
-    <div class="novedades-container">
-
-        <div class="novedad importante" onclick="playJingle('importante')">
-            <img class="novedad-img" src="img/examen.jpg" alt="Examen">
-            <div class="novedad-body">
-                <h3>⚠️ IMPORTANTE</h3>
-                <p>Examen obligatorio el lunes. Traer materiales completos.</p>
-                <span>📅 25 Abril 2026</span>
-            </div>
-        </div>
-
-        <div class="novedad urgente" onclick="playJingle('urgente')">
-            <img class="novedad-img" src="img/profesores.jpg" alt="Cambio de profesores">
-            <div class="novedad-body">
-                <h3>🔴 URGENTE</h3>
-                <p>Cambio de profesores.</p>
-                <span>📅 20 Abril 2026</span>
-            </div>
-        </div>
-
-        <div class="novedad info" onclick="playJingle('info')">
-            <img class="novedad-img" src="img/equivalencias.jpg" alt="Equivalencias">
-            <div class="novedad-body">
-                <h3>ℹ️ INFORMACIÓN</h3>
-                <p>Nuevas equivalencias de materias disponibles.</p>
-                <span>📅 19 Abril 2026</span>
-            </div>
-        </div>
-
-        <div class="novedad evento" onclick="playJingle('evento')">
-            <img class="novedad-img" src="img/jornada.jpg" alt="Jornada recreativa">
-            <div class="novedad-body">
-                <h3>🎉 EVENTOS</h3>
-                <p>Jornada recreativa este viernes para todos los cursos.</p>
-                <span>📅 18 Abril 2026</span>
-            </div>
-        </div>
-
-    </div>
+<h2>Novedades</h2>
+<p>El profesor Santiago López no puede venir a dar clase porque se fue a ver el mundial.</p>
 </section>
 
-<!-- REGLAMENTOS -->
 <section id="reglamentos">
-    <h2>Reglamentos</h2>
-    <ul>
-        <li>Asistencia mínima del 80%</li>
-        <li>Respeto a docentes y compañeros</li>
-        <li>No plagio en trabajos prácticos</li>
-        <li>Entrega de trabajos en fecha</li>
-        <li>Uso responsable de equipos informáticos</li>
-        <li>Prohibido el uso del celular en clase</li>
-        <li>Participación obligatoria en proyectos</li>
-        <li>Aprobación de exámenes parciales y finales</li>
-        <li>Cumplimiento de horarios</li>
-        <li>Conducta ética y profesional</li>
-    </ul>
+<h2>Reglamentos</h2>
+<ul>
+<li>Asistencia mínima del 80%</li>
+<li>Respeto a docentes y compañeros</li>
+<li>No plagio en trabajos prácticos</li>
+<li>Entrega de trabajos en fecha</li>
+<li>Uso responsable de equipos informáticos</li>
+<li>Prohibido el uso del celular en clase</li>
+<li>Participación obligatoria en proyectos</li>
+<li>Aprobación de exámenes parciales y finales</li>
+<li>Cumplimiento de horarios</li>
+<li>Conducta ética y profesional</li>
+</ul>
 </section>
 
-<!-- CALENDARIO -->
+<section id="estudiantes">
+<h2>Lista de Estudiantes</h2>
+<table>
+<tr><th>Nombre</th><th>Apellido</th><th>Edad</th></tr>
+<tr><td>Juan</td><td>Pérez</td><td>20</td></tr>
+<tr><td>Ana</td><td>Gómez</td><td>21</td></tr>
+</table>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ipsa, repellat eaque tempore perspiciatis iure temporibus deserunt molestiae. Provident at earum illo iure, nesciunt vel quibusdam. Iste voluptatem quam nesciunt.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque dolorem deleniti nam, maiores aliquid quos blanditiis natus in fugit cum vel quidem maxime iusto et perspiciatis. Doloribus, nostrum nam.
+</p>
+</section>
+
+<section id="profesores">
+<h2>Profesores</h2>
+<ul>
+<li>Santiago López</li>
+<li>María Fernández</li>
+</ul>
+</section>
+
 <section id="calendario">
-    <h2>Calendario Académico</h2>
-    <div style="display:flex; justify-content:center;">
-        <img src="img/calendario-final.jpg"
-             alt="Calendario Abril 2026"
-             style="width:100%; max-width:900px;">
-    </div>
+<h2>Calendario - Abril 2026</h2>
+<table>
+<tr>
+<th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
+</tr>
+<tr>
+<td></td><td></td><td></td><td>1</td><td>2</td><td class="verde">3</td><td class="verde">4</td>
+</tr>
+</table>
 </section>
 
+<section id="horario">
+<h2>Horario</h2>
+<p>Primera entrada: 17:30 a 19:30</p>
+<p>Segunda entrada: 19:40 a 21:30</p>
+</section>
 <!-- NOTAS -->
 <section id="notas">
-    <h2>Notas</h2>
-    <p>Las notas estarán disponibles en el sistema.</p>
+<h2>Notas</h2>
+<p>Las notas estarán disponibles en el sistema.</p>
 </section>
-
 <!-- INGRESO / AYUDA -->
 <section id="ingreso">
-    <h2>Requisitos de Ingreso</h2>
-    <ul>
-        <li>Secundario completo</li>
-        <li>Computadora</li>
-        <li>Internet</li>
-    </ul>
+<h2>Requisitos</h2>
+<ul>
+<li>Secundario completo</li>
+<li>Computadora</li>
+<li>Internet</li>
+</ul>
 </section>
 
-<!-- LOGIN -->
+<!-- LOGIN (NO SE TOCA) -->
 <div id="login-container">
-    <div class="login-box">
-        <h2>Iniciar Sesión</h2>
+<div class="login-box">
+<h2>Iniciar Sesión</h2>
 
-        <label>Tipo:</label>
-        <select id="tipo">
-            <option value="estudiante">Estudiante</option>
-            <option value="profesor">Profesor</option>
-            <option value="administrativo">Administrativo</option>
-        </select>
+<label>Tipo:</label>
+<select id="tipo">
+<option value="estudiante">Estudiante</option>
+<option value="profesor">Profesor</option>
+<option value="administrativo">Administrativo</option>
+</select>
 
-        <label>Nombre:</label>
-        <input type="text" id="nombreLogin">
+<label>Nombre:</label>
+<input type="text" id="nombreLogin">
 
-        <label>Contraseña:</label>
-        <input type="password" id="passwordLogin">
+<label>Contraseña:</label>
+<input type="password" id="passwordLogin">
 
-        <div style="margin-top:8px;">
-            <input type="checkbox" id="verPassword"> Mostrar contraseña
-        </div>
+<input type="checkbox" id="verPassword"> Mostrar contraseña
 
-        <div id="wifi" style="margin-top:12px; font-size:13px;">
-            <p id="wifiNombre"></p>
-            <p id="wifiPass"></p>
-        </div>
+<button onclick="login()">Ingresar</button>
 
-        <button onclick="login()">Ingresar</button>
-    </div>
+<div id="wifi">
+<p id="wifiNombre"></p>
+<p id="wifiPass"></p>
+</div> 
+</div>
 </div>
 
-<!-- FOOTER -->
+<script src="script.js"></script>
+
 <footer class="footer">
     <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
     <p>Contacto: instituto57@email.com</p>
-    <button class="btn-ayuda" onclick="mostrar('ingreso', event)">❓ Ayuda</button>
+
+    <button class="btn-ayuda" onclick="mostrar('ingreso')">
+        ❓ Ayuda
+    </button>
 </footer>
 
-<script>
-// ─── MOSTRAR SECCIÓN ─────────────────────────────────────────────────────────
-function mostrar(seccion, event) {
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+<section id="calendario">
+<h2>Calendario académico</h2>
+<section id="calendario">
+  <h2 style="text-align:center;">Calendario</h2>
 
-    const seccionActiva = document.getElementById(seccion);
-    if (!seccionActiva) return;
-    seccionActiva.classList.add("active");
+  <div style="display:flex; justify-content:center;">
+    <img src="img/calendario-final.jpg" 
+         alt="Calendario Abril 2026"
+         style="width:100%; max-width:900px;">
+  </div>
 
-    seccionActiva.scrollIntoView({ behavior: "smooth" });
+</section>
+<img src="img/calendario final jpg.jpg" alt="Calendario Abril 2026" style="width:100%; max-width:600px;">
 
-    document.querySelectorAll(".btn-menu").forEach(b => b.classList.remove("activo"));
+<div style="display:flex; justify-content:center;">
 
-    if (event && event.target && event.target.closest(".btn-menu")) {
-        event.target.closest(".btn-menu").classList.add("activo");
-    }
-}
-
-// ─── WIFI ─────────────────────────────────────────────────────────────────────
-const wifiData = {
-    estudiante:     { nombre: "Estudiantes",   contraseña: "Escuelas_2025" },
-    profesor:       { nombre: "Docentes",      contraseña: "Docentes_2025" },
-    video:          { nombre: "Videollamada",  contraseña: "Video_2025"    },
-    administrativo: { nombre: "Administracion",contraseña: "Admin_2025"    }
-};
-
-const tipoSelect = document.getElementById("tipo");
-tipoSelect.addEventListener("change", () => {
-    const data = wifiData[tipoSelect.value];
-    if (!data) return;
-    document.getElementById("wifiNombre").innerText = "Nombre: " + data.nombre;
-    document.getElementById("wifiPass").innerText   = "Contraseña: " + data.contraseña;
-});
-tipoSelect.dispatchEvent(new Event("change"));
-
-// ─── MOSTRAR / OCULTAR CONTRASEÑA ────────────────────────────────────────────
-document.getElementById("verPassword").addEventListener("change", function () {
-    document.getElementById("passwordLogin").type = this.checked ? "text" : "password";
-});
-
-// ─── LOGIN ───────────────────────────────────────────────────────────────────
-function login() {
-    const password = document.getElementById("passwordLogin").value;
-    // CAMBIAR LA CONTRASEÑA ACÁ SI HACE FALTA
-    if (password === "") {
-        document.getElementById("login-container").style.display = "none";
-        mostrar("novedades");
-    } else {
-        alert("Contraseña incorrecta");
-    }
-}
-
-// ─── CERRAR SESIÓN ───────────────────────────────────────────────────────────
-function cerrarSesion() {
-    document.getElementById("login-container").style.display = "flex";
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    document.querySelectorAll(".btn-menu").forEach(b => b.classList.remove("activo"));
-    document.getElementById("nombreLogin").value   = "";
-    document.getElementById("passwordLogin").value = "";
-    document.getElementById("verPassword").checked = false;
-    document.getElementById("passwordLogin").type  = "password";
-}
-
-// ─── INICIO ──────────────────────────────────────────────────────────────────
-window.onload = function () {
-    mostrar("inicio");
-};
-
-// ─── JINGLES ─────────────────────────────────────────────────────────────────
-let ctx = null;
-const buffers = {};
-let active = null;
-
-const AUDIOS = {
-    importante: "//vUxAAAJ63m2FXMAAXoxF6XPaAAGEsTAIcM8NQ5RaDx2WO/Ug30mjFQzM9p81a",
-    urgente:    "SUQzBAAAAABBlRYWFgAAAASAAADbWFqb3JfYnJhbmQAaXNvbQBUWFhYAAAAEwA",
-    info:       "SUQzAwAAAAAAAAP/7pAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFZ",
-    evento:     "SUQzAwAAAAACOVRYWFgAAAARAAAAAbWFqb3JfYnJhbmQATVRSBIFRYWFgAAAASAAA"
-};
-
-async function getBuffer(tipo) {
-    if (buffers[tipo]) return buffers[tipo];
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    const raw = atob(AUDIOS[tipo]);
-    const arr = new Uint8Array(raw.length);
-    for (let i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
-    buffers[tipo] = await ctx.decodeAudioData(arr.buffer.slice(0));
-    return buffers[tipo];
-}
-
-async function playJingle(tipo) {
-    try {
-        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === "suspended") await ctx.resume();
-        if (active) { try { active.stop(); } catch(e) {} }
-        const buf = await getBuffer(tipo);
-        active = ctx.createBufferSource();
-        active.buffer = buf;
-        active.connect(ctx.destination);
-        active.start(0, 0, Math.min(buf.duration, 8));
-        active.onended = () => { active = null; };
-    } catch(e) {
-        console.error("Error al reproducir:", e);
-    }
-}
-</script>
-
+</section>
 </body>
 </html>
