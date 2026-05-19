@@ -381,63 +381,37 @@ body {
 .ver-todas:hover { text-decoration: underline; }
 
 /* ===== NOVEDADES ===== */
-.novedad-item {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 18px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
+.novedad {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.3s;
 }
 
-.novedad-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+.novedad:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.02);
 }
 
-.novedad-img {
-    width: 100px;
-    height: 72px;
-    border-radius: 8px;
-    flex-shrink: 0;
+.novedad h3 {
+    margin: 0;
 }
 
-.placeholder-img       { background: linear-gradient(135deg, #94a3b8, #64748b); }
-.placeholder-img.dark  { background: linear-gradient(135deg, #1e293b, #334155); }
-.placeholder-img.mid   { background: linear-gradient(135deg, #475569, #94a3b8); }
-
-.novedad-info { flex: 1; }
-
-.tag {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
-    color: var(--blue-light);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.novedad-info h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--navy-mid);
-    margin: 0 0 4px 0;
-    line-height: 1.3;
-}
-
-.novedad-info p {
+.novedad span {
     font-size: 12px;
-    color: var(--text-muted);
-    margin: 0 0 4px 0;
-    line-height: 1.4;
+    color: #ccc;
 }
-
-.novedad-info small {
-    font-size: 11px;
-    color: #94a3b8;
-    font-weight: 600;
+/* botón activo */
+.btn-menu.activo {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
 }
+.btn-menu {
+    transition: 0.3s;
+}
+<!-- hasta ahi llega las novedades lean -->
 
 /* ===== CALENDARIO WIDGET ===== */
 .calendario-nav {
