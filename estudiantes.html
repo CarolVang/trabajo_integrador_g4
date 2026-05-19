@@ -1,155 +1,406 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Instituto 57</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>Instituto 57</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
-    <div class="logo" onclick="mostrar('inicio')">Instituto 57</div>
-    <div class="acciones">
-        <button class="btn-perfil-top" onclick="mostrar('perfil')">👤 Mi Perfil</button>
+    <div class="logo" onclick="mostrar('inicio')">
+        <span class="logo-badge">CE</span>
+        <div class="logo-text">
+            <strong>CENTRO DE ESTUDIANTES</strong>
+            <small>Instituto Superior del Futuro</small>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <button onclick="mostrar('inicio')">Inicio</button>
+        <button onclick="mostrar('novedades')">Novedades</button>
+        <button onclick="mostrar('calendario')">Eventos</button>
+        <button onclick="mostrar('reglamentos')">Reglamentos</button>
+        <button onclick="mostrar('correlativas')">Correlativas</button>
     </div>
 </div>
 
-<!-- FIX #1: era <section class="menu-principal">, ahora es <div> para que no
-     desaparezca con el display:none que el JS aplica a todos los <section> -->
-<div class="menu-principal">
-    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
-    <button class="btn-menu" onclick="mostrar('eventos')">🎉 Eventos</button>
-    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
-    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
-    <button class="btn-menu" onclick="mostrar('estudiantes')">👨‍🎓 Estudiantes</button>
-    <button class="btn-menu" onclick="mostrar('profesores')">👩‍🏫 Profesores</button>
-    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
-</div>
-
+<!-- HERO -->
 <section id="inicio" class="hero active">
+    <div class="hero-overlay"></div>
+
     <div class="hero-texto">
-        <h2>Bienvenido al Centro de Estudiantes</h2>
-        <p>Conectando alumnos, profesores y administración</p>
-        <button onclick="mostrar('ingreso')">Ayuda</button>
+        <h2>
+            Tu voz.<br>
+            Tu comunidad.<br>
+            <span>Tu centro.</span>
+        </h2>
+        <p>Trabajamos por y para estudiantes, promoviendo participación, derechos y oportunidades.</p>
+        <div class="hero-btns">
+            <button class="btn-primary">SUMATE AL CENTRO</button>
+        </div>
     </div>
+
     <div class="hero-img">
-        <img src="img/img.avif" alt="Imagen de bienvenida">
+        <img src="img/estudiantes.jpeg" alt="Estudiantes felices">
     </div>
 </section>
 
-<!-- 🎉 EVENTOS -->
-<section id="eventos">
-    <h2>🎉 Eventos</h2>
-    <div class="contenedor-filtros">
-        <div class="buscador-eventos">
-            <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
-            <!-- FIX #6: el span se rellena desde JS -->
-            <span id="contadorResultados" class="contador-resultados"></span>
-        </div>
-        <div class="filtros-carreras">
-            <button class="btn-filtro activo" onclick="filtrarCarrera('todos', this)">Todos</button>
-            <button class="btn-filtro" onclick="filtrarCarrera('general', this)">🌎 Para Todos</button>
-            <button class="btn-filtro" onclick="filtrarCarrera('Ciencia de Datos', this)">📊 Ciencia de Datos</button>
-            <button class="btn-filtro" onclick="filtrarCarrera('Farmacia', this)">💊 Farmacia</button>
-            <button class="btn-filtro" onclick="filtrarCarrera('Trabajo Social', this)">🤝 Trabajo Social</button>
+<!-- BARRA DE VALORES -->
+<div class="valores-bar">
+    <div class="valor">
+        <span class="valor-icon">👥</span>
+        <div>
+            <strong>Representamos tus intereses</strong>
+            <p>Somos el puente entre estudiantes e institución.</p>
         </div>
     </div>
-
-    <button id="btnCrearEvento" style="display:none; margin-top:15px;" onclick="mostrar('crearEvento')">
-        ➕ Crear evento
-    </button>
-
-    <div id="listaEventos">
-        <div class="evento" data-titulo="Fiesta del Instituto" data-fecha="Viernes 25 - 20:00 hs" data-tipo="opcional" data-carrera="general">
-            <h3>Fiesta del Instituto</h3>
-            <p class="tag-carrera">🌎 Para: Todas las carreras</p>
-            <p>Viernes 25 - 20:00 hs</p>
-            <p>🟢 Opcional</p>
-            <!-- FIX #6: contador de inscriptos, se rellena desde JS -->
-            <span id="contadorEvento1" class="contador-evento"></span>
-            <div class="evento-botones">
-                <!-- FIX #2: anotarseEvento ahora existe en script.js -->
-                <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
-            </div>
+    <div class="valor">
+        <span class="valor-icon">📢</span>
+        <div>
+            <strong>Defendemos tus derechos</strong>
+            <p>Promovemos una educación pública, inclusiva y de calidad.</p>
         </div>
     </div>
+    <div class="valor">
+        <span class="valor-icon">🤝</span>
+        <div>
+            <strong>Construimos comunidad</strong>
+            <p>Fomentamos la participación, el respeto y la diversidad.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">📅</span>
+        <div>
+            <strong>Organizamos actividades</strong>
+            <p>Eventos, talleres, charlas y mucho más.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">❤️</span>
+        <div>
+            <strong>Estamos para acompañarte</strong>
+            <p>Ante dudas, problemas o propuestas, acá estamos.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     SECCIONES DE CONTENIDO
+     Estas secciones son las que el JS muestra/oculta con mostrar()
+     CADA COMPAÑERO PONE SU CONTENIDO DENTRO DE SU SECCIÓN
+     ============================================================ -->
+
+<!-- NOVEDADES — branch de compañero -->
+<section id="novedades"></section>
+
+<!-- CALENDARIO — branch de compañero -->
+<section id="calendario"></section>
+
+<!-- REGLAMENTOS — branch de compañero -->
+<section id="reglamentos">
+
+  <h2>Reglamentos y documentos</h2>
+  <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
+
+  <h3>Organización y gobierno</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Estatuto del Centro de Estudiantes</strong>
+      <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento interno de comisiones</strong>
+      <p>Funciones, responsabilidades y organización de cada comisión.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento de elecciones estudiantiles</strong>
+      <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+
+  <h3>Convivencia y participación</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Código de convivencia estudiantil</strong>
+      <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento de asambleas estudiantiles</strong>
+      <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Protocolo ante situaciones de violencia o discriminación</strong>
+      <p>Pasos a seguir y canales de denuncia disponibles.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+
+  <h3>Información académica</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Guía de derechos del estudiante</strong>
+      <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Guía de comisiones del CE</strong>
+      <p>Información y funciones de cada comisión de trabajo activa.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+
+</section>
+<!-- CORRELATIVAS — tuya -->
+<section id="correlativas">
+
+  <h2>Correlativas</h2>
+  <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más complejos.</p>
+
+  <h3>¿Cómo funcionan?</h3>
+  <div class="cards">
+    <div class="card">
+      <h3>Para cursar</h3>
+      <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.</p>
+    </div>
+    <div class="card">
+      <h3>Para rendir</h3>
+      <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
+    </div>
+    <div class="card">
+      <h3>Efecto encadenado</h3>
+      <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
+    </div>
+    <div class="card">
+      <h3>Planificación</h3>
+      <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
+    </div>
+  </div>
+
+  <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
+    <strong>¿Cómo puede afectarte?</strong>
+    <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
+  </div>
+
+ <h3>Tabla de correlativas</h3>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">1</div>
+    <span class="acord-title">Programación I</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">2</div>
+    <span class="acord-title">Lógica y Algoritmos</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">3</div>
+    <span class="acord-title">Programación II</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">4</div>
+    <span class="acord-title">Bases de Datos</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación I</div>
+    <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">5</div>
+    <span class="acord-title">Sistemas Operativos</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">6</div>
+    <span class="acord-title">Desarrollo Web</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación II</div>
+    <div class="corr-pill">🔓 Sistemas Operativos</div>
+  </div>
+</div>
+  </table>
+
+  <h3>Consejos para no atrasarte</h3>
+  <ul>
+    <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
+    <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
+    <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
+    <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
+  </ul>
+
 </section>
 
-<!-- 👤 PERFIL -->
-<section id="perfil">
-    <div class="perfil-wrapper">
-        <div class="perfil-card">
-            <div class="perfil-header"><h1>Mi Perfil</h1></div>
-            <div class="perfil-foto">
-                <img id="fotoPerfil" src="https://placehold.co/120x120?text=Foto" class="avatar">
-                <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
-                <div style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
-                    <button onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar</button>
-                </div>
-            </div>
-            <div class="perfil-info">
-                <div class="dato"><span>Nombre</span><p id="nombre">Usuario Demo</p></div>
-                <div class="dato"><span>Rango</span><p id="rango">Estudiante</p></div>
-            </div>
+<!-- ESTUDIANTES — branch de compañero -->
+<section id="estudiantes"></section>
 
-            <!-- FIX #3: cambiarContrasena() ahora existe en script.js -->
-            <button class="btn-secundario" onclick="cambiarContrasena()">Cambiar contraseña</button>
+<!-- PROFESORES — branch de compañero -->
+<section id="profesores"></section>
 
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-            <button onclick="cerrarSesion()" style="background: #ef4444; color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-                🚪 Cerrar Sesión
-            </button>
-        </div>
-    </div>
-</section>
+<!-- HORARIO — branch de compañero -->
+<section id="horario"></section>
 
-<!-- ➕ CREAR EVENTO -->
-<section id="crearEvento">
-    <h2>➕ Crear Evento</h2>
-    <div class="form-crear-evento">
-        <label>Título del evento</label>
-        <input type="text" id="nuevoTitulo" placeholder="Ej: Charla de orientación">
+<!-- NOTAS — branch de compañero -->
+<section id="notas"></section>
 
-        <label>Carrera destinataria</label>
-        <select id="nuevaCarrera">
-            <option value="general">🌎 Para Todos</option>
-            <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
-            <option value="Farmacia">💊 Farmacia</option>
-            <option value="Trabajo Social">🤝 Trabajo Social</option>
-        </select>
+<!-- INGRESO — branch de compañero -->
+<section id="ingreso"></section>
 
-        <label>Fecha y hora</label>
-        <input type="text" id="nuevaFecha" placeholder="Ej: Viernes 25 - 20:00 hs">
-
-        <label>Tipo</label>
-        <select id="nuevoTipo">
-            <option value="opcional">🟢 Opcional</option>
-            <option value="obligatorio">🔴 Obligatorio</option>
-        </select>
-
-        <div class="form-botones">
-            <button class="btn-confirmar" onclick="crearEvento()">✅ Crear evento</button>
-            <button class="btn-cancelar" onclick="mostrar('eventos')">Cancelar</button>
-        </div>
-    </div>
-</section>
-
-<!-- LOGIN -->
-<!-- FIX #4: ahora el login valida la contraseña (lógica en script.js) -->
+<!-- LOGIN — NO TOCAR -->
 <div id="login-container">
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
+        <label>Tipo:</label>
         <select id="tipo">
             <option value="estudiante">Estudiante</option>
             <option value="profesor">Profesor</option>
             <option value="administrativo">Administrativo</option>
         </select>
-        <input type="text" id="nombreLogin" placeholder="Nombre">
-        <input type="password" id="passwordLogin" placeholder="Contraseña">
+        <label>Nombre:</label>
+        <input type="text" id="nombreLogin">
+        <label>Contraseña:</label>
+        <input type="password" id="passwordLogin">
+        <input type="checkbox" id="verPassword"> Mostrar contraseña
         <button onclick="login()">Ingresar</button>
+        <div id="wifi">
+            <p id="wifiNombre"></p>
+            <p id="wifiPass"></p>
+        </div>
     </div>
 </div>
+
+<!-- CTA BAR -->
+<div class="cta-bar">
+    <div class="cta-item">
+        <span>💡</span>
+        <div><strong>SUMÁ TU IDEA</strong><p>Tenés una propuesta? Enviánosla. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>👥</span>
+        <div><strong>PARTICIPÁ</strong><p>Sumate a las comisiones y proyectos. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>💬</span>
+        <div><strong>HACÉ OÍR TU VOZ</strong><p>Tu opinión nos ayuda a representarte mejor. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>📱</span>
+        <div><strong>SEGUINOS</strong><p>Enterate de todo en nuestras redes sociales. →</p></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-badge">CE</div>
+            <div>
+                <strong>CENTRO DE ESTUDIANTES</strong>
+                <small>Instituto Superior del Futuro</small>
+                <p>Estudiantes organizados, comunidad fortalecida.</p>
+            </div>
+        </div>
+        <div class="footer-col">
+            <strong>ENLACES</strong>
+            <a href="#">Sobre nosotros</a>
+            <a href="#">Comisiones</a>
+            <a href="#">Actividades</a>
+            <a href="#">Noticias</a>
+            <a href="#">Documentos</a>
+        </div>
+        <div class="footer-col">
+            <strong>CONTACTO</strong>
+            <p>📞 (11) 1234-5678</p>
+            <p>✉ instituto57@email.com</p>
+            <p>📍 Av. Siempre Viva 1234, CABA</p>
+        </div>
+        <div class="footer-col">
+            <strong>SEGUINOS</strong>
+            <div class="social-links">
+                <a href="#">f</a>
+                <a href="#">in</a>
+                <a href="#">tw</a>
+                <a href="#">yt</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
+        <div>
+            <a href="#">Política de privacidad</a>
+            <a href="#">Términos y condiciones</a>
+        </div>
+    </div>
+</footer>
 
 <script src="script.js"></script>
 </body>
