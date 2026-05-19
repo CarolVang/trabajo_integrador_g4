@@ -32,7 +32,6 @@
 <!-- HERO -->
 <section id="inicio" class="hero active">
     <div class="hero-overlay"></div>
-
     <div class="hero-texto">
         <h2>
             Tu voz.<br>
@@ -44,7 +43,6 @@
             <button class="btn-primary">SUMATE AL CENTRO</button>
         </div>
     </div>
-
     <div class="hero-img">
         <img src="img/estudiantes.jpeg" alt="Estudiantes felices">
     </div>
@@ -89,233 +87,285 @@
     </div>
 </div>
 
-<!-- ============================================================
-     SECCIONES DE CONTENIDO
-     Estas secciones son las que el JS muestra/oculta con mostrar()
-     CADA COMPAÑERO PONE SU CONTENIDO DENTRO DE SU SECCIÓN
-     ============================================================ -->
-
-<!-- NOVEDADES — branch de compañero -->
+<!-- NOVEDADES -->
 <section id="novedades"></section>
 
-<!-- CALENDARIO — branch de compañero -->
-<section id="calendario"></section>
+<!-- CALENDARIO / EVENTOS -->
+<section id="calendario">
 
-<!-- REGLAMENTOS — branch de compañero -->
+    <h2>🎉 Eventos</h2>
+
+    <div class="contenedor-filtros">
+        <div class="buscador-eventos">
+            <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
+            <span id="contadorResultados" class="contador-resultados"></span>
+        </div>
+        <div class="filtros-carreras">
+            <button class="btn-filtro activo" onclick="filtrarCarrera('todos', this)">Todos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('general', this)">🌎 Para Todos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Ciencia de Datos', this)">📊 Ciencia de Datos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Farmacia', this)">💊 Farmacia</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Trabajo Social', this)">🤝 Trabajo Social</button>
+        </div>
+    </div>
+
+    <button id="btnCrearEvento" style="display:none;" onclick="mostrar('crearEvento')">
+        ➕ Crear evento
+    </button>
+
+    <div id="listaEventos">
+        <div class="evento-card" data-titulo="Fiesta del Instituto" data-fecha="Viernes 25 - 20:00 hs" data-tipo="opcional" data-carrera="general">
+            <h3>Fiesta del Instituto</h3>
+            <p class="tag-carrera">🌎 Para: Todas las carreras</p>
+            <p>Viernes 25 - 20:00 hs</p>
+            <p>🟢 Opcional</p>
+            <span id="contadorEvento1" class="contador-evento"></span>
+            <div class="evento-botones">
+                <button id="btnEvento1" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- CREAR EVENTO (sección separada, solo visible para no-estudiantes) -->
+<section id="crearEvento">
+    <h2>➕ Crear Evento</h2>
+    <div class="form-crear-evento">
+        <label>Título del evento</label>
+        <input type="text" id="nuevoTitulo" placeholder="Ej: Charla de orientación">
+
+        <label>Carrera destinataria</label>
+        <select id="nuevaCarrera">
+            <option value="general">🌎 Para Todos</option>
+            <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
+            <option value="Farmacia">💊 Farmacia</option>
+            <option value="Trabajo Social">🤝 Trabajo Social</option>
+        </select>
+
+        <label>Fecha y hora</label>
+        <input type="text" id="nuevaFecha" placeholder="Ej: Viernes 25 - 20:00 hs">
+
+        <label>Tipo</label>
+        <select id="nuevoTipo">
+            <option value="opcional">🟢 Opcional</option>
+            <option value="obligatorio">🔴 Obligatorio</option>
+        </select>
+
+        <div class="form-botones">
+            <button class="btn-confirmar" onclick="crearEvento()">✅ Crear evento</button>
+            <button class="btn-cancelar" onclick="mostrar('calendario')">Cancelar</button>
+        </div>
+    </div>
+</section>
+
+<!-- REGLAMENTOS -->
 <section id="reglamentos">
 
-  <h2>Reglamentos y documentos</h2>
-  <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
+    <h2>Reglamentos y documentos</h2>
+    <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
 
-  <h3>Organización y gobierno</h3>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Estatuto del Centro de Estudiantes</strong>
-      <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
+    <h3>Organización y gobierno</h3>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Estatuto del Centro de Estudiantes</strong>
+            <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Reglamento interno de comisiones</strong>
-      <p>Funciones, responsabilidades y organización de cada comisión.</p>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Reglamento interno de comisiones</strong>
+            <p>Funciones, responsabilidades y organización de cada comisión.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Reglamento de elecciones estudiantiles</strong>
-      <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Reglamento de elecciones estudiantiles</strong>
+            <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
 
-  <h3>Convivencia y participación</h3>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Código de convivencia estudiantil</strong>
-      <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+    <h3>Convivencia y participación</h3>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Código de convivencia estudiantil</strong>
+            <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Reglamento de asambleas estudiantiles</strong>
-      <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Reglamento de asambleas estudiantiles</strong>
+            <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Protocolo ante situaciones de violencia o discriminación</strong>
-      <p>Pasos a seguir y canales de denuncia disponibles.</p>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Protocolo ante situaciones de violencia o discriminación</strong>
+            <p>Pasos a seguir y canales de denuncia disponibles.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
 
-  <h3>Información académica</h3>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Guía de derechos del estudiante</strong>
-      <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+    <h3>Información académica</h3>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Guía de derechos del estudiante</strong>
+            <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
-  <div class="doc-item">
-    <span class="doc-icon">📄</span>
-    <div class="doc-info">
-      <strong>Guía de comisiones del CE</strong>
-      <p>Información y funciones de cada comisión de trabajo activa.</p>
+    <div class="doc-item">
+        <span class="doc-icon">📄</span>
+        <div class="doc-info">
+            <strong>Guía de comisiones del CE</strong>
+            <p>Información y funciones de cada comisión de trabajo activa.</p>
+        </div>
+        <button class="btn-descargar">⬇ DESCARGAR</button>
     </div>
-    <button class="btn-descargar">⬇ DESCARGAR</button>
-  </div>
 
 </section>
-<!-- CORRELATIVAS — tuya -->
+
+<!-- CORRELATIVAS -->
 <section id="correlativas">
 
-  <h2>Correlativas</h2>
-  <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más complejos.</p>
+    <h2>Correlativas</h2>
+    <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más complejos.</p>
 
-  <h3>¿Cómo funcionan?</h3>
-  <div class="cards">
-    <div class="card">
-      <h3>Para cursar</h3>
-      <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.</p>
+    <h3>¿Cómo funcionan?</h3>
+    <div class="cards">
+        <div class="card">
+            <h3>Para cursar</h3>
+            <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.</p>
+        </div>
+        <div class="card">
+            <h3>Para rendir</h3>
+            <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
+        </div>
+        <div class="card">
+            <h3>Efecto encadenado</h3>
+            <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
+        </div>
+        <div class="card">
+            <h3>Planificación</h3>
+            <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
+        </div>
     </div>
-    <div class="card">
-      <h3>Para rendir</h3>
-      <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
+
+    <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
+        <strong>¿Cómo puede afectarte?</strong>
+        <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
     </div>
-    <div class="card">
-      <h3>Efecto encadenado</h3>
-      <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
+
+    <h3>Tabla de correlativas</h3>
+
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num libre">1</div>
+            <span class="acord-title">Programación I</span>
+            <span class="acord-badge badge-libre">Sin correlativas</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p>Materia de primer año, podés inscribirte libremente.</p>
+        </div>
     </div>
-    <div class="card">
-      <h3>Planificación</h3>
-      <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
+
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num libre">2</div>
+            <span class="acord-title">Lógica y Algoritmos</span>
+            <span class="acord-badge badge-libre">Sin correlativas</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p>Materia de primer año, podés inscribirte libremente.</p>
+        </div>
     </div>
-  </div>
 
-  <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
-    <strong>¿Cómo puede afectarte?</strong>
-    <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
-  </div>
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num">3</div>
+            <span class="acord-title">Programación II</span>
+            <span class="acord-badge badge-req">1 requerida</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p class="corr-label">Necesitás tener aprobada</p>
+            <div class="corr-pill">🔓 Programación I</div>
+        </div>
+    </div>
 
- <h3>Tabla de correlativas</h3>
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num">4</div>
+            <span class="acord-title">Bases de Datos</span>
+            <span class="acord-badge badge-req">2 requeridas</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p class="corr-label">Necesitás tener aprobadas</p>
+            <div class="corr-pill">🔓 Programación I</div>
+            <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+        </div>
+    </div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num libre">1</div>
-    <span class="acord-title">Programación I</span>
-    <span class="acord-badge badge-libre">Sin correlativas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p>Materia de primer año, podés inscribirte libremente.</p>
-  </div>
-</div>
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num">5</div>
+            <span class="acord-title">Sistemas Operativos</span>
+            <span class="acord-badge badge-req">1 requerida</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p class="corr-label">Necesitás tener aprobada</p>
+            <div class="corr-pill">🔓 Programación I</div>
+        </div>
+    </div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num libre">2</div>
-    <span class="acord-title">Lógica y Algoritmos</span>
-    <span class="acord-badge badge-libre">Sin correlativas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p>Materia de primer año, podés inscribirte libremente.</p>
-  </div>
-</div>
+    <div class="acord-item">
+        <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+            <div class="acord-num">6</div>
+            <span class="acord-title">Desarrollo Web</span>
+            <span class="acord-badge badge-req">2 requeridas</span>
+            <span class="acord-chevron">▼</span>
+        </button>
+        <div class="acord-body">
+            <p class="corr-label">Necesitás tener aprobadas</p>
+            <div class="corr-pill">🔓 Programación II</div>
+            <div class="corr-pill">🔓 Sistemas Operativos</div>
+        </div>
+    </div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">3</div>
-    <span class="acord-title">Programación II</span>
-    <span class="acord-badge badge-req">1 requerida</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobada</p>
-    <div class="corr-pill">🔓 Programación I</div>
-  </div>
-</div>
-
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">4</div>
-    <span class="acord-title">Bases de Datos</span>
-    <span class="acord-badge badge-req">2 requeridas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobadas</p>
-    <div class="corr-pill">🔓 Programación I</div>
-    <div class="corr-pill">🔓 Lógica y Algoritmos</div>
-  </div>
-</div>
-
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">5</div>
-    <span class="acord-title">Sistemas Operativos</span>
-    <span class="acord-badge badge-req">1 requerida</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobada</p>
-    <div class="corr-pill">🔓 Programación I</div>
-  </div>
-</div>
-
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">6</div>
-    <span class="acord-title">Desarrollo Web</span>
-    <span class="acord-badge badge-req">2 requeridas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobadas</p>
-    <div class="corr-pill">🔓 Programación II</div>
-    <div class="corr-pill">🔓 Sistemas Operativos</div>
-  </div>
-</div>
-  </table>
-
-  <h3>Consejos para no atrasarte</h3>
-  <ul>
-    <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
-    <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
-    <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
-    <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
-  </ul>
+    <h3>Consejos para no atrasarte</h3>
+    <ul>
+        <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
+        <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
+        <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
+        <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
+    </ul>
 
 </section>
 
-<!-- ESTUDIANTES — branch de compañero -->
+<!-- Secciones de compañeros (vacías, listas para integrar) -->
 <section id="estudiantes"></section>
-
-<!-- PROFESORES — branch de compañero -->
 <section id="profesores"></section>
-
-<!-- HORARIO — branch de compañero -->
 <section id="horario"></section>
-
-<!-- NOTAS — branch de compañero -->
 <section id="notas"></section>
-
-<!-- INGRESO — branch de compañero -->
 <section id="ingreso"></section>
 
-<!-- LOGIN — NO TOCAR -->
+<!-- LOGIN -->
 <div id="login-container">
     <div class="login-box">
         <h2>Iniciar Sesión</h2>
