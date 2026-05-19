@@ -5,175 +5,403 @@
 <title>Instituto 57</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-
     <div class="logo" onclick="mostrar('inicio')">
-        Instituto 57
+        <span class="logo-badge">CE</span>
+        <div class="logo-text">
+            <strong>CENTRO DE ESTUDIANTES</strong>
+            <small>Instituto Superior del Futuro</small>
+        </div>
     </div>
 
-    <div class="acciones">
-        <button onclick="cerrarSesion()">Salir</button>
+    <div class="nav-links">
+        <button onclick="mostrar('inicio')">Inicio</button>
+        <button onclick="mostrar('novedades')">Novedades</button>
+        <button onclick="mostrar('calendario')">Eventos</button>
+        <button onclick="mostrar('reglamentos')">Reglamentos</button>
+        <button onclick="mostrar('correlativas')">Correlativas</button>
     </div>
 </div>
 
-
-
-<!-- 🎯 BIENVENIDA -->
-<section id="inicio" class="hero">
+<!-- HERO -->
+<section id="inicio" class="hero active">
+    <div class="hero-overlay"></div>
 
     <div class="hero-texto">
-        <h2>Bienvenido al Centro de Estudiantes</h2>
-        <p>Conectando alumnos, profesores y administración</p>
-        <button onclick="mostrar('ingreso')">Ayuda</button>
+        <h2>
+            Tu voz.<br>
+            Tu comunidad.<br>
+            <span>Tu centro.</span>
+        </h2>
+        <p>Trabajamos por y para estudiantes, promoviendo participación, derechos y oportunidades.</p>
+        <div class="hero-btns">
+            <button class="btn-primary">SUMATE AL CENTRO</button>
+        </div>
     </div>
+
     <div class="hero-img">
         <img src="img/estudiantes.jpeg" alt="Estudiantes felices">
     </div>
 </section>
 
-<!-- 🎴 BOTONES DE ACCESO -->
-<section class="menu-principal">
-    <button class="btn-menu" onclick="mostrar('novedades')">📢 Novedades</button>
-    <button class="btn-menu" onclick="mostrar('calendario')">📅 Calendario</button>
-    <button class="btn-menu" onclick="mostrar('reglamentos')">📜 Reglamentos</button>
-   
-    <button class="btn-menu" onclick="mostrar('notas')">📝 Notas</button>
-</section>
+<!-- BARRA DE VALORES -->
+<div class="valores-bar">
+    <div class="valor">
+        <span class="valor-icon">👥</span>
+        <div>
+            <strong>Representamos tus intereses</strong>
+            <p>Somos el puente entre estudiantes e institución.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">📢</span>
+        <div>
+            <strong>Defendemos tus derechos</strong>
+            <p>Promovemos una educación pública, inclusiva y de calidad.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">🤝</span>
+        <div>
+            <strong>Construimos comunidad</strong>
+            <p>Fomentamos la participación, el respeto y la diversidad.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">📅</span>
+        <div>
+            <strong>Organizamos actividades</strong>
+            <p>Eventos, talleres, charlas y mucho más.</p>
+        </div>
+    </div>
+    <div class="valor">
+        <span class="valor-icon">❤️</span>
+        <div>
+            <strong>Estamos para acompañarte</strong>
+            <p>Ante dudas, problemas o propuestas, acá estamos.</p>
+        </div>
+    </div>
+</div>
 
+<!-- ============================================================
+     SECCIONES DE CONTENIDO
+     Estas secciones son las que el JS muestra/oculta con mostrar()
+     CADA COMPAÑERO PONE SU CONTENIDO DENTRO DE SU SECCIÓN
+     ============================================================ -->
 
-<section id="novedades">
-<h2>Novedades</h2>
-<p>El profesor Santiago López no puede venir a dar clase porque se fue a ver el mundial.</p>
-</section>
+<!-- NOVEDADES — branch de compañero -->
+<section id="novedades"></section>
 
+<!-- CALENDARIO — branch de compañero -->
+<section id="calendario"></section>
+
+<!-- REGLAMENTOS — branch de compañero -->
 <section id="reglamentos">
-<h2>Reglamentos</h2>
-<ul>
-<li>Asistencia mínima del 80%</li>
-<li>Respeto a docentes y compañeros</li>
-<li>No plagio en trabajos prácticos</li>
-<li>Entrega de trabajos en fecha</li>
-<li>Uso responsable de equipos informáticos</li>
-<li>Prohibido el uso del celular en clase</li>
-<li>Participación obligatoria en proyectos</li>
-<li>Aprobación de exámenes parciales y finales</li>
-<li>Cumplimiento de horarios</li>
-<li>Conducta ética y profesional</li>
-</ul>
-</section>
 
-<section id="estudiantes">
-<h2>Lista de Estudiantes</h2>
-<table>
-<tr><th>Nombre</th><th>Apellido</th><th>Edad</th></tr>
-<tr><td>Juan</td><td>Pérez</td><td>20</td></tr>
-<tr><td>Ana</td><td>Gómez</td><td>21</td></tr>
-</table>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ipsa, repellat eaque tempore perspiciatis iure temporibus deserunt molestiae. Provident at earum illo iure, nesciunt vel quibusdam. Iste voluptatem quam nesciunt.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque dolorem deleniti nam, maiores aliquid quos blanditiis natus in fugit cum vel quidem maxime iusto et perspiciatis. Doloribus, nostrum nam.
-</p>
-</section>
+  <h2>Reglamentos y documentos</h2>
+  <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
 
-<section id="profesores">
-<h2>Profesores</h2>
-<ul>
-<li>Santiago López</li>
-<li>María Fernández</li>
-</ul>
-</section>
+  <h3>Organización y gobierno</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Estatuto del Centro de Estudiantes</strong>
+      <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento interno de comisiones</strong>
+      <p>Funciones, responsabilidades y organización de cada comisión.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento de elecciones estudiantiles</strong>
+      <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
 
-<section id="calendario">
-<h2>Calendario - Abril 2026</h2>
-<table>
-<tr>
-<th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
-</tr>
-<tr>
-<td></td><td></td><td></td><td>1</td><td>2</td><td class="verde">3</td><td class="verde">4</td>
-</tr>
-</table>
-</section>
+  <h3>Convivencia y participación</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Código de convivencia estudiantil</strong>
+      <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Reglamento de asambleas estudiantiles</strong>
+      <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Protocolo ante situaciones de violencia o discriminación</strong>
+      <p>Pasos a seguir y canales de denuncia disponibles.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
 
-<section id="horario">
-<h2>Horario</h2>
-<p>Primera entrada: 17:30 a 19:30</p>
-<p>Segunda entrada: 19:40 a 21:30</p>
-</section>
-<!-- NOTAS -->
-<section id="notas">
-<h2>Notas</h2>
-<p>Las notas estarán disponibles en el sistema.</p>
-</section>
-<!-- INGRESO / AYUDA -->
-<section id="ingreso">
-<h2>Requisitos</h2>
-<ul>
-<li>Secundario completo</li>
-<li>Computadora</li>
-<li>Internet</li>
-</ul>
-</section>
-
-<!-- LOGIN (NO SE TOCA) -->
-<div id="login-container">
-<div class="login-box">
-<h2>Iniciar Sesión</h2>
-
-<label>Tipo:</label>
-<select id="tipo">
-<option value="estudiante">Estudiante</option>
-<option value="profesor">Profesor</option>
-<option value="administrativo">Administrativo</option>
-</select>
-
-<label>Nombre:</label>
-<input type="text" id="nombreLogin">
-
-<label>Contraseña:</label>
-<input type="password" id="passwordLogin">
-
-<input type="checkbox" id="verPassword"> Mostrar contraseña
-
-<button onclick="login()">Ingresar</button>
-
-<div id="wifi">
-<p id="wifiNombre"></p>
-<p id="wifiPass"></p>
-</div> 
-</div>
-</div>
-
-<script src="script.js"></script>
-
-<footer class="footer">
-    <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
-    <p>Contacto: instituto57@email.com</p>
-
-    <button class="btn-ayuda" onclick="mostrar('ingreso')">
-        ❓ Ayuda
-    </button>
-</footer>
-
-<section id="calendario">
-<h2>Calendario académico</h2>
-<section id="calendario">
-  <h2 style="text-align:center;">Calendario</h2>
-
-  <div style="display:flex; justify-content:center;">
-    <img src="img/calendario-final.jpg" 
-         alt="Calendario Abril 2026"
-         style="width:100%; max-width:900px;">
+  <h3>Información académica</h3>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Guía de derechos del estudiante</strong>
+      <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
+  </div>
+  <div class="doc-item">
+    <span class="doc-icon">📄</span>
+    <div class="doc-info">
+      <strong>Guía de comisiones del CE</strong>
+      <p>Información y funciones de cada comisión de trabajo activa.</p>
+    </div>
+    <button class="btn-descargar">⬇ DESCARGAR</button>
   </div>
 
 </section>
-<img src="img/calendario final jpg.jpg" alt="Calendario Abril 2026" style="width:100%; max-width:600px;">
+<!-- CORRELATIVAS — tuya -->
+<section id="correlativas">
 
-<div style="display:flex; justify-content:center;">
+  <h2>Correlativas</h2>
+  <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más complejos.</p>
+
+  <h3>¿Cómo funcionan?</h3>
+  <div class="cards">
+    <div class="card">
+      <h3>Para cursar</h3>
+      <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.</p>
+    </div>
+    <div class="card">
+      <h3>Para rendir</h3>
+      <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
+    </div>
+    <div class="card">
+      <h3>Efecto encadenado</h3>
+      <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
+    </div>
+    <div class="card">
+      <h3>Planificación</h3>
+      <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
+    </div>
+  </div>
+
+  <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
+    <strong>¿Cómo puede afectarte?</strong>
+    <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
+  </div>
+
+ <h3>Tabla de correlativas</h3>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">1</div>
+    <span class="acord-title">Programación I</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num libre">2</div>
+    <span class="acord-title">Lógica y Algoritmos</span>
+    <span class="acord-badge badge-libre">Sin correlativas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p>Materia de primer año, podés inscribirte libremente.</p>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">3</div>
+    <span class="acord-title">Programación II</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">4</div>
+    <span class="acord-title">Bases de Datos</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación I</div>
+    <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">5</div>
+    <span class="acord-title">Sistemas Operativos</span>
+    <span class="acord-badge badge-req">1 requerida</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobada</p>
+    <div class="corr-pill">🔓 Programación I</div>
+  </div>
+</div>
+
+<div class="acord-item">
+  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+    <div class="acord-num">6</div>
+    <span class="acord-title">Desarrollo Web</span>
+    <span class="acord-badge badge-req">2 requeridas</span>
+    <span class="acord-chevron">▼</span>
+  </button>
+  <div class="acord-body">
+    <p class="corr-label">Necesitás tener aprobadas</p>
+    <div class="corr-pill">🔓 Programación II</div>
+    <div class="corr-pill">🔓 Sistemas Operativos</div>
+  </div>
+</div>
+  </table>
+
+  <h3>Consejos para no atrasarte</h3>
+  <ul>
+    <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
+    <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
+    <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
+    <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
+  </ul>
 
 </section>
+
+<!-- ESTUDIANTES — branch de compañero -->
+<section id="estudiantes"></section>
+
+<!-- PROFESORES — branch de compañero -->
+<section id="profesores"></section>
+
+<!-- HORARIO — branch de compañero -->
+<section id="horario"></section>
+
+<!-- NOTAS — branch de compañero -->
+<section id="notas"></section>
+
+<!-- INGRESO — branch de compañero -->
+<section id="ingreso"></section>
+
+<!-- LOGIN — NO TOCAR -->
+<div id="login-container">
+    <div class="login-box">
+        <h2>Iniciar Sesión</h2>
+        <label>Tipo:</label>
+        <select id="tipo">
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+            <option value="administrativo">Administrativo</option>
+        </select>
+        <label>Nombre:</label>
+        <input type="text" id="nombreLogin">
+        <label>Contraseña:</label>
+        <input type="password" id="passwordLogin">
+        <input type="checkbox" id="verPassword"> Mostrar contraseña
+        <button onclick="login()">Ingresar</button>
+        <div id="wifi">
+            <p id="wifiNombre"></p>
+            <p id="wifiPass"></p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA BAR -->
+<div class="cta-bar">
+    <div class="cta-item">
+        <span>💡</span>
+        <div><strong>SUMÁ TU IDEA</strong><p>Tenés una propuesta? Enviánosla. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>👥</span>
+        <div><strong>PARTICIPÁ</strong><p>Sumate a las comisiones y proyectos. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>💬</span>
+        <div><strong>HACÉ OÍR TU VOZ</strong><p>Tu opinión nos ayuda a representarte mejor. →</p></div>
+    </div>
+    <div class="cta-item">
+        <span>📱</span>
+        <div><strong>SEGUINOS</strong><p>Enterate de todo en nuestras redes sociales. →</p></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="logo-badge">CE</div>
+            <div>
+                <strong>CENTRO DE ESTUDIANTES</strong>
+                <small>Instituto Superior del Futuro</small>
+                <p>Estudiantes organizados, comunidad fortalecida.</p>
+            </div>
+        </div>
+        <div class="footer-col">
+            <strong>ENLACES</strong>
+            <a href="#">Sobre nosotros</a>
+            <a href="#">Comisiones</a>
+            <a href="#">Actividades</a>
+            <a href="#">Noticias</a>
+            <a href="#">Documentos</a>
+        </div>
+        <div class="footer-col">
+            <strong>CONTACTO</strong>
+            <p>📞 (11) 1234-5678</p>
+            <p>✉ instituto57@email.com</p>
+            <p>📍 Av. Siempre Viva 1234, CABA</p>
+        </div>
+        <div class="footer-col">
+            <strong>SEGUINOS</strong>
+            <div class="social-links">
+                <a href="#">f</a>
+                <a href="#">in</a>
+                <a href="#">tw</a>
+                <a href="#">yt</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Instituto 57 - Centro de Estudiantes</p>
+        <div>
+            <a href="#">Política de privacidad</a>
+            <a href="#">Términos y condiciones</a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
