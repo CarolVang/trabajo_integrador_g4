@@ -411,6 +411,21 @@ body {
 .btn-menu {
     transition: 0.3s;
 }
+.importante { background: #FFD700; border: 2px solid #B8A000; }
+.importante h3 { color: #4A3800; }
+.importante p, .importante span { color: #5C4700; }
+
+.urgente { background: #E53935; border: 2px solid #9B1C1C; }
+.urgente h3 { color: #fff; }
+.urgente p, .urgente span { color: #FFE0E0; }
+
+.info { background: #1976D2; border: 2px solid #0D47A1; }
+.info h3 { color: #fff; }
+.info p, .info span { color: #DDEEFF; }
+
+.evento { background: #43A047; border: 2px solid #1B5E20; }
+.evento h3 { color: #fff; }
+.evento p, .evento span { color: #DFFFDF; }
 
 /* ===== CALENDARIO WIDGET ===== */
 .calendario-nav {
