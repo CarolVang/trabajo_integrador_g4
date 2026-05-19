@@ -1,67 +1,234 @@
-function mostrar(seccion){
-    // oculta todas las secciones
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
 
-    // muestra la seleccionada
-    const seccionActiva = document.getElementById(seccion);
-    seccionActiva.classList.add("active");
+    {
+        dni: "35111222",
+        nombre: "Juan Pérez",
+        usuario: "jperez",
+        email: "juan.perez@alumno.isfdyt57.edu.ar",
+        rol: "alumno"
+    },
 
-    // 👇 ESTO HACE QUE BAJE LA PANTALLA
-    seccionActiva.scrollIntoView({ behavior: "smooth" });
+    {
+        dni: "40123456",
+        nombre: "Profesor",
+        usuario: "profe",
+        email: "profe@isfdyt57.edu.ar",
+        rol: "profesor"
+    },
 
-    // quitar activo a todos los botones
-    document.querySelectorAll(".menu-principal button")
-        .forEach(b => b.classList.remove("activo"));
+    {
+        dni: "99999999",
+        nombre: "Administrador",
+        usuario: "admin",
+        email: "admin@isfdyt57.edu.ar",
+        rol: "admin"
+    }
 
-    // marcar botón activo
-    const botones = document.querySelectorAll(".menu-principal button");
+];
 
-    botones.forEach(boton => {
-        if (boton.getAttribute("onclick").includes(seccion)) {
-            boton.classList.add("activo");
-        }
-    });
+let usuarioActivo = null;
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+    const usuario =
+        document.getElementById("loginUsuario").value;
+
+    const dni =
+        document.getElementById("loginDni").value;
+
+    const encontrado = usuarios.find(u =>
+
+        u.usuario === usuario &&
+        u.dni === dni
+
+    );
+
+    if (!encontrado) {
+
+        alert("Usuario o DNI incorrecto");
+        return;
+    }
+
+    usuarioActivo = encontrado;
+
+    localStorage.setItem(
+        "usuarioActivo",
+        JSON.stringify(encontrado)
+    );
+
+    document.getElementById("auth")
+        .style.display = "none";
+
+    aplicarPermisos();
 }
 
+/* =========================
+   LOGOUT
+========================= */
 
-const wifiData = {
-    estudiante: {nombre:"Estudiantes", contraseña:"Escuelas_2025"},
-    profesor: {nombre:"Docentes", contraseña:"Docentes_2025"},
-    video: {nombre:"Videollamada", contraseña:"Video_2025"},
-    administrativo: {nombre:"Administracion", contraseña:"Admin_2025"}
-};
+function logout() {
 
-const tipoSelect = document.getElementById("tipo");
+    localStorage.removeItem("usuarioActivo");
 
-tipoSelect.addEventListener("change", () => {
-    const tipo = tipoSelect.value;
-    document.getElementById("wifiNombre").innerText = "Nombre: " + wifiData[tipo].nombre;
-    document.getElementById("wifiPass").innerText = "Contraseña: " + wifiData[tipo].contraseña;
+    location.reload();
+}
+
+/* =========================
+   REGISTRO
+========================= */
+
+function registrar() {
+
+    const nuevo = {
+
+        nombre:
+            document.getElementById("regNombre").value,
+
+        usuario:
+            document.getElementById("regUsuario").value,
+
+        email:
+            document.getElementById("regEmail").value,
+
+        dni:
+            document.getElementById("regDni").value,
+
+        rol:
+            document.getElementById("regRol").value
+    };
+
+    if (usuarios.some(u =>
+        u.usuario === nuevo.usuario
+    )) {
+
+        alert("El usuario ya existe");
+        return;
+    }
+
+    usuarios.push(nuevo);
+
+    localStorage.setItem(
+        "usuarios",
+        JSON.stringify(usuarios)
+    );
+
+    alert("Registrado correctamente");
+
+    mostrarLogin();
+}
+
+/* =========================
+   PERMISOS
+========================= */
+
+function aplicarPermisos() {
+
+    const info =
+        document.getElementById("info-usuario");
+
+    const btnAdmin =
+        document.getElementById("btnAdmin");
+
+    const btnCargarNotas =
+        document.getElementById("btnCargarNotas");
+
+    // RESET
+
+    btnAdmin.style.display = "none";
+    btnCargarNotas.style.display = "none";
+
+    // INFO USUARIO
+
+    info.textContent =
+        `${usuarioActivo.nombre} | ${usuarioActivo.rol.toUpperCase()}`;
+
+    // ALUMNO
+
+    if (usuarioActivo.rol === "alumno") {
+
+        info.style.background = "#2563eb";
+    }
+
+    // PROFESOR
+
+    if (usuarioActivo.rol === "profesor") {
+
+        info.style.background = "#059669";
+
+        btnCargarNotas.style.display = "block";
+    }
+
+    // ADMIN
+
+    if (usuarioActivo.rol === "admin") {
+
+        info.style.background = "#dc2626";
+
+        btnAdmin.style.display = "block";
+
+        btnCargarNotas.style.display = "block";
+    }
+}
+
+/* =========================
+   CAMBIAR SECCIONES
+========================= */
+
+function mostrar(seccion) {
+
+    document.querySelectorAll("section")
+        .forEach(s => s.classList.remove("active"));
+
+    const sec = document.getElementById(seccion);
+
+    if (sec) {
+
+        sec.classList.add("active");
+    }
+}
+
+/* =========================
+   LOGIN / REGISTRO
+========================= */
+
+function mostrarRegistro() {
+
+    document.getElementById("loginBox")
+        .classList.add("hidden");
+
+    document.getElementById("registroBox")
+        .classList.remove("hidden");
+}
+
+function mostrarLogin() {
+
+    document.getElementById("registroBox")
+        .classList.add("hidden");
+
+    document.getElementById("loginBox")
+        .classList.remove("hidden");
+}
+
+/* =========================
+   AUTO LOGIN
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const guardado =
+        localStorage.getItem("usuarioActivo");
+
+    if (guardado) {
+
+        usuarioActivo = JSON.parse(guardado);
+
+        document.getElementById("auth")
+            .style.display = "none";
+
+        aplicarPermisos();
+    }
 });
-
-document.getElementById("verPassword").addEventListener("change", function(){
-    const pass = document.getElementById("passwordLogin");
-    pass.type = this.checked ? "text" : "password";
-});
-
-tipoSelect.dispatchEvent(new Event("change"));
-
-function login(){
-    const nombre = document.getElementById("nombreLogin").value;
-    const password = document.getElementById("passwordLogin").value;
-/*ACA SE CAMBIA LA CONTRASEÑA */
-    if(password === ""){
-        document.getElementById("login-container").style.display = "none";
-        mostrar("novedades");
-        
-    } }
-  window.onload = function() {
-    mostrar('inicio');
-}
-function cerrarSesion(){
-    // mostrar login otra vez
-    document.getElementById("login-container").style.display = "flex";
-
-    // ocultar todas las secciones
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-}
