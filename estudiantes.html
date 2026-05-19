@@ -122,7 +122,42 @@
     <p>Este viernes habrá jornada recreativa para todos los estudiantes.</p>
     <span>📅 17 Abril 2026</span>
 </div>
+<style>
+  .novedades-container { display: flex; flex-direction: column; gap: 10px; }
 
+  .novedad {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s, opacity 0.1s;
+  }
+  .novedad:active { transform: scale(0.99); opacity: 0.85; }
+  .novedad h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .novedad p  { font-size: 14px; margin-bottom: 6px; }
+  .novedad span { font-size: 12px; }
+
+  /* IMPORTANTE - Amarillo */
+  .importante { background: #FFD700; border-color: #B8A000; }
+  .importante h3 { color: #4A3800; }
+  .importante p, .importante span { color: #5C4700; }
+
+  /* URGENTE - Rojo */
+  .urgente { background: #E53935; border-color: #9B1C1C; }
+  .urgente h3 { color: #fff; }
+  .urgente p, .urgente span { color: #FFE0E0; }
+
+  /* INFORMACIÓN - Azul */
+  .info { background: #1976D2; border-color: #0D47A1; }
+  .info h3 { color: #fff; }
+  .info p, .info span { color: #DDEEFF; }
+
+  /* EVENTO - Verde */
+  .evento { background: #43A047; border-color: #1B5E20; }
+  .evento h3 { color: #fff; }
+  .evento p, .evento span { color: #DFFFDF; }
+</style>
 <!-- CALENDARIO — branch de compañero -->
 <section id="calendario"></section>
 
