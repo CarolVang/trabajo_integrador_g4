@@ -97,58 +97,66 @@
 
 <!-- NOVEDADES — branch de compañero -->
 <style>
-  .novedades-container { display: flex; flex-direction: column; gap: 10px; }
-
-  .novedad {
-    padding: 14px 18px;
-    border-radius: 12px;
-    border: 2px solid;
-  }
-  .novedad h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-  .novedad p  { font-size: 14px; margin-bottom: 6px; }
-  .novedad span { font-size: 12px; }
+  .nov-card { padding: 14px 18px; border-radius: 12px; border: 2px solid; margin-bottom: 10px; }
+  .nov-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  .nov-card p  { font-size: 14px; margin: 0 0 4px; }
+  .nov-card span { font-size: 12px; }
 
   .urgente    { background: #E53935; border-color: #9B1C1C; }
-  .urgente    h3 { color: #fff; }
-  .urgente    p, .urgente span { color: #FFE0E0; }
-
-  .info       { background: #1976D2; border-color: #0D47A1; }
-  .info       h3 { color: #fff; }
-  .info       p, .info span { color: #DDEEFF; }
-
+  .urgente    h3 { color: #fff; } .urgente p { color: #FFE0E0; } .urgente span { color: #FFB3B3; }
   .importante { background: #FFD700; border-color: #B8A000; }
-  .importante h3 { color: #4A3800; }
-  .importante p, .importante span { color: #5C4700; }
-
+  .importante h3 { color: #4A3800; } .importante p { color: #5C4700; } .importante span { color: #7A5E00; }
+  .info       { background: #1976D2; border-color: #0D47A1; }
+  .info       h3 { color: #fff; } .info p { color: #DDEEFF; } .info span { color: #B3D4FF; }
   .evento     { background: #43A047; border-color: #1B5E20; }
-  .evento     h3 { color: #fff; }
-  .evento     p, .evento span { color: #DFFFDF; }
+  .evento     h3 { color: #fff; } .evento p { color: #DFFFDF; } .evento span { color: #B3FFB3; }
+
+  .form-box { background: #f5f5f5; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .form-row select, .form-row input { flex: 1; font-size: 14px; padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+  textarea { width: 100%; font-size: 14px; padding: 8px; border-radius: 8px; border: 1px solid #ccc; resize: vertical; min-height: 60px; box-sizing: border-box; }
+  .btn-add { width: 100%; font-size: 14px; padding: 10px; margin-top: 10px; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: #fff; }
 </style>
 
+<!-- Formulario -->
+<div class="form-box">
+  <div class="form-row">
+    <select id="tipo">
+      <option value="urgente">🚨 Urgente</option>
+      <option value="importante">⚠️ Importante</option>
+      <option value="info">ℹ️ Información</option>
+      <option value="evento">🎉 Evento</option>
+    </select>
+    <input type="text" id="titulo" placeholder="Título de la novedad" />
+  </div>
+  <textarea id="texto" placeholder="Descripción..."></textarea>
+  <button class="btn-add" onclick="agregar()">+ Agregar novedad</button>
+</div>
+
+<!-- Lista -->
 <section id="novedades">
   <h2>📢 Novedades</h2>
+  <div id="lista">
 
-  <div class="novedades-container">
-
-    <div class="novedad urgente">
+    <div class="nov-card urgente">
       <h3>📌 Suspensión de clases</h3>
       <p>El profesor Santiago López no puede venir hoy.</p>
       <span>📅 20 Abril 2026</span>
     </div>
 
-    <div class="novedad info">
+    <div class="nov-card info">
       <h3>📝 Nueva tarea</h3>
       <p>Se subió una nueva actividad en la plataforma.</p>
       <span>📅 19 Abril 2026</span>
     </div>
 
-    <div class="novedad importante">
+    <div class="nov-card importante">
       <h3>📅 Próximo examen</h3>
       <p>Examen el lunes a las 18:00 hs.</p>
       <span>📅 18 Abril 2026</span>
     </div>
 
-    <div class="novedad evento">
+    <div class="nov-card evento">
       <h3>🎉 Evento escolar</h3>
       <p>Este viernes habrá jornada recreativa para todos los estudiantes.</p>
       <span>📅 17 Abril 2026</span>
@@ -156,6 +164,28 @@
 
   </div>
 </section>
+
+<script>
+const ICONOS = { urgente:'🚨', importante:'⚠️', info:'ℹ️', evento:'🎉' };
+
+function agregar() {
+  const tipo   = document.getElementById('tipo').value;
+  const titulo = document.getElementById('titulo').value.trim();
+  const texto  = document.getElementById('texto').value.trim();
+  if (!titulo || !texto) { alert('Completá el título y la descripción.'); return; }
+
+  const hoy = new Date().toLocaleDateString('es-AR', { day:'numeric', month:'long', year:'numeric' });
+  const div = document.createElement('div');
+  div.className = 'nov-card ' + tipo;
+  div.innerHTML = `<h3>${ICONOS[tipo]} ${titulo}</h3><p>${texto}</p><span>📅 ${hoy}</span>`;
+
+  const lista = document.getElementById('lista');
+  lista.insertBefore(div, lista.firstChild);
+
+  document.getElementById('titulo').value = '';
+  document.getElementById('texto').value  = '';
+}
+</script>
 
 <!-- CALENDARIO — branch de compañero -->
 <section id="calendario"></section>
