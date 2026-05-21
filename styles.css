@@ -83,7 +83,7 @@ body {
     color: #94a3b8;
 }
 
-/* ─── NAV LINKS (nueva nav) ─── */
+/* ─── NAV LINKS ─── */
 .nav-links {
     display: flex;
     gap: 2px;
@@ -109,14 +109,13 @@ body {
     background: rgba(255,255,255,0.08);
 }
 
-/* Botón activo en la nav */
 .nav-links button.activo {
     color: white;
     background: rgba(255,255,255,0.12);
     border-bottom: 2px solid var(--gold);
 }
 
-/* ─── COMPATIBILIDAD: .menu-principal (original de tus compañeros) ─── */
+/* ─── COMPATIBILIDAD: .menu-principal ─── */
 .menu-principal {
     display: flex;
     flex-wrap: wrap;
@@ -471,7 +470,6 @@ body {
 
 .calendario-nav button:hover { background: var(--bg); }
 
-/* ─── cal-table: sólo aplica dentro de .panel ─── */
 .cal-table {
     width: 100%;
     border-collapse: collapse;
@@ -560,7 +558,7 @@ body {
     text-decoration: none;
 }
 
-/* ===== PRÓXIMOS EVENTOS ===== */
+/* ===== PRÓXIMOS EVENTOS (widget panel) ===== */
 .evento-item {
     display: flex;
     gap: 16px;
@@ -724,7 +722,7 @@ body {
     line-height: 1.4;
 }
 
-/* ===== SECCIONES OCULTAS (mostrar/ocultar con JS) ===== */
+/* ===== SECCIONES OCULTAS ===== */
 section {
     display: none;
     background: white;
@@ -738,7 +736,6 @@ section {
 
 section.active { display: block !important; }
 
-/* El hero es una sección pero se muestra siempre con flex */
 .hero.active {
     display: flex !important;
     margin: 0 !important;
@@ -749,7 +746,6 @@ section.active { display: block !important; }
 }
 
 /* ─── Títulos dentro de secciones de contenido ─── */
-/* ── FIX: era "section h2" — scopeado a #correlativas para no pisar a compañeros ── */
 #correlativas h2 {
     color: var(--blue);
     font-size: 22px;
@@ -814,7 +810,6 @@ section.active { display: block !important; }
 }
 
 /* ─── Tablas dentro de #correlativas ─── */
-/* ── FIX: era "section table/th/td" — scopeado a #correlativas para no pisar a compañeros ── */
 #correlativas table {
     width: 100%;
     border-collapse: collapse;
@@ -842,11 +837,11 @@ section.active { display: block !important; }
 #correlativas tr:last-child td { border-bottom: none; }
 #correlativas tr:hover td { background: #f8fafc; }
 
-/* ─── Colores heredados del original (compatibilidad) ─── */
+/* ─── Colores heredados ─── */
 .rojo  { color: #ef4444; }
 .verde { color: #22c55e; }
 
-/* ─── Sección calendario (lista de eventos) ─── */
+/* ─── Sección calendario (lista de eventos simple) ─── */
 .eventos {
     display: flex;
     flex-direction: column;
@@ -1079,7 +1074,6 @@ section.active { display: block !important; }
 
 .footer-bottom a:hover { color: white; }
 
-/* Botón ayuda del footer original */
 .btn-ayuda { display: none; }
 
 /* ===== RESPONSIVE ===== */
@@ -1116,6 +1110,7 @@ section.active { display: block !important; }
 
     .btn-menu { max-width: 100%; }
 }
+
 /* ── Acordeón correlativas ── */
 .acord-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
 .acord-trigger { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--surface); border: none; cursor: pointer; font-family: inherit; }
@@ -1132,3 +1127,331 @@ section.active { display: block !important; }
 .acord-body.open { display: block; }
 .corr-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
 .corr-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 13px; margin: 4px 4px 4px 0; }
+
+
+/* ================================================================
+   SECCIÓN EVENTOS — estilos propios, sin afectar al resto
+   ================================================================ */
+
+/* Header de la sección con título y botón crear */
+.eventos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.eventos-header h2 {
+    color: var(--blue);
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+}
+
+.eventos-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Buscador + filtros */
+.contenedor-filtros {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.buscador-eventos {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.buscador-eventos input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.buscador-eventos input:focus {
+    border-color: var(--blue-light);
+    background: white;
+}
+
+.contador-resultados {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Filtros por carrera */
+.filtros-carreras {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-filtro {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-filtro:hover {
+    border-color: var(--blue-light);
+    color: var(--blue-light);
+}
+
+.btn-filtro.activo {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+}
+
+/* Tarjeta de evento */
+.evento-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.evento-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.evento-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Badge de fecha (reutiliza clases .azul / .navy del proyecto A) */
+.evento-fecha-badge {
+    min-width: 54px;
+    height: 54px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+}
+
+.evento-fecha-badge.azul { background: var(--blue-light); }
+.evento-fecha-badge.navy { background: var(--navy-mid); }
+
+.evento-fecha-badge .dia {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.evento-fecha-badge .mes {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Info del evento */
+.evento-card-info {
+    flex: 1;
+}
+
+.evento-card-info h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy-mid);
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.evento-card-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.tag-carrera {
+    display: inline-block;
+    background: #eff6ff;
+    color: var(--blue);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+/* Badge tipo (opcional / obligatorio) */
+.evento-tipo {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.evento-tipo.opcional    { background: #dcfce7; color: #15803d; }
+.evento-tipo.obligatorio { background: #fee2e2; color: #b91c1c; }
+
+/* Footer de la tarjeta: contador + botón */
+.evento-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.contador-evento {
+    font-size: 13px;
+    color: #15803d;
+    font-weight: 600;
+}
+
+.btn-anotarse {
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-anotarse:hover {
+    background: var(--blue-light);
+    transform: translateY(-1px);
+}
+
+/* ── Formulario Crear Evento ── */
+#crearEvento h2 {
+    color: var(--blue);
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+#crearEvento p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.form-crear-evento {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 520px;
+}
+
+.form-crear-evento label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: -4px;
+}
+
+.form-crear-evento input,
+.form-crear-evento select {
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-crear-evento input:focus,
+.form-crear-evento select:focus {
+    border-color: var(--blue-light);
+}
+
+.form-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.btn-confirmar {
+    flex: 1;
+    padding: 11px;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.btn-confirmar:hover { background: #16a34a; }
+
+.btn-cancelar {
+    flex: 1;
+    padding: 11px;
+    background: white;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.btn-cancelar:hover { background: var(--bg); }
+
+/* Responsive eventos */
+@media (max-width: 600px) {
+    .evento-card-header { flex-direction: column; }
+    .evento-tipo { align-self: flex-start; }
+    .form-botones { flex-direction: column; }
+}

@@ -23,7 +23,8 @@
     <div class="nav-links">
         <button onclick="mostrar('inicio')">Inicio</button>
         <button onclick="mostrar('novedades')">Novedades</button>
-        <button onclick="mostrar('calendario')">Eventos</button>
+        <button onclick="mostrar('calendario')">Calendario</button>
+        <button onclick="mostrar('eventos')">Eventos</button>
         <button onclick="mostrar('reglamentos')">Reglamentos</button>
         <button onclick="mostrar('correlativas')">Correlativas</button>
     </div>
@@ -91,8 +92,6 @@
 
 <!-- ============================================================
      SECCIONES DE CONTENIDO
-     Estas secciones son las que el JS muestra/oculta con mostrar()
-     CADA COMPAÑERO PONE SU CONTENIDO DENTRO DE SU SECCIÓN
      ============================================================ -->
 
 <!-- NOVEDADES — branch de compañero -->
@@ -100,6 +99,92 @@
 
 <!-- CALENDARIO — branch de compañero -->
 <section id="calendario"></section>
+
+<!-- EVENTOS -->
+<section id="eventos">
+
+    <div class="eventos-header">
+        <div>
+            <h2>🎉 Eventos</h2>
+            <p>Enterate de todas las actividades del Centro de Estudiantes.</p>
+        </div>
+        <!-- Solo visible para profesores y administrativos -->
+        <button id="btnCrearEvento" class="btn-primary" style="display:none;" onclick="mostrar('crearEvento')">
+            ➕ Crear evento
+        </button>
+    </div>
+
+    <div class="contenedor-filtros">
+        <div class="buscador-eventos">
+            <input type="text" id="buscador" placeholder="🔍 Buscar por título...">
+            <span id="contadorResultados" class="contador-resultados"></span>
+        </div>
+        <div class="filtros-carreras">
+            <button class="btn-filtro activo" onclick="filtrarCarrera('todos', this)">Todos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('general', this)">🌎 Para Todos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Ciencia de Datos', this)">📊 Ciencia de Datos</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Farmacia', this)">💊 Farmacia</button>
+            <button class="btn-filtro" onclick="filtrarCarrera('Trabajo Social', this)">🤝 Trabajo Social</button>
+        </div>
+    </div>
+
+    <div id="listaEventos">
+        <div class="evento-card" data-titulo="Fiesta del Instituto" data-fecha="Viernes 25 - 20:00 hs" data-tipo="opcional" data-carrera="general">
+            <div class="evento-card-header">
+                <div class="evento-fecha-badge azul">
+                    <span class="dia">25</span>
+                    <span class="mes">JUN</span>
+                </div>
+                <div class="evento-card-info">
+                    <h3>Fiesta del Instituto</h3>
+                    <p class="tag-carrera">🌎 Para: Todas las carreras</p>
+                    <p>Viernes 25 - 20:00 hs</p>
+                </div>
+                <span class="evento-tipo opcional">🟢 Opcional</span>
+            </div>
+            <div class="evento-card-footer">
+                <span id="contadorEvento1" class="contador-evento"></span>
+                <button id="btnEvento1" class="btn-anotarse" onclick="anotarseEvento('evento1', 'opcional')">Anotarse</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- CREAR EVENTO -->
+<section id="crearEvento">
+
+    <h2>➕ Crear Evento</h2>
+    <p>Completá el formulario para publicar un nuevo evento.</p>
+
+    <div class="form-crear-evento">
+        <label>Título del evento</label>
+        <input type="text" id="nuevoTitulo" placeholder="Ej: Charla de orientación">
+
+        <label>Carrera destinataria</label>
+        <select id="nuevaCarrera">
+            <option value="general">🌎 Para Todos</option>
+            <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
+            <option value="Farmacia">💊 Farmacia</option>
+            <option value="Trabajo Social">🤝 Trabajo Social</option>
+        </select>
+
+        <label>Fecha y hora</label>
+        <input type="text" id="nuevaFecha" placeholder="Ej: Viernes 25 - 20:00 hs">
+
+        <label>Tipo</label>
+        <select id="nuevoTipo">
+            <option value="opcional">🟢 Opcional</option>
+            <option value="obligatorio">🔴 Obligatorio</option>
+        </select>
+
+        <div class="form-botones">
+            <button class="btn-confirmar" onclick="crearEvento()">✅ Crear evento</button>
+            <button class="btn-cancelar" onclick="mostrar('eventos')">Cancelar</button>
+        </div>
+    </div>
+
+</section>
 
 <!-- REGLAMENTOS — branch de compañero -->
 <section id="reglamentos">
@@ -178,6 +263,7 @@
   </div>
 
 </section>
+
 <!-- CORRELATIVAS — tuya -->
 <section id="correlativas">
 
@@ -209,86 +295,85 @@
     <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
   </div>
 
- <h3>Tabla de correlativas</h3>
+  <h3>Tabla de correlativas</h3>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num libre">1</div>
-    <span class="acord-title">Programación I</span>
-    <span class="acord-badge badge-libre">Sin correlativas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p>Materia de primer año, podés inscribirte libremente.</p>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num libre">1</div>
+      <span class="acord-title">Programación I</span>
+      <span class="acord-badge badge-libre">Sin correlativas</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p>Materia de primer año, podés inscribirte libremente.</p>
+    </div>
   </div>
-</div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num libre">2</div>
-    <span class="acord-title">Lógica y Algoritmos</span>
-    <span class="acord-badge badge-libre">Sin correlativas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p>Materia de primer año, podés inscribirte libremente.</p>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num libre">2</div>
+      <span class="acord-title">Lógica y Algoritmos</span>
+      <span class="acord-badge badge-libre">Sin correlativas</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p>Materia de primer año, podés inscribirte libremente.</p>
+    </div>
   </div>
-</div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">3</div>
-    <span class="acord-title">Programación II</span>
-    <span class="acord-badge badge-req">1 requerida</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobada</p>
-    <div class="corr-pill">🔓 Programación I</div>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num">3</div>
+      <span class="acord-title">Programación II</span>
+      <span class="acord-badge badge-req">1 requerida</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p class="corr-label">Necesitás tener aprobada</p>
+      <div class="corr-pill">🔓 Programación I</div>
+    </div>
   </div>
-</div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">4</div>
-    <span class="acord-title">Bases de Datos</span>
-    <span class="acord-badge badge-req">2 requeridas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobadas</p>
-    <div class="corr-pill">🔓 Programación I</div>
-    <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num">4</div>
+      <span class="acord-title">Bases de Datos</span>
+      <span class="acord-badge badge-req">2 requeridas</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p class="corr-label">Necesitás tener aprobadas</p>
+      <div class="corr-pill">🔓 Programación I</div>
+      <div class="corr-pill">🔓 Lógica y Algoritmos</div>
+    </div>
   </div>
-</div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">5</div>
-    <span class="acord-title">Sistemas Operativos</span>
-    <span class="acord-badge badge-req">1 requerida</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobada</p>
-    <div class="corr-pill">🔓 Programación I</div>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num">5</div>
+      <span class="acord-title">Sistemas Operativos</span>
+      <span class="acord-badge badge-req">1 requerida</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p class="corr-label">Necesitás tener aprobada</p>
+      <div class="corr-pill">🔓 Programación I</div>
+    </div>
   </div>
-</div>
 
-<div class="acord-item">
-  <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-    <div class="acord-num">6</div>
-    <span class="acord-title">Desarrollo Web</span>
-    <span class="acord-badge badge-req">2 requeridas</span>
-    <span class="acord-chevron">▼</span>
-  </button>
-  <div class="acord-body">
-    <p class="corr-label">Necesitás tener aprobadas</p>
-    <div class="corr-pill">🔓 Programación II</div>
-    <div class="corr-pill">🔓 Sistemas Operativos</div>
+  <div class="acord-item">
+    <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
+      <div class="acord-num">6</div>
+      <span class="acord-title">Desarrollo Web</span>
+      <span class="acord-badge badge-req">2 requeridas</span>
+      <span class="acord-chevron">▼</span>
+    </button>
+    <div class="acord-body">
+      <p class="corr-label">Necesitás tener aprobadas</p>
+      <div class="corr-pill">🔓 Programación II</div>
+      <div class="corr-pill">🔓 Sistemas Operativos</div>
+    </div>
   </div>
-</div>
-  </table>
 
   <h3>Consejos para no atrasarte</h3>
   <ul>
