@@ -1455,3 +1455,175 @@ section.active { display: block !important; }
     .evento-tipo { align-self: flex-start; }
     .form-botones { flex-direction: column; }
 }
+
+
+/* ================================================================
+   SECCIÓN PERFIL — estilos propios, sin afectar al resto
+   ================================================================ */
+
+.perfil-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.perfil-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.perfil-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue);
+    margin: 0 0 24px 0;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+}
+
+/* Foto */
+.perfil-foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border);
+}
+
+.btn-cambiar-foto {
+    background: white;
+    border: 1.5px solid var(--border);
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-cambiar-foto:hover {
+    background: var(--bg);
+    border-color: var(--blue-light);
+    color: var(--blue-light);
+}
+
+/* Datos del perfil */
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dato {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.dato span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.dato p {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    margin: 0;
+}
+
+/* Botón cambiar contraseña */
+.btn-secundario {
+    background: white;
+    border: 1.5px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    transition: background 0.2s, border-color 0.2s;
+    margin-bottom: 0;
+}
+
+.btn-secundario:hover {
+    background: var(--bg);
+    border-color: var(--blue-light);
+    color: var(--blue-light);
+}
+
+/* Divisor */
+.perfil-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+}
+
+/* Botón cerrar sesión */
+.btn-cerrar-sesion {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.btn-cerrar-sesion:hover { background: #dc2626; }
+
+/* Botón perfil en topbar */
+.btn-perfil-top {
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-perfil-top:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.4);
+}
+
+@media (max-width: 768px) {
+    .btn-perfil-top { font-size: 12px; padding: 7px 12px; }
+}

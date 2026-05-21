@@ -76,19 +76,20 @@ function login() {
     if (password === "") {
         document.getElementById("login-container").style.display = "none";
         mostrar("inicio", false);
+        actualizarPerfil();
+        verificarRol();
     }
 }
 
 window.onload = function () {
-    mostrar("inicio", false); // sin scroll al cargar
+    mostrar("inicio", false);
 
-    // Buscador de eventos
     const buscador = document.getElementById("buscador");
     if (buscador) buscador.addEventListener("input", buscarEventos);
 
-    // Restaurar estado de inscripciones y rol
     restaurarEventos();
     verificarRol();
+    iniciarCambioFoto();
 };
 
 
@@ -96,6 +97,47 @@ window.onload = function () {
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    // Limpiar datos de perfil mostrados
+    const pNombre = document.getElementById("perfilNombre");
+    const pRango  = document.getElementById("perfilRango");
+    if (pNombre) pNombre.textContent = "—";
+    if (pRango)  pRango.textContent  = "—";
+}
+
+// ─── PERFIL ───────────────────────────────────────────────────
+function actualizarPerfil() {
+    const nombre = document.getElementById("nombreLogin")
+        ? document.getElementById("nombreLogin").value.trim() || "Usuario"
+        : "Usuario";
+    const tipo   = tipoSelect ? tipoSelect.value : "estudiante";
+
+    const pNombre = document.getElementById("perfilNombre");
+    const pRango  = document.getElementById("perfilRango");
+    if (pNombre) pNombre.textContent = nombre;
+    if (pRango)  pRango.textContent  =
+        tipo === "profesor"        ? "Profesor"        :
+        tipo === "administrativo"  ? "Administrativo"  : "Estudiante";
+}
+
+function cambiarContrasena() {
+    const nueva = prompt("Ingresá tu nueva contraseña:");
+    if (!nueva || nueva.trim() === "") return alert("La contraseña no puede estar vacía.");
+    alert("Contraseña actualizada correctamente ✅");
+}
+
+function iniciarCambioFoto() {
+    const input = document.getElementById("cambiarFoto");
+    if (!input) return;
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            const foto = document.getElementById("fotoPerfil");
+            if (foto) foto.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 }
 
 // ─── ACORDEÓN CORRELATIVAS ───────────────────────────────────

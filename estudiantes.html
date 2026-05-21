@@ -28,6 +28,8 @@
         <button onclick="mostrar('reglamentos')">Reglamentos</button>
         <button onclick="mostrar('correlativas')">Correlativas</button>
     </div>
+
+    <button class="btn-perfil-top" onclick="mostrar('perfil')">👤 Mi Perfil</button>
 </div>
 
 <!-- HERO -->
@@ -184,6 +186,42 @@
         </div>
     </div>
 
+</section>
+
+<!-- PERFIL -->
+<section id="perfil">
+    <div class="perfil-wrapper">
+        <div class="perfil-card">
+
+            <div class="perfil-header">
+                <h2>👤 Mi Perfil</h2>
+            </div>
+
+            <div class="perfil-foto">
+                <img id="fotoPerfil" src="https://placehold.co/120x120?text=Foto" class="avatar" alt="Foto de perfil">
+                <input type="file" id="cambiarFoto" accept="image/*" style="display:none;">
+                <button class="btn-cambiar-foto" onclick="document.getElementById('cambiarFoto').click()">📷 Cambiar foto</button>
+            </div>
+
+            <div class="perfil-info">
+                <div class="dato">
+                    <span>Nombre</span>
+                    <p id="perfilNombre">—</p>
+                </div>
+                <div class="dato">
+                    <span>Tipo de usuario</span>
+                    <p id="perfilRango">—</p>
+                </div>
+            </div>
+
+            <button class="btn-secundario" onclick="cambiarContrasena()">🔑 Cambiar contraseña</button>
+
+            <hr class="perfil-divider">
+
+            <button class="btn-cerrar-sesion" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+
+        </div>
+    </div>
 </section>
 
 <!-- REGLAMENTOS — branch de compañero -->
