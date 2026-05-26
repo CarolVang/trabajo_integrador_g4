@@ -381,6 +381,18 @@ body {
 .ver-todas:hover { text-decoration: underline; }
 
 /* ===== NOVEDADES ===== */
+/* Ocultar formulario por defecto */
+.form-box {
+  display: none;
+}
+
+/* Mostrarlo solo cuando la sección novedades está activa */
+#novedades.activo .form-box,
+#seccion-novedades.activo .form-box,
+[data-seccion="novedades"].activo .form-box {
+  display: block;
+}
+
 .novedad {
     background: rgba(255,255,255,0.1);
     padding: 12px;
