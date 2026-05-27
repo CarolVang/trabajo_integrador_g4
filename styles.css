@@ -501,7 +501,21 @@ body {
     border-radius: 6px;
     transition: background 0.15s;
 }
+.cal-table td {
+    color: #1a1a1a;
+    font-weight: 500;
+}
 
+/* días del mes anterior/siguiente */
+.cal-table td.prev {
+    color: #b7bec7;
+    opacity: 0.7;
+}
+
+/* días del mes actual */
+.cal-table td:not(.prev) {
+    color: #1a3a5c;
+}
 .cal-table td:hover { background: var(--bg); }
 .cal-table td.prev  { color: #cbd5e1; }
 
@@ -552,13 +566,16 @@ body {
 .dot.red    { background: #dc2626; }
 
 .ver-mas-cal {
-    display: block;
-    text-align: center;
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--blue-light);
+display: inline-block;
+    margin: 12px 16px;
+    color: #2563a8;
     font-weight: 600;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.ver-mas-cal:hover {
+    text-decoration: underline;
 }
 
 /* ===== PRÓXIMOS EVENTOS ===== */
