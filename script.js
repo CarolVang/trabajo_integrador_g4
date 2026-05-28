@@ -88,6 +88,22 @@ function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 }
+function renderEventosLista() {
+    
+    const contenedor = document.getElementById('cal-eventos-lista');
+    const lista = allEventosDelMes(currentYear, currentMonth);
+    if (lista.length === 0) {
+        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
+        return;
+    }
+    contenedor.innerHTML = lista.map(ev => `
+        <div class="cal-evento">
+            <span class="dot ${ev.color}"></span>
+            <strong>${String(ev.dia).padStart(2,'0')} ${MESES[ev.mes].slice(0,3)}</strong>
+            &nbsp;${ev.desc}
+        </div>
+    `).join('');
+}
 // ── ACORDEÓN CORRELATIVAS ──
 function toggleCorr(btn) {
     const body = btn.nextElementSibling;
@@ -103,5 +119,38 @@ function toggleCorr(btn) {
     if (!isOpen) {
         btn.classList.add("open");
         body.classList.add("open");
+    }
+}
+// mas actividades calendario
+function toggleTodosEventos(e) {
+    e.preventDefault();
+    const div = document.getElementById('todos-eventos');
+    const lista = document.getElementById('todos-eventos-lista');
+    const link = document.getElementById('ver-mas-cal');
+
+    if (div.style.display === 'none') {
+        // Construir lista de todos los años y meses
+        let html = '';
+        for (const year in eventos) {
+            for (const month in eventos[year]) {
+                const evs = allEventosDelMes(Number(year), Number(month));
+                if (evs.length > 0) {
+                    html += `<p style="font-size:0.8rem; font-weight:700; text-transform:uppercase; color:#888; margin:12px 0 6px;">${MESES[month]} ${year}</p>`;
+                    html += evs.map(ev => `
+                        <div class="cal-evento">
+                            <span class="dot ${ev.color}"></span>
+                            <strong>${String(ev.dia).padStart(2,'0')} ${MESES[month].slice(0,3)}</strong>
+                            &nbsp;${ev.desc}
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+        lista.innerHTML = html || '<p style="color:#888; font-size:0.88rem;">No hay eventos cargados.</p>';
+        div.style.display = 'block';
+        link.textContent = '- Ocultar actividades';
+    } else {
+        div.style.display = 'none';
+        link.textContent = '+ Ver más actividades';
     }
 }
