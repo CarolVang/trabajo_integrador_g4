@@ -1,10 +1,12 @@
+// ============================================================
+// NAVEGACIÓN
+// ============================================================
 let primeraCarga = true;
 
-// ─── NAVEGACIÓN ───────────────────────────────────────────────
 function mostrar(seccion, hacerScroll = true) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     const seccionActiva = document.getElementById(seccion);
-    if (!seccionActiva) { console.warn("mostrar(): no existe '" + seccion + "'"); return; }
+    if (!seccionActiva) return;
     seccionActiva.classList.add("active");
 
     if (!primeraCarga && hacerScroll) {
@@ -21,11 +23,13 @@ function mostrar(seccion, hacerScroll = true) {
         if (oc && oc.includes(`'${seccion}'`)) boton.classList.add("activo");
     });
 
-    // Al abrir eventos, renderizar
     if (seccion === "eventos") { renderEventos(); verificarRol(); }
+    if (seccion === "calendario") { actualizarWidgetCalendario(); }
 }
 
-// ─── WIFI ─────────────────────────────────────────────────────
+// ============================================================
+// WIFI Y LOGIN
+// ============================================================
 const wifiData = {
     estudiante:     { nombre: "Estudiantes",    contraseña: "Escuelas_2025" },
     profesor:       { nombre: "Docentes",       contraseña: "Docentes_2025" },
@@ -34,12 +38,11 @@ const wifiData = {
 };
 
 const tipoSelect = document.getElementById("tipo");
-
 tipoSelect.addEventListener("change", () => {
     const data = wifiData[tipoSelect.value];
     if (data) {
-        document.getElementById("wifiNombre").innerText = "Nombre: "     + data.nombre;
-        document.getElementById("wifiPass").innerText   = "Contraseña: " + data.contraseña;
+        document.getElementById("wifiNombre").innerText = "Nombre: " + data.nombre;
+        document.getElementById("wifiPass").innerText = "Contraseña: " + data.contraseña;
     }
     verificarRol();
     if (document.getElementById("eventos")?.classList.contains("active")) renderEventos();
@@ -48,10 +51,8 @@ tipoSelect.addEventListener("change", () => {
 document.getElementById("verPassword").addEventListener("change", function () {
     document.getElementById("passwordLogin").type = this.checked ? "text" : "password";
 });
-
 tipoSelect.dispatchEvent(new Event("change"));
 
-// ─── LOGIN ────────────────────────────────────────────────────
 function login() {
     const password = document.getElementById("passwordLogin").value;
     if (password === "") {
@@ -60,11 +61,10 @@ function login() {
         actualizarPerfil();
         verificarRol();
         seedEventoDemo();
-        marcarCalendario();
+        actualizarWidgetCalendario();
     }
 }
 
-// ─── CERRAR SESIÓN ────────────────────────────────────────────
 function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
@@ -74,10 +74,12 @@ function cerrarSesion() {
     if (pR) pR.textContent = "—";
 }
 
-// ─── PERFIL ───────────────────────────────────────────────────
+// ============================================================
+// PERFIL
+// ============================================================
 function actualizarPerfil() {
     const nombre = document.getElementById("nombreLogin")?.value.trim() || "Usuario";
-    const tipo   = tipoSelect?.value || "estudiante";
+    const tipo = tipoSelect?.value || "estudiante";
     const pN = document.getElementById("perfilNombre");
     const pR = document.getElementById("perfilRango");
     if (pN) pN.textContent = nombre;
@@ -102,9 +104,11 @@ function iniciarCambioFoto() {
     });
 }
 
-// ─── ACORDEÓN CORRELATIVAS ────────────────────────────────────
+// ============================================================
+// ACORDEÓN CORRELATIVAS
+// ============================================================
 function toggleCorr(btn) {
-    const body   = btn.nextElementSibling;
+    const body = btn.nextElementSibling;
     const isOpen = btn.classList.contains("open");
     document.querySelectorAll(".acord-trigger.open").forEach(b => {
         b.classList.remove("open");
@@ -113,22 +117,185 @@ function toggleCorr(btn) {
     if (!isOpen) { btn.classList.add("open"); body.classList.add("open"); }
 }
 
-// ─── INIT ─────────────────────────────────────────────────────
-window.onload = function () {
-    mostrar("inicio", false);
-    iniciarCambioFoto();
-    seedEventoDemo();
-    marcarCalendario();
-};
+// ============================================================
+// CALENDARIO (integrado con eventos)
+// ============================================================
+const hoy = new Date();
+let currentYear = 2026;
+let currentMonth = 4;
+const MESES = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO',
+               'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 
+let eventosDelCalendario = {};
 
-// ═══════════════════════════════════════════════════════════════
-//  MÓDULO DE EVENTOS — completo
-// ═══════════════════════════════════════════════════════════════
+function cargarEventosACalendario() {
+    eventosDelCalendario = {};
+    try {
+        const eventos = JSON.parse(localStorage.getItem("ce_eventos_v2") || "[]");
+        eventos.forEach(ev => {
+            if (!ev.fecha) return;
+            const fecha = new Date(ev.fecha);
+            const year = fecha.getFullYear();
+            const month = fecha.getMonth();
+            const day = fecha.getDate();
+            if (!eventosDelCalendario[year]) eventosDelCalendario[year] = {};
+            if (!eventosDelCalendario[year][month]) eventosDelCalendario[year][month] = {};
+            if (!eventosDelCalendario[year][month][day]) eventosDelCalendario[year][month][day] = [];
+            eventosDelCalendario[year][month][day].push({ desc: ev.titulo, color: ev.destacado ? "orange" : "blue" });
+        });
+    } catch (e) {}
+}
 
+function getEventos(year, month, day) {
+    return (eventosDelCalendario[year] && eventosDelCalendario[year][month] && eventosDelCalendario[year][month][day]) || [];
+}
+
+function actualizarWidgetCalendario() {
+    cargarEventosACalendario();
+    renderCalendario();
+}
+
+function renderCalendario() {
+    document.getElementById('cal-titulo').textContent = MESES[currentMonth] + ' ' + currentYear;
+    const primerDia = new Date(currentYear, currentMonth, 1);
+    let inicioSemana = primerDia.getDay();
+    inicioSemana = (inicioSemana === 0) ? 6 : inicioSemana - 1;
+    const diasEnMes = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const diasMesAnterior = new Date(currentYear, currentMonth, 0).getDate();
+    const tbody = document.getElementById('cal-body');
+    tbody.innerHTML = '';
+    let dia = 1;
+    let diaPost = 1;
+    const totalCeldas = Math.ceil((inicioSemana + diasEnMes) / 7) * 7;
+    for (let i = 0; i < totalCeldas; i++) {
+        if (i % 7 === 0) tbody.insertRow();
+        const fila = tbody.rows[tbody.rows.length - 1];
+        const td = fila.insertCell();
+        if (i < inicioSemana) {
+            td.textContent = diasMesAnterior - inicioSemana + 1 + i;
+            td.className = 'prev';
+        } else if (dia > diasEnMes) {
+            td.textContent = diaPost++;
+            td.className = 'prev';
+        } else {
+            td.textContent = dia;
+            const esHoy = (dia === hoy.getDate() && currentMonth === hoy.getMonth() && currentYear === hoy.getFullYear());
+            if (esHoy) td.classList.add('today');
+            const evs = getEventos(currentYear, currentMonth, dia);
+            if (evs.length > 0) {
+                td.classList.add('event', evs[0].color);
+                const diaCapturado = dia;
+                td.addEventListener('click', () => mostrarModalCalendario(diaCapturado));
+            }
+            dia++;
+        }
+    }
+    renderEventosListaCalendario();
+    cerrarModalCalendario();
+}
+
+function renderEventosListaCalendario() {
+    const contenedor = document.getElementById('cal-eventos-lista');
+    const lista = [];
+    const mesEventos = (eventosDelCalendario[currentYear] && eventosDelCalendario[currentYear][currentMonth]) || {};
+    Object.entries(mesEventos).forEach(([dia, evs]) => {
+        evs.forEach(ev => lista.push({ dia: Number(dia), ...ev }));
+    });
+    lista.sort((a, b) => a.dia - b.dia);
+    if (lista.length === 0) {
+        contenedor.innerHTML = '<p style="padding:12px 16px; font-size:0.88rem; color:#888;">Sin eventos este mes.</p>';
+        return;
+    }
+    contenedor.innerHTML = lista.map(ev => `
+        <div class="cal-evento">
+            <span class="dot ${ev.color}"></span>
+            <strong>${String(ev.dia).padStart(2, '0')} ${MESES[currentMonth].slice(0, 3)}</strong>
+            &nbsp;${ev.desc}
+        </div>
+    `).join('');
+}
+
+function renderTodosEventosCalendario() {
+    const lista = document.getElementById('todos-eventos-lista');
+    const eventosAnuales = [];
+    for (let year in eventosDelCalendario) {
+        for (let month in eventosDelCalendario[year]) {
+            for (let dia in eventosDelCalendario[year][month]) {
+                eventosDelCalendario[year][month][dia].forEach(ev => {
+                    eventosAnuales.push({ year: parseInt(year), month: parseInt(month), dia: parseInt(dia), ...ev });
+                });
+            }
+        }
+    }
+    eventosAnuales.sort((a, b) => a.year !== b.year ? a.year - b.year : (a.month !== b.month ? a.month - b.month : a.dia - b.dia));
+    if (eventosAnuales.length === 0) {
+        lista.innerHTML = '<p style="color:#888;">No hay eventos.</p>';
+        return;
+    }
+    lista.innerHTML = eventosAnuales.map(ev => `
+        <div class="cal-evento" style="margin-bottom:8px;">
+            <span class="dot ${ev.color}"></span>
+            <strong>${String(ev.dia).padStart(2, '0')} ${MESES[ev.month].slice(0, 3)} ${ev.year}</strong>
+            - ${ev.desc}
+        </div>
+    `).join('');
+}
+
+let toggleCalendarioAbierto = false;
+function toggleTodosEventosCalendario() {
+    const contenedor = document.getElementById('todos-eventos');
+    const boton = document.getElementById('ver-mas-cal');
+    toggleCalendarioAbierto = !toggleCalendarioAbierto;
+    if (toggleCalendarioAbierto) {
+        renderTodosEventosCalendario();
+        contenedor.style.display = 'block';
+        boton.textContent = '− Ver menos actividades';
+    } else {
+        contenedor.style.display = 'none';
+        boton.textContent = '+ Ver más actividades';
+    }
+}
+
+function mostrarModalCalendario(dia) {
+    const modal = document.getElementById('cal-modal');
+    const evs = getEventos(currentYear, currentMonth, dia);
+    document.getElementById('modal-fecha').textContent = dia + ' de ' + MESES[currentMonth].charAt(0) + MESES[currentMonth].slice(1).toLowerCase() + ' ' + currentYear;
+    document.getElementById('modal-eventos-lista').innerHTML = evs.map(ev => `
+        <div class="modal-evento-item">
+            <span class="dot ${ev.color}"></span>
+            <span>${ev.desc}</span>
+        </div>
+    `).join('');
+    modal.style.display = 'block';
+    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#cal-body td:not(.prev)').forEach(td => {
+        if (Number(td.textContent) === dia) td.classList.add('selected');
+    });
+}
+
+function cerrarModalCalendario() {
+    document.getElementById('cal-modal').style.display = 'none';
+    document.querySelectorAll('.cal-table td.selected').forEach(c => c.classList.remove('selected'));
+}
+
+document.getElementById('cal-prev')?.addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendario();
+});
+document.getElementById('cal-next')?.addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendario();
+});
+document.getElementById('modal-cerrar')?.addEventListener('click', cerrarModalCalendario);
+document.getElementById('ver-mas-cal')?.addEventListener('click', toggleTodosEventosCalendario);
+
+// ============================================================
+// MÓDULO DE EVENTOS
+// ============================================================
 const EV_KEY = "ce_eventos_v2";
 
-// ── Storage ──────────────────────────────────────────────────
 function cargarEventos() {
     try { return JSON.parse(localStorage.getItem(EV_KEY) || "[]"); } catch { return []; }
 }
@@ -139,8 +306,7 @@ function guardarInscriptos(id, lista) { localStorage.setItem("ev_insc_" + id, JS
 function obtenerEspera(id) { try { return JSON.parse(localStorage.getItem("ev_espera_" + id) || "[]"); } catch { return []; } }
 function guardarEspera(id, lista) { localStorage.setItem("ev_espera_" + id, JSON.stringify(lista)); }
 
-// ── Rol ───────────────────────────────────────────────────────
-function getRol()  { return tipoSelect ? tipoSelect.value : "estudiante"; }
+function getRol() { return tipoSelect ? tipoSelect.value : "estudiante"; }
 function esAdmin() { const r = getRol(); return r === "profesor" || r === "administrativo"; }
 function getNombreUsuario() { return document.getElementById("nombreLogin")?.value.trim() || "Usuario"; }
 
@@ -149,7 +315,6 @@ function verificarRol() {
     if (actions) actions.style.display = esAdmin() ? "flex" : "none";
 }
 
-// ── Estado automático ─────────────────────────────────────────
 function calcularEstado(ev) {
     if (ev.estadoManual === "finalizado") return "finalizado";
     if (new Date(ev.fecha).getTime() < Date.now()) return "finalizado";
@@ -161,7 +326,6 @@ function calcularEstado(ev) {
 const ESTADO_LABEL = { abierto: "🟢 Abierto", cerrado: "🟡 Cerrado", finalizado: "🔴 Finalizado" };
 const ESTADO_CLASS = { abierto: "ev-estado-abierto", cerrado: "ev-estado-cerrado", finalizado: "ev-estado-finalizado" };
 
-// ── Toasts ────────────────────────────────────────────────────
 function toast(msg, tipo = "success") {
     const c = document.getElementById("toastContainer");
     if (!c) return;
@@ -173,9 +337,7 @@ function toast(msg, tipo = "success") {
     setTimeout(() => { t.classList.remove("toast-show"); setTimeout(() => t.remove(), 350); }, 3500);
 }
 
-// ── Tab activo ────────────────────────────────────────────────
 let evTabActivo = "todos";
-
 function cambiarTab(tab, btn) {
     evTabActivo = tab;
     document.querySelectorAll(".ev-tab").forEach(b => b.classList.remove("activo"));
@@ -183,75 +345,54 @@ function cambiarTab(tab, btn) {
     renderEventos();
 }
 
-// ── Render principal ──────────────────────────────────────────
 function renderEventos() {
     const lista = document.getElementById("listaEventos");
     if (!lista) return;
-
-    const termino  = (document.getElementById("evBuscador")?.value || "").toLowerCase().trim();
-    const filtCarr = document.getElementById("evFiltroCarrera")?.value  || "";
-    const filtEst  = document.getElementById("evFiltroEstado")?.value   || "";
-    const filtMod  = document.getElementById("evFiltroModalidad")?.value || "";
-    const usuario  = getNombreUsuario();
-    const admin    = esAdmin();
-
-    // Cargar y actualizar estados
+    const termino = (document.getElementById("evBuscador")?.value || "").toLowerCase().trim();
+    const filtCarr = document.getElementById("evFiltroCarrera")?.value || "";
+    const filtEst = document.getElementById("evFiltroEstado")?.value || "";
+    const filtMod = document.getElementById("evFiltroModalidad")?.value || "";
+    const usuario = getNombreUsuario();
+    const admin = esAdmin();
     let eventos = cargarEventos().map(ev => ({ ...ev, estadoCalculado: calcularEstado(ev) }));
-
-    // Filtro de tab
     if (evTabActivo === "mis") {
         eventos = eventos.filter(ev => obtenerInscriptos(ev.id).includes(usuario));
     }
-
-    // Filtros
-    if (termino)   eventos = eventos.filter(ev => ev.titulo.toLowerCase().includes(termino));
-    if (filtCarr)  eventos = eventos.filter(ev => ev.carrera === filtCarr);
-    if (filtEst)   eventos = eventos.filter(ev => ev.estadoCalculado === filtEst);
-    if (filtMod)   eventos = eventos.filter(ev => ev.modalidad === filtMod);
-
-    // Orden: destacados arriba → por fecha ascendente
+    if (termino) eventos = eventos.filter(ev => ev.titulo.toLowerCase().includes(termino));
+    if (filtCarr) eventos = eventos.filter(ev => ev.carrera === filtCarr);
+    if (filtEst) eventos = eventos.filter(ev => ev.estadoCalculado === filtEst);
+    if (filtMod) eventos = eventos.filter(ev => ev.modalidad === filtMod);
     eventos.sort((a, b) => {
         if (a.destacado && !b.destacado) return -1;
         if (!a.destacado && b.destacado) return 1;
         return new Date(a.fecha) - new Date(b.fecha);
     });
-
     const contador = document.getElementById("evContador");
     if (contador) contador.textContent = eventos.length ? `${eventos.length} evento${eventos.length !== 1 ? "s" : ""}` : "";
-
     if (!eventos.length) {
         lista.innerHTML = `<div class="ev-empty"><span>${evTabActivo === "mis" ? "📌" : "📭"}</span><p>${evTabActivo === "mis" ? "No estás anotado a ningún evento todavía." : "No hay eventos que coincidan con los filtros."}</p></div>`;
         return;
     }
-
     lista.innerHTML = eventos.map(ev => buildCard(ev, usuario, admin)).join("");
 }
 
-// ── Build card ────────────────────────────────────────────────
 function buildCard(ev, usuario, admin) {
-    const inscriptos    = obtenerInscriptos(ev.id);
-    const espera        = obtenerEspera(ev.id);
-    const estado        = ev.estadoCalculado;
+    const inscriptos = obtenerInscriptos(ev.id);
+    const espera = obtenerEspera(ev.id);
+    const estado = ev.estadoCalculado;
     const estaInscripto = inscriptos.includes(usuario);
-    const estaEnEspera  = espera.includes(usuario);
-    const pct           = Math.min(Math.round((inscriptos.length / ev.cupo) * 100), 100);
-    const cupoClass     = pct >= 100 ? "ev-cupo-lleno" : pct >= 75 ? "ev-cupo-alto" : "ev-cupo-ok";
-
-    const fecha  = new Date(ev.fecha);
-    const dia    = fecha.getDate();
-    const mes    = fecha.toLocaleDateString("es-AR", { month: "short" }).replace(".", "").toUpperCase();
-    const hora   = fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    const estaEnEspera = espera.includes(usuario);
+    const pct = Math.min(Math.round((inscriptos.length / ev.cupo) * 100), 100);
+    const cupoClass = pct >= 100 ? "ev-cupo-lleno" : pct >= 75 ? "ev-cupo-alto" : "ev-cupo-ok";
+    const fecha = new Date(ev.fecha);
+    const dia = fecha.getDate();
+    const mes = fecha.toLocaleDateString("es-AR", { month: "short" }).replace(".", "").toUpperCase();
+    const hora = fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
     const diaStr = fecha.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
-
-    const limStr = ev.fechaLimite
-        ? "⏰ Inscripción hasta: " + new Date(ev.fechaLimite).toLocaleDateString("es-AR") + " " + new Date(ev.fechaLimite).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
-        : "";
-
-    const modIcon  = { presencial: "📍", virtual: "💻", hibrido: "🔀" }[ev.modalidad] || "";
+    const limStr = ev.fechaLimite ? "⏰ Inscripción hasta: " + new Date(ev.fechaLimite).toLocaleDateString("es-AR") + " " + new Date(ev.fechaLimite).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }) : "";
+    const modIcon = { presencial: "📍", virtual: "💻", hibrido: "🔀" }[ev.modalidad] || "";
     const modLabel = { presencial: "Presencial", virtual: "Virtual", hibrido: "Híbrido" }[ev.modalidad] || ev.modalidad;
-    const carrLabel= { general: "🌎 Para Todos", "Ciencia de Datos": "📊 Ciencia de Datos", Farmacia: "💊 Farmacia", "Trabajo Social": "🤝 Trabajo Social" }[ev.carrera] || ev.carrera;
-
-    // Botón estudiante
+    const carrLabel = { general: "🌎 Para Todos", "Ciencia de Datos": "📊 Ciencia de Datos", Farmacia: "💊 Farmacia", "Trabajo Social": "🤝 Trabajo Social" }[ev.carrera] || ev.carrera;
     let btnEstudiante = "";
     if (!admin) {
         if (estado === "finalizado") {
@@ -268,93 +409,38 @@ function buildCard(ev, usuario, admin) {
             btnEstudiante = `<button class="btn-anotarse" onclick="anotarse('${ev.id}')">Anotarse</button>`;
         }
     }
-
-    // Botones admin
     const btnAdmin = admin ? `
         <div class="ev-admin-row">
-            <button class="ev-btn-admin" onclick="verInscriptos('${ev.id}')">
-                👥 ${inscriptos.length} inscripto${inscriptos.length !== 1 ? "s" : ""}${espera.length > 0 ? " · ⏳ " + espera.length + " en espera" : ""}
-            </button>
-            ${estado !== "finalizado" ? `<button class="ev-btn-admin ev-btn-cerrar-insc" onclick="toggleCerrarInscripcion('${ev.id}')">
-                ${ev.estadoManual === "cerrado" ? "🔓 Reabrir" : "🔒 Cerrar insc."}
-            </button>` : ""}
+            <button class="ev-btn-admin" onclick="verInscriptos('${ev.id}')">👥 ${inscriptos.length} inscripto${inscriptos.length !== 1 ? "s" : ""}${espera.length > 0 ? " · ⏳ " + espera.length + " en espera" : ""}</button>
+            ${estado !== "finalizado" ? `<button class="ev-btn-admin ev-btn-cerrar-insc" onclick="toggleCerrarInscripcion('${ev.id}')">${ev.estadoManual === "cerrado" ? "🔓 Reabrir" : "🔒 Cerrar insc."}</button>` : ""}
             <button class="ev-btn-admin ev-btn-edit" onclick="editarEvento('${ev.id}')">✏️ Editar</button>
             <button class="ev-btn-admin ev-btn-del" onclick="eliminarEvento('${ev.id}')">🗑</button>
         </div>` : "";
-
-    const banner = ev.imagen
-        ? `<div class="ev-card-banner"><img src="${ev.imagen}" alt="Banner" onerror="this.parentElement.style.display='none'"></div>`
-        : "";
-
-    return `
-<div class="ev-card${ev.destacado ? " ev-card-destacado" : ""}" id="card-${ev.id}">
-    ${banner}
-    <div class="ev-card-body">
-        <div class="ev-card-top">
-            <div class="ev-fecha-badge${estado === "finalizado" ? " ev-fb-gris" : " ev-fb-azul"}">
-                <span class="ev-fb-dia">${dia}</span>
-                <span class="ev-fb-mes">${mes}</span>
-            </div>
-            <div class="ev-card-main">
-                <div class="ev-card-badges">
-                    ${ev.destacado ? `<span class="ev-badge ev-badge-pin">📌 Destacado</span>` : ""}
-                    <span class="ev-badge ${ESTADO_CLASS[estado]}">${ESTADO_LABEL[estado]}</span>
-                    <span class="ev-badge ${ev.tipo === "obligatorio" ? "ev-badge-oblig" : "ev-badge-opc"}">${ev.tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</span>
-                    <span class="ev-badge ev-badge-carr">${carrLabel}</span>
-                    <span class="ev-badge ev-badge-mod">${modIcon} ${modLabel}</span>
-                </div>
-                <h3 class="ev-card-titulo">${ev.titulo}</h3>
-                ${ev.descripcion ? `<p class="ev-card-desc">${ev.descripcion}</p>` : ""}
-                <div class="ev-card-meta-row">
-                    <span>🕐 ${hora} hs · ${diaStr}</span>
-                    <span>${modIcon} ${ev.lugar}</span>
-                    ${limStr ? `<span>${limStr}</span>` : ""}
-                    ${ev.creadoPor ? `<span>👤 ${ev.creadoPor}</span>` : ""}
-                </div>
-            </div>
-        </div>
-        <div class="ev-card-footer">
-            <div class="ev-cupo-bloque">
-                <div class="ev-cupo-top">
-                    <span class="ev-cupo-label">Cupo</span>
-                    <strong class="ev-cupo-num">${inscriptos.length}/${ev.cupo}</strong>
-                </div>
-                <div class="ev-cupo-track">
-                    <div class="ev-cupo-fill ${cupoClass}" style="width:${pct}%"></div>
-                </div>
-                ${espera.length > 0 ? `<span class="ev-espera-chip">⏳ ${espera.length} en lista de espera</span>` : ""}
-            </div>
-            <div class="ev-card-acciones">
-                ${btnEstudiante}
-                ${btnAdmin}
-            </div>
-        </div>
-    </div>
-</div>`;
+    const banner = ev.imagen ? `<div class="ev-card-banner"><img src="${ev.imagen}" alt="Banner" onerror="this.parentElement.style.display='none'"></div>` : "";
+    return `<div class="ev-card${ev.destacado ? " ev-card-destacado" : ""}" id="card-${ev.id}">${banner}<div class="ev-card-body"><div class="ev-card-top"><div class="ev-fecha-badge${estado === "finalizado" ? " ev-fb-gris" : " ev-fb-azul"}"><span class="ev-fb-dia">${dia}</span><span class="ev-fb-mes">${mes}</span></div><div class="ev-card-main"><div class="ev-card-badges">${ev.destacado ? '<span class="ev-badge ev-badge-pin">📌 Destacado</span>' : ""}<span class="ev-badge ${ESTADO_CLASS[estado]}">${ESTADO_LABEL[estado]}</span><span class="ev-badge ${ev.tipo === "obligatorio" ? "ev-badge-oblig" : "ev-badge-opc"}">${ev.tipo === "obligatorio" ? "🔴 Obligatorio" : "🟢 Opcional"}</span><span class="ev-badge ev-badge-carr">${carrLabel}</span><span class="ev-badge ev-badge-mod">${modIcon} ${modLabel}</span></div><h3 class="ev-card-titulo">${ev.titulo}</h3>${ev.descripcion ? `<p class="ev-card-desc">${ev.descripcion}</p>` : ""}<div class="ev-card-meta-row"><span>🕐 ${hora} hs · ${diaStr}</span><span>${modIcon} ${ev.lugar}</span>${limStr ? `<span>${limStr}</span>` : ""}${ev.creadoPor ? `<span>👤 ${ev.creadoPor}</span>` : ""}</div></div></div><div class="ev-card-footer"><div class="ev-cupo-bloque"><div class="ev-cupo-top"><span class="ev-cupo-label">Cupo</span><strong class="ev-cupo-num">${inscriptos.length}/${ev.cupo}</strong></div><div class="ev-cupo-track"><div class="ev-cupo-fill ${cupoClass}" style="width:${pct}%"></div></div>${espera.length > 0 ? `<span class="ev-espera-chip">⏳ ${espera.length} en lista de espera</span>` : ""}</div><div class="ev-card-acciones">${btnEstudiante}${btnAdmin}</div></div></div></div>`;
 }
 
-// ── Anotarse / Desanotarse / Espera ───────────────────────────
 function anotarse(idEvento) {
-    const ev      = cargarEventos().find(e => e.id === idEvento);
+    const ev = cargarEventos().find(e => e.id === idEvento);
     if (!ev) return;
-    const usuario    = getNombreUsuario();
+    const usuario = getNombreUsuario();
     const inscriptos = obtenerInscriptos(idEvento);
     if (inscriptos.includes(usuario)) return toast("Ya estás anotado a este evento.", "info");
     if (calcularEstado(ev) === "finalizado") return toast("Este evento ya finalizó.", "error");
-    if (calcularEstado(ev) === "cerrado")    return toast("Las inscripciones están cerradas.", "error");
+    if (calcularEstado(ev) === "cerrado") return toast("Las inscripciones están cerradas.", "error");
     if (ev.fechaLimite && new Date(ev.fechaLimite) < new Date()) return toast("La fecha límite de inscripción ya pasó.", "error");
     inscriptos.push(usuario);
     guardarInscriptos(idEvento, inscriptos);
     toast(`✅ Te anotaste a "${ev.titulo}"`, "success");
-    renderEventos(); marcarCalendario();
+    renderEventos();
+    actualizarWidgetCalendario();
 }
 
 function desanotarse(idEvento) {
-    const ev         = cargarEventos().find(e => e.id === idEvento);
-    const usuario    = getNombreUsuario();
-    let inscriptos   = obtenerInscriptos(idEvento).filter(u => u !== usuario);
+    const ev = cargarEventos().find(e => e.id === idEvento);
+    const usuario = getNombreUsuario();
+    let inscriptos = obtenerInscriptos(idEvento).filter(u => u !== usuario);
     guardarInscriptos(idEvento, inscriptos);
-    // Promover de lista de espera si hay cupo
     const espera = obtenerEspera(idEvento);
     if (ev && inscriptos.length < ev.cupo && espera.length > 0) {
         const promovido = espera.shift();
@@ -364,12 +450,13 @@ function desanotarse(idEvento) {
         toast(`ℹ️ ${promovido} fue promovido desde lista de espera.`, "info");
     }
     toast("Te desanotaste del evento.", "info");
-    renderEventos(); marcarCalendario();
+    renderEventos();
+    actualizarWidgetCalendario();
 }
 
 function entrarEspera(idEvento) {
-    const ev     = cargarEventos().find(e => e.id === idEvento);
-    const usuario= getNombreUsuario();
+    const ev = cargarEventos().find(e => e.id === idEvento);
+    const usuario = getNombreUsuario();
     const espera = obtenerEspera(idEvento);
     if (espera.includes(usuario)) return toast("Ya estás en lista de espera.", "info");
     espera.push(usuario);
@@ -385,7 +472,6 @@ function salirEspera(idEvento) {
     renderEventos();
 }
 
-// ── Admin: cerrar/reabrir inscripción ─────────────────────────
 function toggleCerrarInscripcion(idEvento) {
     const eventos = cargarEventos();
     const idx = eventos.findIndex(e => e.id === idEvento);
@@ -397,26 +483,16 @@ function toggleCerrarInscripcion(idEvento) {
     renderEventos();
 }
 
-// ── Admin: ver inscriptos ─────────────────────────────────────
 let _modalEvId = null;
-
 function verInscriptos(idEvento) {
-    const ev         = cargarEventos().find(e => e.id === idEvento);
+    const ev = cargarEventos().find(e => e.id === idEvento);
     const inscriptos = obtenerInscriptos(idEvento);
-    const espera     = obtenerEspera(idEvento);
-    _modalEvId       = idEvento;
-
+    const espera = obtenerEspera(idEvento);
+    _modalEvId = idEvento;
     document.getElementById("modalInscriptosTitle").textContent = `Inscriptos — ${ev?.titulo || "Evento"}`;
-
-    const mkLista = (arr, titulo, cls) => arr.length ? `
-        <p class="ev-modal-group ${cls}">${titulo} (${arr.length})</p>
-        <ol class="ev-modal-lista">${arr.map((u, i) => `<li><span class="ev-modal-num">${i + 1}</span>${u}</li>`).join("")}</ol>` : "";
-
+    const mkLista = (arr, titulo, cls) => arr.length ? `<p class="ev-modal-group ${cls}">${titulo} (${arr.length})</p><ol class="ev-modal-lista">${arr.map((u, i) => `<li><span class="ev-modal-num">${i + 1}</span>${u}</li>`).join("")}</ol>` : "";
     const body = document.getElementById("modalInscriptosBody");
-    body.innerHTML = (inscriptos.length === 0 && espera.length === 0)
-        ? `<p class="ev-modal-empty">Sin inscriptos aún.</p>`
-        : mkLista(inscriptos, "✅ Inscriptos", "") + mkLista(espera, "⏳ Lista de espera", "ev-modal-group-espera");
-
+    body.innerHTML = (inscriptos.length === 0 && espera.length === 0) ? `<p class="ev-modal-empty">Sin inscriptos aún.</p>` : mkLista(inscriptos, "✅ Inscriptos", "") + mkLista(espera, "⏳ Lista de espera", "ev-modal-group-espera");
     document.getElementById("modalInscriptos").style.display = "flex";
 }
 
@@ -427,52 +503,48 @@ function cerrarModalInscriptos(e) {
 
 function exportarInscriptos() {
     if (!_modalEvId) return;
-    const ev         = cargarEventos().find(e => e.id === _modalEvId);
+    const ev = cargarEventos().find(e => e.id === _modalEvId);
     const inscriptos = obtenerInscriptos(_modalEvId);
-    const espera     = obtenerEspera(_modalEvId);
+    const espera = obtenerEspera(_modalEvId);
     let csv = `Evento:,${ev?.titulo || _modalEvId}\nFecha:,${ev ? new Date(ev.fecha).toLocaleString("es-AR") : ""}\n\nN,Nombre,Estado\n`;
     inscriptos.forEach((u, i) => csv += `${i + 1},${u},Inscripto\n`);
     espera.forEach((u, i) => csv += `${inscriptos.length + i + 1},${u},Lista de espera\n`);
     const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-    const url  = URL.createObjectURL(blob);
-    const a    = Object.assign(document.createElement("a"), { href: url, download: `inscriptos_${(ev?.titulo || _modalEvId).replace(/\s+/g, "_")}.csv` });
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement("a"), { href: url, download: `inscriptos_${(ev?.titulo || _modalEvId).replace(/\s+/g, "_")}.csv` });
     a.click(); URL.revokeObjectURL(url);
     toast("⬇ Lista exportada correctamente.", "success");
 }
 
-// ── Admin: crear / editar ─────────────────────────────────────
 function abrirFormEvento(id = null) {
     const elTit = document.getElementById("formEventoTitulo");
     const elSub = document.getElementById("formEventoSubtitulo");
-    const elId  = document.getElementById("fEditandoId");
-
-    const campos = ["fTitulo","fDescripcion","fFecha","fFechaLimite","fLugar","fImagen","fCupo"];
-
+    const elId = document.getElementById("fEditandoId");
     if (id) {
         const ev = cargarEventos().find(e => e.id === id);
         if (!ev) return;
         elTit.textContent = "✏️ Editar evento";
         elSub.textContent = "Modificá los datos del evento.";
         elId.value = id;
-        document.getElementById("fTitulo").value       = ev.titulo;
-        document.getElementById("fDescripcion").value  = ev.descripcion || "";
-        document.getElementById("fFecha").value        = (ev.fecha || "").slice(0, 16);
-        document.getElementById("fFechaLimite").value  = (ev.fechaLimite || "").slice(0, 16);
-        document.getElementById("fModalidad").value    = ev.modalidad;
-        document.getElementById("fLugar").value        = ev.lugar;
-        document.getElementById("fCarrera").value      = ev.carrera;
-        document.getElementById("fTipo").value         = ev.tipo;
-        document.getElementById("fCupo").value         = ev.cupo;
-        document.getElementById("fDestacado").checked  = !!ev.destacado;
-        document.getElementById("fImagen").value       = ev.imagen || "";
+        document.getElementById("fTitulo").value = ev.titulo;
+        document.getElementById("fDescripcion").value = ev.descripcion || "";
+        document.getElementById("fFecha").value = (ev.fecha || "").slice(0, 16);
+        document.getElementById("fFechaLimite").value = (ev.fechaLimite || "").slice(0, 16);
+        document.getElementById("fModalidad").value = ev.modalidad;
+        document.getElementById("fLugar").value = ev.lugar;
+        document.getElementById("fCarrera").value = ev.carrera;
+        document.getElementById("fTipo").value = ev.tipo;
+        document.getElementById("fCupo").value = ev.cupo;
+        document.getElementById("fDestacado").checked = !!ev.destacado;
+        document.getElementById("fImagen").value = ev.imagen || "";
     } else {
         elTit.textContent = "➕ Nuevo evento";
         elSub.textContent = "Completá todos los campos para publicar el evento.";
         elId.value = "";
-        campos.forEach(fid => { const el = document.getElementById(fid); if (el) el.value = ""; });
-        document.getElementById("fModalidad").value   = "presencial";
-        document.getElementById("fCarrera").value     = "general";
-        document.getElementById("fTipo").value        = "opcional";
+        ["fTitulo","fDescripcion","fFecha","fFechaLimite","fLugar","fImagen","fCupo"].forEach(fid => { const el = document.getElementById(fid); if (el) el.value = ""; });
+        document.getElementById("fModalidad").value = "presencial";
+        document.getElementById("fCarrera").value = "general";
+        document.getElementById("fTipo").value = "opcional";
         document.getElementById("fDestacado").checked = false;
     }
     mostrar("formEvento");
@@ -481,30 +553,27 @@ function abrirFormEvento(id = null) {
 function editarEvento(id) { abrirFormEvento(id); }
 
 function guardarEvento() {
-    const titulo      = document.getElementById("fTitulo").value.trim();
+    const titulo = document.getElementById("fTitulo").value.trim();
     const descripcion = document.getElementById("fDescripcion").value.trim();
-    const fecha       = document.getElementById("fFecha").value;
+    const fecha = document.getElementById("fFecha").value;
     const fechaLimite = document.getElementById("fFechaLimite").value;
-    const modalidad   = document.getElementById("fModalidad").value;
-    const lugar       = document.getElementById("fLugar").value.trim();
-    const carrera     = document.getElementById("fCarrera").value;
-    const tipo        = document.getElementById("fTipo").value;
-    const cupo        = parseInt(document.getElementById("fCupo").value);
-    const destacado   = document.getElementById("fDestacado").checked;
-    const imagen      = document.getElementById("fImagen").value.trim();
-    const editId      = document.getElementById("fEditandoId").value;
-
-    if (!titulo)                                             return toast("El título es obligatorio.", "error");
-    if (!fecha)                                              return toast("La fecha del evento es obligatoria.", "error");
-    if (!editId && new Date(fecha) < new Date())             return toast("La fecha del evento no puede ser en el pasado.", "error");
-    if (!fechaLimite)                                        return toast("La fecha límite de inscripción es obligatoria.", "error");
-    if (new Date(fechaLimite) >= new Date(fecha))            return toast("La fecha límite debe ser anterior a la fecha del evento.", "error");
-    if (!lugar)                                              return toast("El lugar o link es obligatorio.", "error");
-    if (isNaN(cupo) || cupo < 1)                             return toast("El cupo debe ser al menos 1.", "error");
-    if (cupo > 500)                                          return toast("El cupo no puede superar 500.", "error");
-
+    const modalidad = document.getElementById("fModalidad").value;
+    const lugar = document.getElementById("fLugar").value.trim();
+    const carrera = document.getElementById("fCarrera").value;
+    const tipo = document.getElementById("fTipo").value;
+    const cupo = parseInt(document.getElementById("fCupo").value);
+    const destacado = document.getElementById("fDestacado").checked;
+    const imagen = document.getElementById("fImagen").value.trim();
+    const editId = document.getElementById("fEditandoId").value;
+    if (!titulo) return toast("El título es obligatorio.", "error");
+    if (!fecha) return toast("La fecha del evento es obligatoria.", "error");
+    if (!editId && new Date(fecha) < new Date()) return toast("La fecha del evento no puede ser en el pasado.", "error");
+    if (!fechaLimite) return toast("La fecha límite de inscripción es obligatoria.", "error");
+    if (new Date(fechaLimite) >= new Date(fecha)) return toast("La fecha límite debe ser anterior a la fecha del evento.", "error");
+    if (!lugar) return toast("El lugar o link es obligatorio.", "error");
+    if (isNaN(cupo) || cupo < 1) return toast("El cupo debe ser al menos 1.", "error");
+    if (cupo > 500) return toast("El cupo no puede superar 500.", "error");
     const eventos = cargarEventos();
-
     if (editId) {
         const idx = eventos.findIndex(e => e.id === editId);
         if (idx === -1) return toast("Evento no encontrado.", "error");
@@ -512,18 +581,13 @@ function guardarEvento() {
         guardarEventosStorage(eventos);
         toast(`✅ "${titulo}" actualizado.`, "success");
     } else {
-        eventos.push({
-            id: "ev_" + Date.now(), titulo, descripcion, fecha, fechaLimite,
-            modalidad, lugar, carrera, tipo, cupo, destacado, imagen,
-            estadoManual: "", estadoCalculado: "abierto", creadoPor: getNombreUsuario()
-        });
+        eventos.push({ id: "ev_" + Date.now(), titulo, descripcion, fecha, fechaLimite, modalidad, lugar, carrera, tipo, cupo, destacado, imagen, estadoManual: "", estadoCalculado: "abierto", creadoPor: getNombreUsuario() });
         guardarEventosStorage(eventos);
         toast(`✅ "${titulo}" publicado.`, "success");
     }
-
     mostrar("eventos");
     renderEventos();
-    marcarCalendario();
+    actualizarWidgetCalendario();
 }
 
 function eliminarEvento(idEvento) {
@@ -533,43 +597,30 @@ function eliminarEvento(idEvento) {
     localStorage.removeItem("ev_insc_" + idEvento);
     localStorage.removeItem("ev_espera_" + idEvento);
     toast("🗑 Evento eliminado.", "info");
-    renderEventos(); marcarCalendario();
+    renderEventos();
+    actualizarWidgetCalendario();
 }
 
-// ── Integración calendario ────────────────────────────────────
-function marcarCalendario() {
-    const dias = [...new Set(cargarEventos().map(ev => {
-        const d = new Date(ev.fecha);
-        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    }))];
-    localStorage.setItem("ce_dias_con_eventos", JSON.stringify(dias));
-    if (typeof actualizarWidgetCalendario === "function") actualizarWidgetCalendario(dias);
-}
-
-// ── Seed demo ─────────────────────────────────────────────────
 function seedEventoDemo() {
     if (cargarEventos().length > 0) return;
-    const hoy    = new Date();
-    const fecha  = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 7, 18, 0);
+    const hoySeed = new Date();
+    const fecha = new Date(hoySeed.getFullYear(), hoySeed.getMonth(), hoySeed.getDate() + 7, 18, 0);
     const limite = new Date(fecha.getTime() - 2 * 86400000);
-    const fecha2 = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 14, 10, 0);
-    const limite2= new Date(fecha2.getTime() - 86400000);
+    const fecha2 = new Date(hoySeed.getFullYear(), hoySeed.getMonth(), hoySeed.getDate() + 14, 10, 0);
+    const limite2 = new Date(fecha2.getTime() - 86400000);
     guardarEventosStorage([
-        {
-            id: "ev_demo1", titulo: "Fiesta de fin de cuatrimestre",
-            descripcion: "La fiesta anual del Instituto. Música en vivo, food trucks, sorteos y stands de cada carrera.",
-            fecha: fecha.toISOString().slice(0, 16), fechaLimite: limite.toISOString().slice(0, 16),
-            modalidad: "presencial", lugar: "Patio central — Planta baja",
-            carrera: "general", tipo: "opcional", cupo: 150,
-            destacado: true, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Administración"
-        },
-        {
-            id: "ev_demo2", titulo: "Charla: Introducción a Machine Learning",
-            descripcion: "Charla introductoria sobre ML dictada por docentes de la carrera.",
-            fecha: fecha2.toISOString().slice(0, 16), fechaLimite: limite2.toISOString().slice(0, 16),
-            modalidad: "virtual", lugar: "meet.google.com/demo-link",
-            carrera: "Ciencia de Datos", tipo: "obligatorio", cupo: 40,
-            destacado: false, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Prof. García"
-        }
+        { id: "ev_demo1", titulo: "Fiesta de fin de cuatrimestre", descripcion: "La fiesta anual del Instituto. Música en vivo, food trucks, sorteos y stands de cada carrera.", fecha: fecha.toISOString().slice(0, 16), fechaLimite: limite.toISOString().slice(0, 16), modalidad: "presencial", lugar: "Patio central — Planta baja", carrera: "general", tipo: "opcional", cupo: 150, destacado: true, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Administración" },
+        { id: "ev_demo2", titulo: "Charla: Introducción a Machine Learning", descripcion: "Charla introductoria sobre ML dictada por docentes de la carrera.", fecha: fecha2.toISOString().slice(0, 16), fechaLimite: limite2.toISOString().slice(0, 16), modalidad: "virtual", lugar: "meet.google.com/demo-link", carrera: "Ciencia de Datos", tipo: "obligatorio", cupo: 40, destacado: false, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Prof. García" }
     ]);
+    actualizarWidgetCalendario();
 }
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload = function () {
+    mostrar("inicio", false);
+    iniciarCambioFoto();
+    seedEventoDemo();
+    actualizarWidgetCalendario();
+};
