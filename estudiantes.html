@@ -645,17 +645,7 @@
     const MESES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO',
                    'JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
 
-    const eventos = {
-        2026: {
-            4: {
-                8:  [{ desc: 'Taller de oratoria', color: 'teal' }],
-                16: [{ desc: 'Asamblea Estudiantil', color: 'blue' }],
-                22: [{ desc: 'Feria del Libro Usado', color: 'orange' }],
-                30: [{ desc: 'Jornada de Voluntariado', color: 'red' }],
-                1:  [{ desc: 'Reunión Comisión Académica', color: 'blue' }],
-            }
-        }
-    };
+const eventos = {};
 
  function getEventos(year, month, day) {
         return (eventos[year] && eventos[year][month] && eventos[year][month][day]) || [];
