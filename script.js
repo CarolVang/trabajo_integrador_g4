@@ -154,3 +154,37 @@ function toggleTodosEventos(e) {
         link.textContent = '+ Ver más actividades';
     }
 }
+// ─── USUARIOS ───────────────────────────────────────────────
+const usuarios = {
+    estudiante: [
+        { nombre: "juan Perez",      password: "alumno123" },
+        { nombre: "maria Garcia",    password: "alumno123" },
+        { nombre: "lucas Rodriguez", password: "alumno123" },
+    ],
+    profesor: [
+        { nombre: "martinez",  password: "profe456" },
+        { nombre: "Ggonzalez",  password: "profe456" },
+    ],
+    administrativo: [
+        { nombre: "admi", password: "admi789" },
+        { nombre: "delegado",     password: "admi789" },
+    ]
+};
+
+function login() {
+    const tipo     = document.getElementById("tipo").value;
+    const nombre   = document.getElementById("nombreLogin").value.trim();
+    const password = document.getElementById("passwordLogin").value;
+
+    const lista = usuarios[tipo] || [];
+    const encontrado = lista.find(
+        u => u.nombre.toLowerCase() === nombre.toLowerCase() && u.password === password
+    );
+
+    if (encontrado) {
+        document.getElementById("login-container").style.display = "none";
+        mostrar("inicio", false);
+    } else {
+        alert("Usuario o contraseña incorrectos.");
+    }
+}
