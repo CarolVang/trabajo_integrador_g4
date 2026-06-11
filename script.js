@@ -157,12 +157,12 @@ function toggleTodosEventos(e) {
 // ─── USUARIOS ───────────────────────────────────────────────
 const usuarios = {
     estudiante: [
-        { nombre: "juan Perez",      password: "alumno123" },
+        { nombre: "liz",      password: "alumno123" },
         { nombre: "maria Garcia",    password: "alumno123" },
         { nombre: "lucas Rodriguez", password: "alumno123" },
     ],
     profesor: [
-        { nombre: "martinez",  password: "profe456" },
+        { nombre: "rocio",  password: "profe456" },
         { nombre: "Ggonzalez",  password: "profe456" },
     ],
     administrativo: [
