@@ -154,3 +154,21 @@ function toggleTodosEventos(e) {
         link.textContent = '+ Ver más actividades';
     }
 }
+// memoria
+
+function mostrar(id) {
+    // Agregamos 'memoria' a la lista para que el script sepa que existe
+    const secciones = ['inicio', 'novedades', 'eventos', 'reglamentos', 'correlativas', 'calendario', 'memoria'];
+    
+    secciones.forEach(s => {
+        const elemento = document.getElementById(s);
+        if (elemento) {
+            elemento.style.display = 'none';
+        }
+    });
+
+    const seccionAMostrar = document.getElementById(id);
+    if (seccionAMostrar) {
+        seccionAMostrar.style.display = 'block';
+    }
+}

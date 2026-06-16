@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 
 <body>
@@ -29,6 +31,8 @@
             <button onclick="mostrar('reglamentos')">Reglamentos</button>
             <button onclick="mostrar('correlativas')">Correlativas</button>
             <button onclick="mostrar('calendario')">Calendario</button>
+            <button onclick="mostrar('memoria')">Memoria</button>
+
         </div>
     </div>
 
@@ -100,7 +104,63 @@
     <section id="novedades"></section>
 
     <!-- REGLAMENTOS -->
-    <section id="reglamentos"> </section>
+    <section id="reglamentos">
+       <!-- REGLAMENTOS Y DOCUMENTOS -->
+    <div class="panel">
+        <div class="panel-header">
+            <h2>REGLAMENTOS Y DOCUMENTOS</h2>
+            <a href="#" class="ver-todas">Ver todos los documentos →</a>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Estatuto del Centro de Estudiantes</strong>
+                <p>Normas de funcionamiento y objetivos del CE.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Reglamento de Elecciones</strong>
+                <p>Procedimientos y requisitos para elecciones estudiantiles.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Reglamento de Asambleas</strong>
+                <p>Normas para la convocatoria y desarrollo de asambleas.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Código de Convivencia Estudiantil</strong>
+                <p>Pautas para una convivencia respetuosa e inclusiva.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Guía de Comisiones</strong>
+                <p>Información y funciones de cada comisión de trabajo.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+    </div>
+
+</div>
+
+ </section>
 
     <!-- CORRELATIVAS -->
     <section id="correlativas"> </section>
@@ -236,6 +296,54 @@
     <!-- INGRESO -->
     <section id="ingreso"></section>
 
+ <!-- SECCIÓN MEMORIA PROFESIONAL -->
+<section id="memoria" style="display: none;">
+    <div class="panel">
+        <div class="panel-header" style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: #3b82f6; font-size: 2.5rem;">CENTRO DE DATOS Y MEMORIA</h2>
+            <p>Análisis estadístico y geográfico de las víctimas.</p>
+        </div>
+
+        <!-- Indicadores rápidos -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>TOTAL REGISTROS</h3>
+                <div class="number" id="total-victimas">0</div>
+            </div>
+            <div class="stat-card" style="border-left-color: #ef4444;">
+                <h3>AÑO CRÍTICO</h3>
+                <div class="number">1976</div>
+            </div>
+            <div class="stat-card" style="border-left-color: #10b981;">
+                <h3>CASOS EMBARAZO</h3>
+                <div class="number">52</div>
+            </div>
+        </div>
+
+        <!-- Gráficos y Mapa -->
+        <div class="dashboard-grid">
+            <div class="chart-box">
+                <canvas id="chartAnios"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="chartEstado"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box" style="margin-top: 20px;">
+            <h3 style="text-align: center; color: #3b82f6;">Distribución Geográfica (Zonas Críticas)</h3>
+            <div id="mapa-victimas"></div>
+        </div>
+    </div>
+</section>
+
+<!-- LIBRERÍAS NECESARIAS (Ponelas en el head o antes del script) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+
+
     <!-- LOGIN — NO TOCAR -->
     <div id="login-container">
         <div class="login-box">
@@ -333,8 +441,13 @@
     
     <script src="js/api.js"></script> 
     <script src="script.js"></script>
-    <script src="js/reglamentos.js"></script>
     <script src="js/correlativas.js"></script>
+    <script src="js/reglamentos.js"></script>
+    <script src="js/dashboard.js"></script>
+
+
+
+
     <style>
          .cal-table td.event {
             position: relative;
