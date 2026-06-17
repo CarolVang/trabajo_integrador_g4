@@ -119,12 +119,16 @@
                 <input type="text" id="evBuscador" placeholder="🔍 Buscar evento..." oninput="renderEventos()">
             </div>
             <div class="ev-filtros-grupo">
+                <!-- FILTRO CARRERA: carreras actualizadas -->
                 <select id="evFiltroCarrera" onchange="renderEventos()">
                     <option value="">Todas las carreras</option>
                     <option value="general">🌎 Para Todos</option>
-                    <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
-                    <option value="Farmacia">💊 Farmacia</option>
-                    <option value="Trabajo Social">🤝 Trabajo Social</option>
+                    <option value="Profesorado de Educación Inicial">👶 Prof. Educación Inicial</option>
+                    <option value="Curso de Formación Básica en Inglés">🇬🇧 Formación Básica en Inglés</option>
+                    <option value="Tecnicatura Superior en Enfermería">🏥 Tecnicatura en Enfermería</option>
+                    <option value="Tecnicatura Superior en Ciencia de Datos e IA">📊 Ciencia de Datos e IA</option>
+                    <option value="Tecnicatura Superior en Acompañamiento Terapéutico">🧠 Acomp. Terapéutico</option>
+                    <option value="Tecnicatura Superior en Administración Financiera">💰 Administración Financiera</option>
                 </select>
                 <select id="evFiltroEstado" onchange="renderEventos()">
                     <option value="">Todos los estados</option>
@@ -191,12 +195,16 @@
             <div class="ev-form-col">
                 <div class="ev-field-row">
                     <div class="ev-field">
+                        <!-- SELECTOR CARRERA EN FORMULARIO: carreras actualizadas -->
                         <label>Carrera <span class="req">*</span></label>
                         <select id="fCarrera">
                             <option value="general">🌎 Para Todos</option>
-                            <option value="Ciencia de Datos">📊 Ciencia de Datos</option>
-                            <option value="Farmacia">💊 Farmacia</option>
-                            <option value="Trabajo Social">🤝 Trabajo Social</option>
+                            <option value="Profesorado de Educación Inicial">👶 Prof. Educación Inicial</option>
+                            <option value="Curso de Formación Básica en Inglés">🇬🇧 Formación Básica en Inglés</option>
+                            <option value="Tecnicatura Superior en Enfermería">🏥 Tecnicatura en Enfermería</option>
+                            <option value="Tecnicatura Superior en Ciencia de Datos e IA">📊 Ciencia de Datos e IA</option>
+                            <option value="Tecnicatura Superior en Acompañamiento Terapéutico">🧠 Acomp. Terapéutico</option>
+                            <option value="Tecnicatura Superior en Administración Financiera">💰 Administración Financiera</option>
                         </select>
                     </div>
                     <div class="ev-field">

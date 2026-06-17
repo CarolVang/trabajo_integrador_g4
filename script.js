@@ -326,6 +326,19 @@ function calcularEstado(ev) {
 const ESTADO_LABEL = { abierto: "🟢 Abierto", cerrado: "🟡 Cerrado", finalizado: "🔴 Finalizado" };
 const ESTADO_CLASS = { abierto: "ev-estado-abierto", cerrado: "ev-estado-cerrado", finalizado: "ev-estado-finalizado" };
 
+// ============================================================
+// MAPA DE CARRERAS — etiquetas para las cards
+// ============================================================
+const CARR_LABEL = {
+    general: "🌎 Para Todos",
+    "Profesorado de Educación Inicial": "👶 Prof. Educación Inicial",
+    "Curso de Formación Básica en Inglés": "🇬🇧 Formación Básica en Inglés",
+    "Tecnicatura Superior en Enfermería": "🏥 Tecnicatura en Enfermería",
+    "Tecnicatura Superior en Ciencia de Datos e IA": "📊 Ciencia de Datos e IA",
+    "Tecnicatura Superior en Acompañamiento Terapéutico": "🧠 Acomp. Terapéutico",
+    "Tecnicatura Superior en Administración Financiera": "💰 Administración Financiera"
+};
+
 function toast(msg, tipo = "success") {
     const c = document.getElementById("toastContainer");
     if (!c) return;
@@ -392,7 +405,10 @@ function buildCard(ev, usuario, admin) {
     const limStr = ev.fechaLimite ? "⏰ Inscripción hasta: " + new Date(ev.fechaLimite).toLocaleDateString("es-AR") + " " + new Date(ev.fechaLimite).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }) : "";
     const modIcon = { presencial: "📍", virtual: "💻", hibrido: "🔀" }[ev.modalidad] || "";
     const modLabel = { presencial: "Presencial", virtual: "Virtual", hibrido: "Híbrido" }[ev.modalidad] || ev.modalidad;
-    const carrLabel = { general: "🌎 Para Todos", "Ciencia de Datos": "📊 Ciencia de Datos", Farmacia: "💊 Farmacia", "Trabajo Social": "🤝 Trabajo Social" }[ev.carrera] || ev.carrera;
+
+    // Usa el mapa centralizado; si la carrera no existe en el mapa, muestra el valor crudo
+    const carrLabel = CARR_LABEL[ev.carrera] || ev.carrera;
+
     let btnEstudiante = "";
     if (!admin) {
         if (estado === "finalizado") {
@@ -610,7 +626,7 @@ function seedEventoDemo() {
     const limite2 = new Date(fecha2.getTime() - 86400000);
     guardarEventosStorage([
         { id: "ev_demo1", titulo: "Fiesta de fin de cuatrimestre", descripcion: "La fiesta anual del Instituto. Música en vivo, food trucks, sorteos y stands de cada carrera.", fecha: fecha.toISOString().slice(0, 16), fechaLimite: limite.toISOString().slice(0, 16), modalidad: "presencial", lugar: "Patio central — Planta baja", carrera: "general", tipo: "opcional", cupo: 150, destacado: true, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Administración" },
-        { id: "ev_demo2", titulo: "Charla: Introducción a Machine Learning", descripcion: "Charla introductoria sobre ML dictada por docentes de la carrera.", fecha: fecha2.toISOString().slice(0, 16), fechaLimite: limite2.toISOString().slice(0, 16), modalidad: "virtual", lugar: "meet.google.com/demo-link", carrera: "Ciencia de Datos", tipo: "obligatorio", cupo: 40, destacado: false, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Prof. García" }
+        { id: "ev_demo2", titulo: "Charla: Introducción a Machine Learning", descripcion: "Charla introductoria sobre ML dictada por docentes de la carrera.", fecha: fecha2.toISOString().slice(0, 16), fechaLimite: limite2.toISOString().slice(0, 16), modalidad: "virtual", lugar: "meet.google.com/demo-link", carrera: "Tecnicatura Superior en Ciencia de Datos e IA", tipo: "obligatorio", cupo: 40, destacado: false, imagen: "", estadoManual: "", estadoCalculado: "abierto", creadoPor: "Prof. García" }
     ]);
     actualizarWidgetCalendario();
 }
