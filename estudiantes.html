@@ -326,44 +326,9 @@
         </button>
       </div>
 
-      <div id="lista">
-        <div class="nov-card urgente">
-          <div class="card-btns">
-            <button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button>
-            <button class="del-btn"  onclick="eliminar(this)">✕</button>
-          </div>
-          <h3>📌 Suspensión de clases</h3>
-          <p>El profesor Santiago López no puede venir hoy.</p>
-          <span>📅 20 Abril 2026</span>
-        </div>
-        <div class="nov-card info">
-          <div class="card-btns">
-            <button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button>
-            <button class="del-btn"  onclick="eliminar(this)">✕</button>
-          </div>
-          <h3>📝 Nueva tarea</h3>
-          <p>Se subió una nueva actividad en la plataforma.</p>
-          <span>📅 19 Abril 2026</span>
-        </div>
-        <div class="nov-card importante">
-          <div class="card-btns">
-            <button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button>
-            <button class="del-btn"  onclick="eliminar(this)">✕</button>
-          </div>
-          <h3>📅 Próximo examen</h3>
-          <p>Examen el lunes a las 18:00 hs.</p>
-          <span>📅 18 Abril 2026</span>
-        </div>
-        <div class="nov-card evento">
-          <div class="card-btns">
-            <button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button>
-            <button class="del-btn"  onclick="eliminar(this)">✕</button>
-          </div>
-          <h3>🎉 Evento escolar</h3>
-          <p>Este viernes habrá jornada recreativa para todos los estudiantes.</p>
-          <span>📅 17 Abril 2026</span>
-        </div>
-      </div>
+      <!-- El contenido de #lista ahora se genera 100% desde JS (renderNovedades),
+           a partir del array `novedades` que se guarda como JSON en localStorage. -->
+      <div id="lista"></div>
     </section>
 
     <!-- ── MODAL NUEVA / EDICIÓN NOVEDAD ── -->
@@ -431,22 +396,84 @@
     </div>
 
     <script>
-    /* ── Estado novedades ── */
+    /* =====================================================================
+       NOVEDADES — persistencia en localStorage (JSON)
+       ---------------------------------------------------------------------
+       Toda la "fuente de verdad" es el array `novedades`. El HTML de las
+       cards SIEMPRE se genera a partir de ese array (renderNovedades).
+       Cada cambio (agregar, editar, eliminar) actualiza el array y después
+       lo guarda como texto JSON en localStorage con guardarNovedadesEnStorage().
+       Al volver a abrir/refrescar la página, cargarNovedades() lee ese JSON
+       y reconstruye las cards, así que las novedades quedan guardadas.
+       ===================================================================== */
+
+    const NOV_STORAGE_KEY = 'ce_instituto57_novedades_v1';
     const ICONOS = { urgente:'🚨', importante:'⚠️', info:'ℹ️', evento:'🎉' };
-    let novAdjuntos   = [];   // adjuntos del modal abierto
-    let novCardEditar = null; // card que se está editando (null = nueva)
-    let novTipoSel    = 'urgente';
+
+    // Datos iniciales (lo que antes estaba escrito a mano en el HTML).
+    // Solo se usan la primera vez, si todavía no hay nada guardado.
+    const NOV_SEED = [
+      { id:'seed-1', tipo:'urgente',    titulo:'📌 Suspensión de clases', texto:'El profesor Santiago López no puede venir hoy.', fecha:'📅 20 Abril 2026', adjuntos:[] },
+      { id:'seed-2', tipo:'info',       titulo:'📝 Nueva tarea', texto:'Se subió una nueva actividad en la plataforma.', fecha:'📅 19 Abril 2026', adjuntos:[] },
+      { id:'seed-3', tipo:'importante', titulo:'📅 Próximo examen', texto:'Examen el lunes a las 18:00 hs.', fecha:'📅 18 Abril 2026', adjuntos:[] },
+      { id:'seed-4', tipo:'evento',     titulo:'🎉 Evento escolar', texto:'Este viernes habrá jornada recreativa para todos los estudiantes.', fecha:'📅 17 Abril 2026', adjuntos:[] }
+    ];
+
+    let novedades       = [];     // array de objetos -> esto es lo que se serializa a JSON
+    let novAdjuntosTemp = [];     // adjuntos nuevos cargados en el modal (ya en base64)
+    let novCardEditarId = null;   // id de la novedad en edición (null = es nueva)
+    let novTipoSel      = 'urgente';
+
+    /* ── Cargar desde localStorage (o usar el seed si es la primera vez) ── */
+    function cargarNovedades() {
+      try {
+        const raw = localStorage.getItem(NOV_STORAGE_KEY);
+        novedades = raw ? JSON.parse(raw) : NOV_SEED.slice();
+      } catch (e) {
+        console.error('No se pudieron leer las novedades guardadas, se usan las de ejemplo:', e);
+        novedades = NOV_SEED.slice();
+      }
+      guardarNovedadesEnStorage(); // asegura que quede algo guardado desde el primer load
+      renderNovedades();
+    }
+
+    /* ── Guardar el array completo como JSON en localStorage ── */
+    function guardarNovedadesEnStorage() {
+      try {
+        localStorage.setItem(NOV_STORAGE_KEY, JSON.stringify(novedades));
+      } catch (e) {
+        console.error('Error guardando novedades (¿localStorage lleno?):', e);
+        alert('No se pudo guardar la novedad. Si adjuntaste fotos/videos pesados, probá con archivos más livianos.');
+      }
+    }
+
+    /* ── Reconstruir TODAS las cards a partir del array `novedades` ── */
+    function renderNovedades() {
+      const lista = document.getElementById('lista');
+      lista.innerHTML = '';
+      novedades.forEach(item => lista.appendChild(crearCardDesdeDatos(item)));
+    }
+
+    function crearCardDesdeDatos(item) {
+      const div = document.createElement('div');
+      div.className = 'nov-card ' + item.tipo;
+      div.dataset.id = item.id;
+      div.innerHTML =
+        `<div class="card-btns"><button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button><button class="del-btn" onclick="eliminar(this)">✕</button></div>` +
+        `<h3>${item.titulo}</h3><p>${item.texto}</p><span>${item.fecha}</span>` +
+        buildAttachmentsHTML(item.adjuntos);
+      return div;
+    }
 
     /* ── Abrir modal nueva novedad ── */
     function abrirModalNovedad() {
-      novCardEditar = null;
-      novAdjuntos   = [];
+      novCardEditarId = null;
+      novAdjuntosTemp = [];
       novTipoSel    = 'urgente';
       document.getElementById('novModalTitulo').textContent = '✦ Nueva novedad';
       document.getElementById('novTitulo').value = '';
       document.getElementById('novTexto').value  = '';
       document.getElementById('novAttachPreview').innerHTML = '';
-      // resetear pills
       document.querySelectorAll('.tipo-pill').forEach(p => {
         p.className = 'tipo-pill';
         if (p.dataset.tipo === 'urgente') p.classList.add('selected-urgente');
@@ -458,19 +485,23 @@
     /* ── Abrir modal edición ── */
     function abrirEdicionNovedad(btn) {
       const card = btn.closest('.nov-card');
-      novCardEditar = card;
-      novAdjuntos   = [];
-      const tipoActual = [...card.classList].find(c => ICONOS[c]) || 'info';
-      novTipoSel = tipoActual;
+      const item = novedades.find(n => n.id === card.dataset.id);
+      if (!item) return;
+
+      novCardEditarId = item.id;
+      novAdjuntosTemp = [];
+      novTipoSel = item.tipo;
+
       document.getElementById('novModalTitulo').textContent = '✏️ Editar novedad';
-      document.getElementById('novTitulo').value = (card.querySelector('h3')?.textContent || '').replace(/^.\s/, '');
-      document.getElementById('novTexto').value  = card.querySelector('p')?.textContent || '';
+      document.getElementById('novTitulo').value = item.titulo.replace(/^\S+\s/, ''); // sacamos el emoji inicial
+      document.getElementById('novTexto').value  = item.texto;
       document.getElementById('novAttachPreview').innerHTML = '';
-      // pills
+
       document.querySelectorAll('.tipo-pill').forEach(p => {
         p.className = 'tipo-pill';
-        if (p.dataset.tipo === tipoActual) p.classList.add('selected-' + tipoActual);
+        if (p.dataset.tipo === item.tipo) p.classList.add('selected-' + item.tipo);
       });
+
       document.getElementById('novModal').classList.add('open');
       document.getElementById('novTitulo').focus();
     }
@@ -478,11 +509,10 @@
     /* ── Cerrar modal ── */
     function cerrarModalNovedad() {
       document.getElementById('novModal').classList.remove('open');
-      novCardEditar = null;
-      novAdjuntos   = [];
+      novCardEditarId = null;
+      novAdjuntosTemp = [];
     }
 
-    /* Cerrar al click en overlay */
     function novModalClickOverlay(e) {
       if (e.target === document.getElementById('novModal')) cerrarModalNovedad();
     }
@@ -494,44 +524,50 @@
       pill.classList.add('selected-' + novTipoSel);
     }
 
-    /* ── Previsualizar adjuntos ── */
+    /* ── Previsualizar adjuntos: se convierten a base64 (dataURL) al toque,
+           porque eso es lo único que se puede guardar dentro del JSON ── */
     function novPrevisualizarArchivos(input, tipo) {
       Array.from(input.files).forEach(file => {
-        const obj = { file, tipo, url: URL.createObjectURL(file) };
-        novAdjuntos.push(obj);
-        const preview = document.getElementById('novAttachPreview');
-        const wrap = document.createElement('div');
-        wrap.className = 'thumb';
-        if (tipo === 'imagen') {
-          wrap.innerHTML = `<img src="${obj.url}" title="${file.name}"><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
-        } else if (tipo === 'video') {
-          wrap.innerHTML = `<span class="video-chip" title="${file.name}">🎬 ${file.name}</span><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
-        } else {
-          wrap.innerHTML = `<span class="file-chip" title="${file.name}">📎 ${file.name}</span><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
-        }
-        wrap._adjRef = obj;
-        preview.appendChild(wrap);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const obj = { tipo, nombre: file.name, dataUrl: e.target.result };
+          novAdjuntosTemp.push(obj);
+
+          const preview = document.getElementById('novAttachPreview');
+          const wrap = document.createElement('div');
+          wrap.className = 'thumb';
+          if (tipo === 'imagen') {
+            wrap.innerHTML = `<img src="${obj.dataUrl}" title="${obj.nombre}"><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
+          } else if (tipo === 'video') {
+            wrap.innerHTML = `<span class="video-chip" title="${obj.nombre}">🎬 ${obj.nombre}</span><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
+          } else {
+            wrap.innerHTML = `<span class="file-chip" title="${obj.nombre}">📎 ${obj.nombre}</span><button class="rm" onclick="novQuitarAdjunto(this)">✕</button>`;
+          }
+          wrap._adjRef = obj;
+          preview.appendChild(wrap);
+        };
+        reader.readAsDataURL(file);
       });
       input.value = '';
     }
 
     function novQuitarAdjunto(btn) {
       const wrap = btn.parentElement;
-      novAdjuntos = novAdjuntos.filter(a => a !== wrap._adjRef);
+      novAdjuntosTemp = novAdjuntosTemp.filter(a => a !== wrap._adjRef);
       wrap.remove();
     }
 
-    /* ── Construir HTML de adjuntos para la card ── */
+    /* ── HTML de adjuntos para mostrar en la card ── */
     function buildAttachmentsHTML(adjuntos) {
       if (!adjuntos || !adjuntos.length) return '';
       let html = '<div class="card-attachments">';
       adjuntos.forEach(a => {
         if (a.tipo === 'imagen')
-          html += `<img src="${a.url}" title="${a.file.name}" onclick="abrirLightbox('${a.url}')">`;
+          html += `<img src="${a.dataUrl}" title="${a.nombre}" onclick="abrirLightbox('${a.dataUrl}')">`;
         else if (a.tipo === 'video')
-          html += `<a href="${a.url}" target="_blank">🎬 ${a.file.name}</a>`;
+          html += `<a href="${a.dataUrl}" target="_blank">🎬 ${a.nombre}</a>`;
         else
-          html += `<a href="${a.url}" download="${a.file.name}">📎 ${a.file.name}</a>`;
+          html += `<a href="${a.dataUrl}" download="${a.nombre}">📎 ${a.nombre}</a>`;
       });
       html += '</div>';
       return html;
@@ -545,38 +581,41 @@
       if (!texto)  { document.getElementById('novTexto').focus();  return; }
 
       const tipo = novTipoSel;
+      const tituloConIcono = `${ICONOS[tipo]} ${titulo}`;
 
-      if (novCardEditar) {
-        /* ── edición ── */
-        const spanFecha = novCardEditar.querySelector('span');
-        const fecha = spanFecha ? spanFecha.textContent : '';
-        const adjAnteriores = novCardEditar.querySelector('.card-attachments');
-        const adjAntHTML = adjAnteriores ? adjAnteriores.outerHTML : '';
-        // quitar tipo viejo
-        Object.keys(ICONOS).forEach(c => novCardEditar.classList.remove(c));
-        novCardEditar.classList.add(tipo);
-        novCardEditar.innerHTML =
-          `<div class="card-btns"><button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button><button class="del-btn" onclick="eliminar(this)">✕</button></div>` +
-          `<h3>${ICONOS[tipo]} ${titulo}</h3><p>${texto}</p><span>${fecha}</span>` +
-          adjAntHTML + buildAttachmentsHTML(novAdjuntos);
+      if (novCardEditarId) {
+        /* ── edición: modifico el objeto dentro del array ── */
+        const item = novedades.find(n => n.id === novCardEditarId);
+        if (item) {
+          item.tipo    = tipo;
+          item.titulo  = tituloConIcono;
+          item.texto   = texto;
+          item.adjuntos = [...(item.adjuntos || []), ...novAdjuntosTemp];
+        }
       } else {
-        /* ── nueva ── */
+        /* ── nueva: la agrego al principio del array ── */
         const hoy = new Date().toLocaleDateString('es-AR', { day:'numeric', month:'long', year:'numeric' });
-        const div = document.createElement('div');
-        div.className = 'nov-card ' + tipo;
-        div.innerHTML =
-          `<div class="card-btns"><button class="edit-btn" onclick="abrirEdicionNovedad(this)">✏️</button><button class="del-btn" onclick="eliminar(this)">✕</button></div>` +
-          `<h3>${ICONOS[tipo]} ${titulo}</h3><p>${texto}</p><span>📅 ${hoy}</span>` +
-          buildAttachmentsHTML(novAdjuntos);
-        document.getElementById('lista').insertBefore(div, document.getElementById('lista').firstChild);
+        novedades.unshift({
+          id: 'nov-' + Date.now(),
+          tipo,
+          titulo: tituloConIcono,
+          texto,
+          fecha: '📅 ' + hoy,
+          adjuntos: novAdjuntosTemp
+        });
       }
 
+      guardarNovedadesEnStorage(); // <- esto es lo que hace que sobreviva al refresh
+      renderNovedades();
       cerrarModalNovedad();
     }
 
     /* ── Eliminar card ── */
     function eliminar(btn) {
-      btn.closest('.nov-card').remove();
+      const card = btn.closest('.nov-card');
+      novedades = novedades.filter(n => n.id !== card.dataset.id);
+      guardarNovedadesEnStorage();
+      renderNovedades();
     }
 
     /* ── Lightbox ── */
@@ -593,6 +632,9 @@
       body.style.display = abierto ? 'none' : 'block';
       if (chevron) chevron.textContent = abierto ? '▼' : '▲';
     }
+
+    /* ── Inicializar novedades al cargar la página ── */
+    document.addEventListener('DOMContentLoaded', cargarNovedades);
     </script>
 
     
@@ -974,7 +1016,8 @@
             </div>
         </div>
     </footer>
-
+    <script src="js/api.js"></script>
+    <script src="js/eventos.js"></script>
     <script src="script.js"></script>
 
 </body>

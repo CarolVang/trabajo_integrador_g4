@@ -1,0 +1,1 @@
+const datos = await api.getNovedades();
