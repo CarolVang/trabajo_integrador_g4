@@ -5,8 +5,6 @@ function mostrar(seccion, hacerScroll = true) {
     // Oculta todas las secciones
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 
-    // Muestra la sección pedida
-    // Usamos un guard para evitar crashes si la sección no existe
     const seccionActiva = document.getElementById(seccion);
     if (!seccionActiva) {
         console.warn("mostrar(): no existe la sección con id='" + seccion + "'");
@@ -14,28 +12,30 @@ function mostrar(seccion, hacerScroll = true) {
     }
     seccionActiva.classList.add("active");
 
-    // Scroll suave, solo después de la primera carga
-   if (!primeraCarga && hacerScroll) {
-    const topbar = document.querySelector(".topbar");
-    const topbarAltura = topbar ? topbar.offsetHeight : 0;
-    const y = seccionActiva.getBoundingClientRect().top + window.scrollY - topbarAltura - 16;
-    window.scrollTo({ top: y, behavior: "smooth" });
-}
+    // Scroll suave hasta el principio de la sección (excepto en la primera carga)
+    if (!primeraCarga && hacerScroll) {
+        const topbar = document.querySelector(".topbar");
+        const topbarAltura = topbar ? topbar.offsetHeight : 0;
+        const y = seccionActiva.getBoundingClientRect().top + window.scrollY - topbarAltura - 16;
+        window.scrollTo({ top: y, behavior: "smooth" });
+    }
 
     primeraCarga = false;
 
-    // ─── FIX: era ".menu-principal button", ahora es ".nav-links button" ───
-    // Quitar clase activo de todos los botones de navegación
-    document.querySelectorAll(".nav-links button")
-        .forEach(b => b.classList.remove("activo"));
-
-    // Marcar como activo el botón que corresponde a esta sección
+    // Marcar botón activo en el nav
+    document.querySelectorAll(".nav-links button").forEach(b => b.classList.remove("activo"));
     document.querySelectorAll(".nav-links button").forEach(boton => {
         const onclick = boton.getAttribute("onclick");
         if (onclick && onclick.includes(seccion)) {
             boton.classList.add("activo");
         }
     });
+
+    // Inicializar el dashboard de memoria la primera vez que se muestra
+    if (seccion === "memoria" && typeof inicializarDashboard === "function" && !window._dashboardCargado) {
+        window._dashboardCargado = true;
+        inicializarDashboard();
+    }
 }
 
 
@@ -63,23 +63,20 @@ document.getElementById("verPassword").addEventListener("change", function () {
     pass.type = this.checked ? "text" : "password";
 });
 
-// Disparar el evento para mostrar wifi al cargar
 tipoSelect.dispatchEvent(new Event("change"));
 
 
 // ─── LOGIN ───────────────────────────────────────────────────
 function login() {
-    
     const password = document.getElementById("passwordLogin").value;
-
     if (password === "") {
         document.getElementById("login-container").style.display = "none";
-        mostrar("inicio", false); // ← ahora queda en inicio
+        mostrar("inicio", false);
     }
 }
 
 window.onload = function () {
-    mostrar("inicio", false); // sin scroll al cargar
+    mostrar("inicio", false);
 };
 
 
@@ -88,8 +85,8 @@ function cerrarSesion() {
     document.getElementById("login-container").style.display = "flex";
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
 }
+
 function renderEventosLista() {
-    
     const contenedor = document.getElementById('cal-eventos-lista');
     const lista = allEventosDelMes(currentYear, currentMonth);
     if (lista.length === 0) {
@@ -104,23 +101,23 @@ function renderEventosLista() {
         </div>
     `).join('');
 }
+
 // ── ACORDEÓN CORRELATIVAS ──
 function toggleCorr(btn) {
     const body = btn.nextElementSibling;
     const isOpen = btn.classList.contains("open");
 
-    // Cierra todos los que estén abiertos
     document.querySelectorAll(".acord-trigger.open").forEach(b => {
         b.classList.remove("open");
         b.nextElementSibling.classList.remove("open");
     });
 
-    // Si estaba cerrado, lo abre
     if (!isOpen) {
         btn.classList.add("open");
         body.classList.add("open");
     }
 }
+
 // mas actividades calendario
 function toggleTodosEventos(e) {
     e.preventDefault();
@@ -129,7 +126,6 @@ function toggleTodosEventos(e) {
     const link = document.getElementById('ver-mas-cal');
 
     if (div.style.display === 'none') {
-        // Construir lista de todos los años y meses
         let html = '';
         for (const year in eventos) {
             for (const month in eventos[year]) {
@@ -152,23 +148,5 @@ function toggleTodosEventos(e) {
     } else {
         div.style.display = 'none';
         link.textContent = '+ Ver más actividades';
-    }
-}
-// memoria
-
-function mostrar(id) {
-    // Agregamos 'memoria' a la lista para que el script sepa que existe
-    const secciones = ['inicio', 'novedades', 'eventos', 'reglamentos', 'correlativas', 'calendario', 'memoria'];
-    
-    secciones.forEach(s => {
-        const elemento = document.getElementById(s);
-        if (elemento) {
-            elemento.style.display = 'none';
-        }
-    });
-
-    const seccionAMostrar = document.getElementById(id);
-    if (seccionAMostrar) {
-        seccionAMostrar.style.display = 'block';
     }
 }
