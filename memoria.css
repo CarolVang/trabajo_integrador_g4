@@ -1,0 +1,150 @@
+/* css/memoria.css — Dashboard Espacio para la Memoria */
+
+#memoria {
+    background: #0a0e1a;
+    color: #e2e8f0;
+    padding: 32px;
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+}
+
+#memoria .memoria-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+#memoria .memoria-header h2 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #f1f5f9;
+    margin: 0 0 6px 0;
+}
+
+#memoria .memoria-header p {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+#memoria .memoria-update {
+    font-size: 0.75rem;
+    color: #475569;
+    text-align: right;
+}
+
+/* ── STAT CARDS ── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 18px 20px;
+    border-left: 3px solid #3b82f6;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-card h3 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 0;
+}
+
+.stat-card .number {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #3b82f6;
+    line-height: 1.1;
+}
+
+.stat-card .sub {
+    font-size: 0.72rem;
+    color: #475569;
+}
+
+/* ── CHART BOXES ── */
+.chart-box {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.chart-box h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #cbd5e1;
+    margin: 0 0 14px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Contenedor con altura fija — Chart.js necesita esto, no alcanza con max-height en el canvas */
+.chart-box .chart-wrap {
+    position: relative;
+    height: 260px;
+    width: 100%;
+}
+
+.chart-box .chart-wrap.chart-wrap-small {
+    height: 220px;
+}
+
+/* ── MAPA ── */
+#mapa-victimas {
+    height: 420px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+    position: relative;
+    z-index: 1; /* evita que el mapa de Leaflet flote por encima del topbar al scrollear */
+    overflow: hidden;
+}
+
+/* Leaflet crea sus propios paneles internos con z-index altos por defecto */
+#mapa-victimas .leaflet-pane,
+#mapa-victimas .leaflet-top,
+#mapa-victimas .leaflet-control {
+    z-index: 2 !important;
+}
+
+.mapa-nota {
+    font-size: 0.72rem;
+    color: #475569;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* ── LAYOUT EN COLUMNAS (estilo imagen referencia) ── */
+.memoria-layout {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 18px;
+}
+
+.memoria-layout .col-izq,
+.memoria-layout .col-der {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+@media (max-width: 900px) {
+    .memoria-layout {
+        grid-template-columns: 1fr;
+    }
+}

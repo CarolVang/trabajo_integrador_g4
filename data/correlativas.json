@@ -1,0 +1,34 @@
+{
+  "correlativas": [
+    {
+      "id": 1,
+      "nombre": "Programación I",
+      "requiere": []
+    },
+    {
+      "id": 2,
+      "nombre": "Lógica y Algoritmos",
+      "requiere": []
+    },
+    {
+      "id": 3,
+      "nombre": "Programación II",
+      "requiere": ["Programación I"]
+    },
+    {
+      "id": 4,
+      "nombre": "Bases de Datos",
+      "requiere": ["Programación I", "Lógica y Algoritmos"]
+    },
+    {
+      "id": 5,
+      "nombre": "Sistemas Operativos",
+      "requiere": ["Programación I"]
+    },
+    {
+      "id": 6,
+      "nombre": "Desarrollo Web",
+      "requiere": ["Programación II", "Sistemas Operativos"]
+    }
+  ]
+}

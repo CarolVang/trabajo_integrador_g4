@@ -1245,3 +1245,12 @@ section.active { display: block !important; }
 .cal-evento {
     font-size: 22px;
 }
+
+/** memoria **/
+/* Estilos Dark Dashboard para Memoria */
+#memoria {
+    background-color: #0b111e; /* Azul muy oscuro */
+    color: #e2e8f0;
+    padding: 40px 20px;
+    min-height: 100vh;
+}

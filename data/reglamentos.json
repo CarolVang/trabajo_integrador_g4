@@ -1,0 +1,60 @@
+{
+  "reglamentos": [
+    {
+      "id": 1,
+      "categoria": "Organización y gobierno",
+      "titulo": "Estatuto del Centro de Estudiantes",
+      "descripcion": "Normas de funcionamiento, objetivos y estructura del CE.",
+      "archivo": "estatuto-ce.pdf"
+    },
+    {
+      "id": 2,
+      "categoria": "Organización y gobierno",
+      "titulo": "Reglamento interno de comisiones",
+      "descripcion": "Funciones, responsabilidades y organización de cada comisión.",
+      "archivo": "reglamento-comisiones.pdf"
+    },
+    {
+      "id": 3,
+      "categoria": "Organización y gobierno",
+      "titulo": "Reglamento de elecciones estudiantiles",
+      "descripcion": "Procedimientos, plazos y requisitos para elecciones del CE.",
+      "archivo": "reglamento-elecciones.pdf"
+    },
+    {
+      "id": 4,
+      "categoria": "Convivencia y participación",
+      "titulo": "Código de convivencia estudiantil",
+      "descripcion": "Pautas para una convivencia respetuosa e inclusiva.",
+      "archivo": "codigo-convivencia.pdf"
+    },
+    {
+      "id": 5,
+      "categoria": "Convivencia y participación",
+      "titulo": "Reglamento de asambleas estudiantiles",
+      "descripcion": "Normas para la convocatoria, quórum y desarrollo de asambleas.",
+      "archivo": "reglamento-asambleas.pdf"
+    },
+    {
+      "id": 6,
+      "categoria": "Convivencia y participación",
+      "titulo": "Protocolo ante situaciones de violencia o discriminación",
+      "descripcion": "Pasos a seguir y canales de denuncia disponibles.",
+      "archivo": "protocolo-violencia.pdf"
+    },
+    {
+      "id": 7,
+      "categoria": "Información académica",
+      "titulo": "Guía de derechos del estudiante",
+      "descripcion": "Resumen de derechos y obligaciones según la normativa vigente.",
+      "archivo": "guia-derechos.pdf"
+    },
+    {
+      "id": 8,
+      "categoria": "Información académica",
+      "titulo": "Guía de comisiones del CE",
+      "descripcion": "Información y funciones de cada comisión de trabajo activa.",
+      "archivo": "guia-comisiones.pdf"
+    }
+  ]
+}

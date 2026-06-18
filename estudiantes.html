@@ -5,9 +5,18 @@
     <meta charset="UTF-8">
     <title>Instituto 57</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="memoria.css">
+
+    <!-- Leaflet (mapa) — FALTABA ESTO -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -29,6 +38,8 @@
             <button onclick="mostrar('reglamentos')">Reglamentos</button>
             <button onclick="mostrar('correlativas')">Correlativas</button>
             <button onclick="mostrar('calendario')">Calendario</button>
+            <button onclick="mostrar('memoria')">Memoria</button>
+
         </div>
     </div>
 
@@ -101,205 +112,65 @@
 
     <!-- REGLAMENTOS -->
     <section id="reglamentos">
+       <!-- REGLAMENTOS Y DOCUMENTOS -->
+    <div class="panel">
+        <div class="panel-header">
+            <h2>REGLAMENTOS Y DOCUMENTOS</h2>
+            <a href="#" class="ver-todas">Ver todos los documentos →</a>
+        </div>
 
-        <h2>Reglamentos y documentos</h2>
-        <p>Documentos oficiales del Centro de Estudiantes. Podés descargarlos en cualquier momento.</p>
-
-        <h3>Organización y gobierno</h3>
         <div class="doc-item">
             <span class="doc-icon">📄</span>
             <div class="doc-info">
                 <strong>Estatuto del Centro de Estudiantes</strong>
-                <p>Normas de funcionamiento, objetivos y estructura del CE.</p>
-            </div>
-            <button class="btn-descargar">⬇ DESCARGAR</button>
-        </div>
-        <div class="doc-item">
-            <span class="doc-icon">📄</span>
-            <div class="doc-info">
-                <strong>Reglamento interno de comisiones</strong>
-                <p>Funciones, responsabilidades y organización de cada comisión.</p>
-            </div>
-            <button class="btn-descargar">⬇ DESCARGAR</button>
-        </div>
-        <div class="doc-item">
-            <span class="doc-icon">📄</span>
-            <div class="doc-info">
-                <strong>Reglamento de elecciones estudiantiles</strong>
-                <p>Procedimientos, plazos y requisitos para elecciones del CE.</p>
+                <p>Normas de funcionamiento y objetivos del CE.</p>
             </div>
             <button class="btn-descargar">⬇ DESCARGAR</button>
         </div>
 
-        <h3>Convivencia y participación</h3>
         <div class="doc-item">
             <span class="doc-icon">📄</span>
             <div class="doc-info">
-                <strong>Código de convivencia estudiantil</strong>
+                <strong>Reglamento de Elecciones</strong>
+                <p>Procedimientos y requisitos para elecciones estudiantiles.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Reglamento de Asambleas</strong>
+                <p>Normas para la convocatoria y desarrollo de asambleas.</p>
+            </div>
+            <button class="btn-descargar">⬇ DESCARGAR</button>
+        </div>
+
+        <div class="doc-item">
+            <span class="doc-icon">📄</span>
+            <div class="doc-info">
+                <strong>Código de Convivencia Estudiantil</strong>
                 <p>Pautas para una convivencia respetuosa e inclusiva.</p>
             </div>
             <button class="btn-descargar">⬇ DESCARGAR</button>
         </div>
-        <div class="doc-item">
-            <span class="doc-icon">📄</span>
-            <div class="doc-info">
-                <strong>Reglamento de asambleas estudiantiles</strong>
-                <p>Normas para la convocatoria, quórum y desarrollo de asambleas.</p>
-            </div>
-            <button class="btn-descargar">⬇ DESCARGAR</button>
-        </div>
-        <div class="doc-item">
-            <span class="doc-icon">📄</span>
-            <div class="doc-info">
-                <strong>Protocolo ante situaciones de violencia o discriminación</strong>
-                <p>Pasos a seguir y canales de denuncia disponibles.</p>
-            </div>
-            <button class="btn-descargar">⬇ DESCARGAR</button>
-        </div>
 
-        <h3>Información académica</h3>
         <div class="doc-item">
             <span class="doc-icon">📄</span>
             <div class="doc-info">
-                <strong>Guía de derechos del estudiante</strong>
-                <p>Resumen de derechos y obligaciones según la normativa vigente.</p>
+                <strong>Guía de Comisiones</strong>
+                <p>Información y funciones de cada comisión de trabajo.</p>
             </div>
             <button class="btn-descargar">⬇ DESCARGAR</button>
         </div>
-        <div class="doc-item">
-            <span class="doc-icon">📄</span>
-            <div class="doc-info">
-                <strong>Guía de comisiones del CE</strong>
-                <p>Información y funciones de cada comisión de trabajo activa.</p>
-            </div>
-            <button class="btn-descargar">⬇ DESCARGAR</button>
-        </div>
+    </div>
 
-    </section>
+</div>
+
+ </section>
 
     <!-- CORRELATIVAS -->
-    <section id="correlativas">
-
-        <h2>Correlativas</h2>
-        <p>Las correlativas son requisitos académicos que establecen un orden obligatorio para cursar o rendir las
-            materias. Existen para garantizar que adquirás los conocimientos base antes de avanzar a contenidos más
-            complejos.</p>
-
-        <h3>¿Cómo funcionan?</h3>
-        <div class="cards">
-            <div class="card">
-                <h3>Para cursar</h3>
-                <p>Necesitás tener <strong>aprobada</strong> la correlativa antes de inscribirte a la materia siguiente.</p>
-            </div>
-            <div class="card">
-                <h3>Para rendir</h3>
-                <p>En algunos casos alcanza con tenerla <strong>regularizada</strong> para poder rendir el final.</p>
-            </div>
-            <div class="card">
-                <h3>Efecto encadenado</h3>
-                <p>No aprobar una materia puede bloquearte <strong>varias materias</strong> a la vez, no solo una.</p>
-            </div>
-            <div class="card">
-                <h3>Planificación</h3>
-                <p>Revisar las correlativas te permite organizar tu <strong>cursada anual</strong> sin sorpresas.</p>
-            </div>
-        </div>
-
-        <div style="background:#fffbeb; border-left:4px solid #f59e0b; border-radius:8px; padding:16px 20px; margin:24px 0;">
-            <strong>¿Cómo puede afectarte?</strong>
-            <p style="margin:6px 0 0;">No cumplir con las correlativas puede impedirte inscribirte en el cuatrimestre
-                siguiente y generar demoras que se acumulan año a año. Siempre consultá antes de inscribirte.</p>
-        </div>
-
-        <h3>Tabla de correlativas</h3>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num libre">1</div>
-                <span class="acord-title">Programación I</span>
-                <span class="acord-badge badge-libre">Sin correlativas</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p>Materia de primer año, podés inscribirte libremente.</p>
-            </div>
-        </div>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num libre">2</div>
-                <span class="acord-title">Lógica y Algoritmos</span>
-                <span class="acord-badge badge-libre">Sin correlativas</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p>Materia de primer año, podés inscribirte libremente.</p>
-            </div>
-        </div>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num">3</div>
-                <span class="acord-title">Programación II</span>
-                <span class="acord-badge badge-req">1 requerida</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p class="corr-label">Necesitás tener aprobada</p>
-                <div class="corr-pill">🔓 Programación I</div>
-            </div>
-        </div>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num">4</div>
-                <span class="acord-title">Bases de Datos</span>
-                <span class="acord-badge badge-req">2 requeridas</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p class="corr-label">Necesitás tener aprobadas</p>
-                <div class="corr-pill">🔓 Programación I</div>
-                <div class="corr-pill">🔓 Lógica y Algoritmos</div>
-            </div>
-        </div>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num">5</div>
-                <span class="acord-title">Sistemas Operativos</span>
-                <span class="acord-badge badge-req">1 requerida</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p class="corr-label">Necesitás tener aprobada</p>
-                <div class="corr-pill">🔓 Programación I</div>
-            </div>
-        </div>
-
-        <div class="acord-item">
-            <button class="acord-trigger" type="button" onclick="toggleCorr(this)">
-                <div class="acord-num">6</div>
-                <span class="acord-title">Desarrollo Web</span>
-                <span class="acord-badge badge-req">2 requeridas</span>
-                <span class="acord-chevron">▼</span>
-            </button>
-            <div class="acord-body">
-                <p class="corr-label">Necesitás tener aprobadas</p>
-                <div class="corr-pill">🔓 Programación II</div>
-                <div class="corr-pill">🔓 Sistemas Operativos</div>
-            </div>
-        </div>
-
-        <h3>Consejos para no atrasarte</h3>
-        <ul>
-            <li>Revisá las correlativas al inicio de cada cuatrimestre antes de inscribirte.</li>
-            <li>Si tenés dudas, consultá en secretaría académica antes de que cierre la inscripción.</li>
-            <li>Priorizá aprobar las materias que desbloquean más correlativas.</li>
-            <li>No dejes finales pendientes, pueden bloquearte materias que querés cursar.</li>
-        </ul>
-
-    </section>
+    <section id="correlativas"> </section>
 
     <!-- CALENDARIO -->
     <section id="calendario">
@@ -432,6 +303,70 @@
     <!-- INGRESO -->
     <section id="ingreso"></section>
 
+<!-- SECCIÓN MEMORIA — reemplaza la que ya tenés en index.html -->
+<!-- Requiere: <link rel="stylesheet" href="css/memoria.css"> en el <head> -->
+<section id="memoria">
+    <div class="memoria-header">
+        <div>
+            <h2>Espacio para la Memoria</h2>
+            <p>Registro y visualización de víctimas del terrorismo de Estado en Argentina</p>
+        </div>
+        <div class="memoria-update">Última actualización<br><strong id="memoria-fecha">—</strong></div>
+    </div>
+
+    <!-- Indicadores rápidos -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <h3>Total víctimas</h3>
+            <div class="number" id="total-victimas">0</div>
+            <span class="sub">Víctimas registradas</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#ef4444;">
+            <h3>Detenidos desaparecidos</h3>
+            <div class="number" id="total-desaparecidos" style="color:#ef4444;">0</div>
+            <span class="sub" id="pct-desaparecidos">— del total</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#10b981;">
+            <h3>Asesinados</h3>
+            <div class="number" id="total-asesinados" style="color:#10b981;">0</div>
+            <span class="sub" id="pct-asesinados">— del total</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#f59e0b;">
+            <h3>Embarazadas</h3>
+            <div class="number" id="total-embarazadas" style="color:#f59e0b;">0</div>
+            <span class="sub">Casos registrados</span>
+        </div>
+    </div>
+
+    <!-- Layout principal: gráficos a la izq, mapa a la derecha -->
+    <div class="memoria-layout">
+        <div class="col-izq">
+            <div class="chart-box">
+                <h3>Víctimas por año</h3>
+                <div class="chart-wrap">
+                    <canvas id="chartAnios"></canvas>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3>Víctimas por tipo</h3>
+                <div class="chart-wrap chart-wrap-small">
+                    <canvas id="chartEstado"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-der">
+            <div class="chart-box">
+                <h3>Distribución geográfica</h3>
+                <div id="mapa-victimas"></div>
+                <p class="mapa-nota">* Ubicaciones aproximadas por capital de provincia. El dataset no incluye provincia exacta por víctima.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
     <!-- LOGIN — NO TOCAR -->
     <div id="login-container">
         <div class="login-box">
@@ -448,10 +383,6 @@
             <input type="password" id="passwordLogin">
             <input type="checkbox" id="verPassword"> Mostrar contraseña
             <button onclick="login()">Ingresar</button>
-            <div id="wifi">
-                <p id="wifiNombre"></p>
-                <p id="wifiPass"></p>
-            </div>
         </div>
     </div>
 
@@ -526,8 +457,13 @@
             </div>
         </div>
     </footer>
-
+    
+    <script src="js/api.js"></script> 
     <script src="script.js"></script>
+    <script src="js/correlativas.js"></script>
+    <script src="js/reglamentos.js"></script>
+   <script src="js/memoria.js"></script>
+
 
     <style>
          .cal-table td.event {
