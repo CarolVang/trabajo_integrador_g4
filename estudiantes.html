@@ -5,13 +5,18 @@
     <meta charset="UTF-8">
     <title>Instituto 57</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/memoria.css"></head>
+    <link rel="stylesheet" href="memoria.css">
+
+    <!-- Leaflet (mapa) — FALTABA ESTO -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
 </head>
 
 <body>
@@ -297,43 +302,65 @@
 
     <!-- INGRESO -->
     <section id="ingreso"></section>
- <!-- SECCIÓN MEMORIA PROFESIONAL -->
-<section id="memoria" style="display: none;">
-    <div class="panel">
-        <div class="panel-header" style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color: #3b82f6; font-size: 2.5rem;">CENTRO DE DATOS Y MEMORIA</h2>
-            <p>Análisis estadístico y geográfico de las víctimas.</p>
-        </div>
 
-        <!-- Indicadores rápidos -->
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h3>TOTAL REGISTROS</h3>
-                <div class="number" id="total-victimas">0</div>
-            </div>
-            <div class="stat-card" style="border-left-color: #ef4444;">
-                <h3>AÑO CRÍTICO</h3>
-                <div class="number">1976</div>
-            </div>
-            <div class="stat-card" style="border-left-color: #10b981;">
-                <h3>CASOS EMBARAZO</h3>
-                <div class="number">52</div>
-            </div>
+<!-- SECCIÓN MEMORIA — reemplaza la que ya tenés en index.html -->
+<!-- Requiere: <link rel="stylesheet" href="css/memoria.css"> en el <head> -->
+<section id="memoria">
+    <div class="memoria-header">
+        <div>
+            <h2>Espacio para la Memoria</h2>
+            <p>Registro y visualización de víctimas del terrorismo de Estado en Argentina</p>
         </div>
+        <div class="memoria-update">Última actualización<br><strong id="memoria-fecha">—</strong></div>
+    </div>
 
-        <!-- Gráficos y Mapa -->
-        <div class="dashboard-grid">
+    <!-- Indicadores rápidos -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <h3>Total víctimas</h3>
+            <div class="number" id="total-victimas">0</div>
+            <span class="sub">Víctimas registradas</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#ef4444;">
+            <h3>Detenidos desaparecidos</h3>
+            <div class="number" id="total-desaparecidos" style="color:#ef4444;">0</div>
+            <span class="sub" id="pct-desaparecidos">— del total</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#10b981;">
+            <h3>Asesinados</h3>
+            <div class="number" id="total-asesinados" style="color:#10b981;">0</div>
+            <span class="sub" id="pct-asesinados">— del total</span>
+        </div>
+        <div class="stat-card" style="border-left-color:#f59e0b;">
+            <h3>Embarazadas</h3>
+            <div class="number" id="total-embarazadas" style="color:#f59e0b;">0</div>
+            <span class="sub">Casos registrados</span>
+        </div>
+    </div>
+
+    <!-- Layout principal: gráficos a la izq, mapa a la derecha -->
+    <div class="memoria-layout">
+        <div class="col-izq">
             <div class="chart-box">
-                <canvas id="chartAnios"></canvas>
+                <h3>Víctimas por año</h3>
+                <div class="chart-wrap">
+                    <canvas id="chartAnios"></canvas>
+                </div>
             </div>
             <div class="chart-box">
-                <canvas id="chartEstado"></canvas>
+                <h3>Víctimas por tipo</h3>
+                <div class="chart-wrap chart-wrap-small">
+                    <canvas id="chartEstado"></canvas>
+                </div>
             </div>
         </div>
 
-        <div class="chart-box" style="margin-top: 20px;">
-            <h3 style="text-align: center; color: #3b82f6;">Distribución Geográfica (Zonas Críticas)</h3>
-            <div id="mapa-victimas"></div>
+        <div class="col-der">
+            <div class="chart-box">
+                <h3>Distribución geográfica</h3>
+                <div id="mapa-victimas"></div>
+                <p class="mapa-nota">* Ubicaciones aproximadas por capital de provincia. El dataset no incluye provincia exacta por víctima.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -356,10 +383,6 @@
             <input type="password" id="passwordLogin">
             <input type="checkbox" id="verPassword"> Mostrar contraseña
             <button onclick="login()">Ingresar</button>
-            <div id="wifi">
-                <p id="wifiNombre"></p>
-                <p id="wifiPass"></p>
-            </div>
         </div>
     </div>
 
@@ -439,15 +462,7 @@
     <script src="script.js"></script>
     <script src="js/correlativas.js"></script>
     <script src="js/reglamentos.js"></script>
-   
-<<!-- LIBRERÍAS NECESARIAS (Ponelas en el head o antes del script) -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
- <!-- Estilos y lógica de Memoria -->
-    <link rel="stylesheet" href="css/memoria.css">
-    <script src="js/memoria.js"></script>
+   <script src="js/memoria.js"></script>
 
 
     <style>
